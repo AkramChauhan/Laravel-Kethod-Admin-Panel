@@ -27,4 +27,5 @@ Route::middleware(['auth'])->prefix('admin')->group(function () {
   Route::post('/users/store', "UserController@store")->name('admin.users.store');
   Route::post('/users/update', "UserController@update")->name('admin.users.update');
   Route::get('/users/ajax', "UserController@ajax")->name('admin.users.ajax');
+  Route::post('/users/delete', "UserController@delete")->name('admin.users.delete');
 });

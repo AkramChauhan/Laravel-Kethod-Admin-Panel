@@ -42,7 +42,7 @@
                                     <option value="20">20</option>
                                     <option value="50">50</option>
                                 </select>
-                                <button class="btn btn-primary ml-2 reset_data" onclick="window.location.href='{{$create_route}}'">Add</button>
+                                <a class="btn btn-primary ml-2" href="{{$create_route}}">Add</a>
                               </div>
                         </div>
                     </div>
@@ -70,12 +70,11 @@
                 var limit = $(".change_row_limit option:selected").val();
                 var page_number = $(".page_number").val();
                 var string =  $(".search").val();
-                var league_uid = $(".league_uid option:selected").val();
 
                 $.ajax({
                     type: 'GET',
                     url: '{{ $ajax_route }}',
-                    data: {_token: token, page_number: page_number,league_uid:league_uid, string:string, limit:limit},
+                    data: {_token: token, page_number: page_number, string:string, limit:limit},
                     success: function (html) {
                         $(".ajax_loader").hide();
                         $(".load_data").html(html);
@@ -85,6 +84,49 @@
                             page_number = $(this).attr('data-page');
                             $(".page_number").val(page_number);
                             load_data();
+                        });
+
+                        //Delete User
+                        $(".delete_btn").click(function(e){
+                            e.preventDefault();
+                            var data_id = $(this).attr('data-id');
+                            // var data_status = $(this).attr('data-status');
+                            // var status_msg = "Once delted, User won't be able to login to Application!";
+                            var status_msg = "User will be permanently deleted from the system!";
+                            // if(data_status==1){
+                            
+                            // }else{
+                            //   var status_msg = "Once unblocked, User will be able to login to Application!";
+                            // }
+                            swal({
+                            title: "Are you sure?",
+                            text: status_msg,
+                            icon: "warning",
+                            buttons: true,
+                            dangerMode: true,
+                            })
+                            .then((willDelete) => {
+                            if (willDelete) {
+                                
+                                var token = '{{ csrf_token() }}';
+                                $.ajax({
+                                type: 'POST',
+                                url: '{{ route("admin.users.delete") }}',
+                                data: {_token: token, data_id: data_id},
+                                dataType: 'JSON',
+                                success: function (resp) {
+                                    var res_msg= "User has been deleted successfully.";
+                                
+                                    swal(res_msg, {
+                                    icon: "success",
+                                    }).then(function(){
+                                    location.reload();
+                                    });
+                                },
+
+                                });
+                            }
+                            });
                         });
                     },
                 });

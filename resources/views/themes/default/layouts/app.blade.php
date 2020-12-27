@@ -74,7 +74,9 @@
                 </div>
             </div>
         </nav>
-
+        <!-- Menu Items -->
+        @include('configuration.menu_items')
+       
         <main class="py-4">
             @yield('content')
         </main>

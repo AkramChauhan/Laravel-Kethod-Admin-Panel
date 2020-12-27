@@ -99,10 +99,6 @@ class UserController extends Controller
 
     }
 
-    /**
-     * @param Request $request
-     * @return Factory|View
-     */
     public function ajax(Request $request)
     {
         $app_theme=config('app.theme');
@@ -141,5 +137,12 @@ class UserController extends Controller
         );
 
         return view('themes.'.$app_theme.'.users.ajax', compact('edit_route', 'data', 'page_number', 'limit', 'offset', 'pagination'));
+    }
+    
+    public function delete()
+    {
+        $user = User::find(request()->data_id);
+        $user->delete();
+        return 1;
     }
 }
