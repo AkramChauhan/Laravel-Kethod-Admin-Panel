@@ -2,7 +2,7 @@
 
 use Illuminate\Database\Seeder;
 
-class UserSeeder extends Seeder
+class RoleTableSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -11,10 +11,9 @@ class UserSeeder extends Seeder
      */
     public function run()
     {
-         \DB::table('users')->insert([
-            'name'=>"Administrator",
-            'email'=>"admin@gmail.com",
-            'password'=>bcrypt('password'),
+        \DB::table('roles')->insert([
+            'name'=>"Admin",
+            'slug'=>"admin",
             'created_at'=>\Carbon\Carbon::now(),
             'updated_at'=>\Carbon\Carbon::now()
         ]);

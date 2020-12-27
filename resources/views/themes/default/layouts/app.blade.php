@@ -75,8 +75,9 @@
             </div>
         </nav>
         <!-- Menu Items -->
-        @include('configuration.menu_items')
-       
+        @if(Auth::check())
+            @include('themes.default.layouts.partial.menu_items')
+        @endif
         <main class="py-4">
             @yield('content')
         </main>

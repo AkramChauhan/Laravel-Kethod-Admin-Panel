@@ -9,6 +9,11 @@
       'Add User'=>'admin.users.create',
       'Manage Users'=>'admin.users.index',
     ],
+    'Roles' =>  [
+      //first item => route
+      'Add Role'=>'admin.roles.create',
+      'Manage Roles'=>'admin.roles.index',
+    ],
     //Menu name => route (No Dropdown)
     // 'Logout'=> 'admin.logout'
   ];

@@ -8,8 +8,8 @@
         <tr>
             <th>ID</th>
             <th>Name</th>
-            <th>Email</th>
-            <th>Role</th>
+            <th>Slug</th>
+            <th>User's count</th>
             <th>Date Created</th>
             <th></th>
         </tr>
@@ -19,8 +19,8 @@
             <tr class="row_{{ $v->id }}">
                 <td>{{ $record_id }}</td>
                 <td>{{$v->name}}</td>
-                <td>{{$v->email}}</td>
-                <td>{{$v->role}}</td>
+                <td>{{$v->slug}}</td>
+                <td>{{$v->users->count()}}</td>
                 <td>{{$v->created_at}}</td>
                 <td>
                     <a href="{{$edit_route.'?id='.$v->id}}" class="btn btn-primary btn-sm">Edit</a>
@@ -36,7 +36,7 @@
     </table>
 @else
     <div class="alert alert-warning" align="center">
-      Opps, seems like records not available.
+        Opps, seems like records not available.
     </div>
 @endif
 <div class="pl-3">

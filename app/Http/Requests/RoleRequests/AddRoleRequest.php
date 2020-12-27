@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Http\Requests\UserRequests;
+namespace App\Http\Requests\RoleRequests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class AddUserRequest extends FormRequest
+class AddRoleRequest extends FormRequest
 {
     /**
-     * Determine if the user is authorized to make this request.
+     * Determine if the Role is authorized to make this request.
      *
      * @return bool
      */
@@ -25,8 +25,7 @@ class AddUserRequest extends FormRequest
     {
         return [
             'name' => 'required',
-            // 'email' => 'required|unique:users',
-            'password' => 'required|string'
+            'slug' => 'required|unique:roles'
         ];
     }
 }

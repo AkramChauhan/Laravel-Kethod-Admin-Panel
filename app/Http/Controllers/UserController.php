@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Http\Requests\UserRequests\AddUserRequest;
 use App\Http\Requests\UserRequests\UpdateUserRequest;
 use App\Models\User;
+use App\Models\Role;
+use App\Models\RoleUser;
 use Exception;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Http\RedirectResponse;
@@ -33,10 +35,11 @@ class UserController extends Controller
     public function create()
     {
         $app_theme=config('app.theme');
-
+        $roles = Role::get();
         return view('themes.'.$app_theme.'.users.manage', [
             'form_action' => route('admin.users.store'),
-            'edit' => 0
+            'edit' => 0,
+            'roles' => $roles
         ]);
     }
 
@@ -47,11 +50,13 @@ class UserController extends Controller
     public function edit(Request $request)
     {
         $app_theme=config('app.theme');
+        $roles = Role::get();
 
         return view('themes.'.$app_theme.'.users.manage', [
             'form_action' => route('admin.users.update'),
             'edit' => 1,
-            'data' => User::where('id', '=', $request->id)->first()
+            'roles' => $roles,
+            'data' => User::where('id', '=', $request->id)->with('roles')->first()
         ]);
     }
 
@@ -62,12 +67,21 @@ class UserController extends Controller
     public function store(AddUserRequest $request)
     {
         $app_theme=config('app.theme');
-
         try {
             $request->request->add([
                 'password' => bcrypt($request->password)
             ]);
-            User::createUser($request->all());
+            $user = User::createRecord($request->all());
+            $user_id = ($user->id);
+            // dd($request->role);
+            if(isset($request->role) && $request->role!=0){
+                $role_id = $request->role;
+
+                $data=  RoleUser::updateOrCreate([
+                    'user_id'=>$user_id,
+                    'role_id'=>$role_id,
+                ]);
+            }
             return redirect()->to(route('admin.users.index'))->with('success', 'New user has been added.');
         } catch (Exception $e) {
             return redirect()->back()->with('error', $e->getMessage());
@@ -91,7 +105,22 @@ class UserController extends Controller
                     'password' => bcrypt($request->password)
                 ]);
             }
-            User::updateUser($request->except(['_token', 'id']), $request->id);
+            $user = User::updateRecord($request->except(['_token', 'id', 'role']), $request->id);
+            $user_id = $user->id; 
+            $existing_role_id = $user->role_id;
+            if(isset($request->role) && $request->role!=$existing_role_id){
+                $role_id = $request->role;
+                if($role_id==0){
+                    RoleUser::where([
+                        'user_id'=>$user_id
+                    ])->delete();
+                }else{
+                    RoleUser::updateOrCreate([
+                        'role_id'=>$role_id,
+                        'user_id'=>$user_id,
+                    ]);    
+                }
+            }
             return redirect()->to(route('admin.users.index'))->with('success', 'User has been updated');
         } catch (Exception $e) {
             return redirect()->back()->with('error', $e->getMessage());

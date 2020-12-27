@@ -12,16 +12,6 @@
                         </ul>
                     </div>
                 @endif
-                @if(session('success'))
-                    <div class="alert alert-success">
-                    {{session('success')}}
-                    </div>
-                @endif
-                @if(session('error'))
-                    <div class="alert alert-danger">
-                    {{session('error')}}
-                    </div>
-                @endif
             </div>
 
             <div class="col-md-12 form_page">
@@ -46,28 +36,9 @@
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label for="tagline">Email</label>
-                                        <input type="text" name="email" class="form-control" @if($edit) value="{{$data->email}}" @else value="{{old('email')}}" @endif  id="tagline" aria-describedby="taglineHelp">
-                                        <small id="taglineHelp" class="form-text text-muted"></small>
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label for="domain">Password</label>
-                                        <input type="password" name="password" class="form-control" id="domain" aria-describedby="domainHelp">
-                                        <small id="domainHelp" class="form-text text-muted"></small>
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label for="role">Role</label>
-                                            <select class="form-control" name="role">
-                                            <option value="0">No Roles</option>
-                                            @foreach($roles as $role)
-                                                <option value="{{$role->id}}" <?php if($edit && $data->role_id==$role->id){ echo 'selected'; }else if(old('role')==$role->id){ echo "selected"; } ?>>{{$role->name}}</option>
-                                            @endforeach
-                                            </select>
-                                        <small id="domainHelp" class="form-text text-muted"></small>
+                                        <label for="slug">slug</label>
+                                        <input type="text" name="slug" class="form-control" @if($edit) value="{{$data->slug}}" @else value="{{old('slug')}}" @endif id="slug" aria-describedby="slugHelp">
+                                        <small id="slugHelp" class="form-text text-muted"></small>
                                     </div>
                                 </div>
                             </div>

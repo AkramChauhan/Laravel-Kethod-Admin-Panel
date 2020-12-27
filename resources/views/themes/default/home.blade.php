@@ -11,7 +11,7 @@
                 
             @endif
             <div class="alert alert-success alert-dismissible fade show" role="alert">
-                <strong>Welcome {{ Auth::user()->name }}</strong> Your are logged in as Administrator.
+                <strong>Welcome {{ Auth::user()->name }}</strong> Your are logged in as <strong>{{ Auth::user()->role }}</strong>.
                 <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
