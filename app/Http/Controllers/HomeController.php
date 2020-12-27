@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\User;
 
 class HomeController extends Controller
 {
@@ -24,6 +25,15 @@ class HomeController extends Controller
     public function index()
     {
         $app_theme=config('app.theme');
-        return view('themes.'.$app_theme.'.home');
+
+        // Preparing count for Dashboard Array
+        $users = User::count();
+
+        // Preparing Dashboard card Array.
+        $dashboard_cards = [
+            ['Users', $users, Route('admin.users.index')],
+            // ['News', $news, 'news.index'],
+        ];
+        return view('themes.'.$app_theme.'.home',compact('dashboard_cards'));
     }
 }

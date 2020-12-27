@@ -19,7 +19,6 @@ class IndexController extends Controller
      */
     public function index()
     {
-        $app_theme=config('app.theme');
-        return view('themes.'.$app_theme.'.welcome');
+        return view('welcome');
     }
 }

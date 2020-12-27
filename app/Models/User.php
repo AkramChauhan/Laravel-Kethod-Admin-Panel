@@ -1,6 +1,6 @@
 <?php
 
-namespace App;
+namespace App\Models;
 
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -36,4 +36,14 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public static function createUser($obj)
+    {
+        return self::create($obj);
+    }
+
+    public static function updateUser($obj, $id)
+    {
+        return self::where('id', '=', $id)->update($obj);
+    }
 }
