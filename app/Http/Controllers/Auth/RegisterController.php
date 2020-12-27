@@ -70,4 +70,9 @@ class RegisterController extends Controller
             'password' => Hash::make($data['password']),
         ]);
     }
+    public function showRegistrationForm()
+    {
+        $app_theme=config('app.theme');
+        return view('themes.'.$app_theme.'.auth.register');
+    }
 }

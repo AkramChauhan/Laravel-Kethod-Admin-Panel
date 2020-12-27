@@ -4,18 +4,14 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
-class HomeController extends Controller
+class IndexController extends Controller
 {
     /**
      * Create a new controller instance.
      *
      * @return void
      */
-    public function __construct()
-    {
-        $this->middleware('auth');
-    }
-
+    
     /**
      * Show the application dashboard.
      *
@@ -24,6 +20,6 @@ class HomeController extends Controller
     public function index()
     {
         $app_theme=config('app.theme');
-        return view('themes.'.$app_theme.'.home');
+        return view('themes.'.$app_theme.'.welcome');
     }
 }
