@@ -27,7 +27,7 @@
                         <div class="float-left">
                             <input type="hidden" name="page_number" id="page_number" class="page_number" value="{{ $page_number }}">
                             <div class="input-group mb-3 pr-2">
-                                <input type="text" class="form-control search" name="search" id="search" placeholder="Search by Display Name">
+                                <input type="text" class="form-control search" name="search" id="search" placeholder="Search by Name">
                             </div>
                         </div>
                         <button class="btn btn-primary pl-2 search_data">Search</button>
