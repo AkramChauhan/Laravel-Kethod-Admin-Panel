@@ -20,7 +20,7 @@
                 @foreach($dashboard_cards as $card)
                     <div class="col-md-3">
                         <a href="{{ ($card[2]) }}" class="card-link">
-                            <div class="card bg-primary text-white mb-4">
+                            <div class="card bg-dark text-white mb-4">
                                 <div class="card-body">
                                     <div class="row">
                                         <div class="col-5"><div class="counter_number"><?php echo number_format($card[1]); ?></div></div>
