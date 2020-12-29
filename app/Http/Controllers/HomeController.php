@@ -33,8 +33,8 @@ class HomeController extends Controller
 
         // Preparing Dashboard card Array.
         $dashboard_cards = [
-            ['Users', $users, Route('admin.users.index')],
-            ['Roles', $roles, Route('admin.roles.index')],
+            ['Users', $users, Route('admin.users.index'),'fa fa-dashboard'],
+            ['Roles', $roles, Route('admin.roles.index'),'fa fa-sitemap'],
             // ['News', $news, 'news.index'],
         ];
         return view('themes.'.$app_theme.'.home',compact('dashboard_cards'));

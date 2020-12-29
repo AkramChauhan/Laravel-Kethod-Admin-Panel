@@ -76,9 +76,6 @@
         </nav>
         <!-- Menu Items -->
         @if(Auth::check())
-            <?php
-                include ('../resources/views/configuration/menu_array.blade.php');
-            ?>
             @include('themes.default.layouts.partial.menu_items')
         @endif
         <main class="py-4">
