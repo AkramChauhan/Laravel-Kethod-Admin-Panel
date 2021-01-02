@@ -20,9 +20,7 @@ class UserController extends Controller
      */
     public function index()
     {
-        $app_theme=config('app.theme');
-
-        return view('themes.'.$app_theme.'.users.index', [
+        return kview('users.index', [
             // 'deploy_route' => route('admin.users.index'),
             'ajax_route' => route('admin.users.ajax'),
             'create_route' => route('admin.users.create'),
@@ -34,9 +32,8 @@ class UserController extends Controller
      */
     public function create()
     {
-        $app_theme=config('app.theme');
         $roles = Role::get();
-        return view('themes.'.$app_theme.'.users.manage', [
+        return kview('users.manage', [
             'form_action' => route('admin.users.store'),
             'edit' => 0,
             'roles' => $roles
@@ -49,10 +46,9 @@ class UserController extends Controller
      */
     public function edit(Request $request)
     {
-        $app_theme=config('app.theme');
         $roles = Role::get();
 
-        return view('themes.'.$app_theme.'.users.manage', [
+        return kview('users.manage', [
             'form_action' => route('admin.users.update'),
             'edit' => 1,
             'roles' => $roles,
@@ -66,7 +62,6 @@ class UserController extends Controller
      */
     public function store(AddUserRequest $request)
     {
-        $app_theme=config('app.theme');
         try {
             $request->request->add([
                 'password' => bcrypt($request->password)
@@ -94,7 +89,6 @@ class UserController extends Controller
      */
     public function update(UpdateUserRequest $request)
     {
-        $app_theme=config('app.theme');
 
         try {
 
@@ -130,7 +124,6 @@ class UserController extends Controller
 
     public function ajax(Request $request)
     {
-        $app_theme=config('app.theme');
 
         $edit_route = route('admin.users.edit');
         $current_page = $request->page_number;
@@ -165,7 +158,7 @@ class UserController extends Controller
             "current_page" => $current_page,
         );
 
-        return view('themes.'.$app_theme.'.users.ajax', compact('edit_route', 'data', 'page_number', 'limit', 'offset', 'pagination'));
+        return kview('users.ajax', compact('edit_route', 'data', 'page_number', 'limit', 'offset', 'pagination'));
     }
     
     public function delete()

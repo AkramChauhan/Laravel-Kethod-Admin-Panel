@@ -15,28 +15,28 @@ class RoleController extends Controller
 {
     public function index()
     {
-        $app_theme=config('app.theme');
-
-        return view('themes.'.$app_theme.'.roles.index', [
+        return kview('roles.index', [
             // 'deploy_route' => route('admin.roles.index'),
             'ajax_route' => route('admin.roles.ajax'),
             'create_route' => route('admin.roles.create'),
         ]);
+
+        // return view('themes.'.$app_theme.'.roles.index', [
+        //     // 'deploy_route' => route('admin.roles.index'),
+        //     'ajax_route' => route('admin.roles.ajax'),
+        //     'create_route' => route('admin.roles.create'),
+        // ]);
     }
     public function create()
     {
-        $app_theme=config('app.theme');
-
-        return view('themes.'.$app_theme.'.roles.manage', [
+        return kview('roles.manage', [
             'form_action' => route('admin.roles.store'),
             'edit' => 0
         ]);
     }
     public function edit(Request $request)
     {
-        $app_theme=config('app.theme');
-
-        return view('themes.'.$app_theme.'.roles.manage', [
+        return kview('roles.manage', [
             'form_action' => route('admin.roles.update'),
             'edit' => 1,
             'data' => Role::where('id', '=', $request->id)->first()
@@ -44,7 +44,6 @@ class RoleController extends Controller
     }
     public function store(AddRoleRequest $request)
     {
-        $app_theme=config('app.theme');
         try {
             $role = Role::createRecord($request->all());
 
@@ -56,8 +55,6 @@ class RoleController extends Controller
     }
     public function update(UpdateRoleRequest $request)
     {
-        $app_theme=config('app.theme');
-
         try {
 
             if (is_null($request->password)) {
@@ -76,8 +73,6 @@ class RoleController extends Controller
     }
     public function ajax(Request $request)
     {
-        $app_theme=config('app.theme');
-
         $edit_route = route('admin.roles.edit');
         $current_page = $request->page_number;
         if (isset($request->limit)) {
@@ -111,7 +106,7 @@ class RoleController extends Controller
             "current_page" => $current_page,
         );
 
-        return view('themes.'.$app_theme.'.roles.ajax', compact('edit_route', 'data', 'page_number', 'limit', 'offset', 'pagination'));
+        return kview('roles.ajax', compact('edit_route', 'data', 'page_number', 'limit', 'offset', 'pagination'));
     }
     
     public function delete()

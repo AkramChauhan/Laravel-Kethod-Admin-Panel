@@ -21,7 +21,6 @@ class ForgotPasswordController extends Controller
     use SendsPasswordResetEmails;
 
     public function showLinkRequestForm(){
-        $app_theme=config('app.theme');
-        return view('themes.'.$app_theme.'.auth.passwords.email');
+        return kview('auth.passwords.email');
     }
 }

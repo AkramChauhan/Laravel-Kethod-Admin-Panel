@@ -39,7 +39,6 @@ class LoginController extends Controller
     }
     public function showLoginForm()
     {
-        $app_theme=config('app.theme');
-        return view('themes.'.$app_theme.'.auth.login');
+        return kview('auth.login');
     }
 }

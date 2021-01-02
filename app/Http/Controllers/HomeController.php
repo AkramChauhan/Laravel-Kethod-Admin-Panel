@@ -25,7 +25,6 @@ class HomeController extends Controller
      */
     public function index()
     {
-        $app_theme=config('app.theme');
 
         // Preparing count for Dashboard Array
         $users = User::count();
@@ -37,6 +36,6 @@ class HomeController extends Controller
             ['Roles', $roles, Route('admin.roles.index'),'fa fa-sitemap'],
             // ['News', $news, 'news.index'],
         ];
-        return view('themes.'.$app_theme.'.home',compact('dashboard_cards'));
+        return kview('home',compact('dashboard_cards'));
     }
 }

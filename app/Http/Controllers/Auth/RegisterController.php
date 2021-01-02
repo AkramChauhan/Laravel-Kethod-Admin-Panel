@@ -72,7 +72,6 @@ class RegisterController extends Controller
     }
     public function showRegistrationForm()
     {
-        $app_theme=config('app.theme');
-        return view('themes.'.$app_theme.'.auth.register');
+        return kview('auth.register');
     }
 }

@@ -31,8 +31,6 @@ class ResetPasswordController extends Controller
 
     public function showResetForm(Request $request, $token = null)
     {
-        $app_theme=config('app.theme');
-        return view('themes.'.$app_theme.'.auth.passwords.reset')->with(
-        ['token' => $token, 'email' => $request->email]);
+        return kview('auth.passwords.reset',['token' => $token, 'email' => $request->email]);
     }
 }
