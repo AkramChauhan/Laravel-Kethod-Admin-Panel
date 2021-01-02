@@ -1,42 +1,26 @@
-@extends('themes.default.layouts.app')
+@extends('themes.sb-admin.layouts.app')
 
 @section('content')
-<div class="container">
-    <div class="row justify-content-center">
-        <div class="col-md-12">
-            @if (session('status'))
-                <div class="alert alert-success" role="alert">
-                    {{ session('status') }}
-                </div>
-                
-            @endif
-            <div class="alert alert-success alert-dismissible fade show" role="alert">
-                <strong>Welcome {{ Auth::user()->name }}</strong> Your are logged in as <strong>{{ Auth::user()->role }}</strong>.
-                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="row">
-                @foreach($dashboard_cards as $card)
-                    <div class="col-md-3">
-                        <a href="{{ ($card[2]) }}" class="card-link">
-                            <div class="card bg-dark text-white mb-4">
-                                <div class="card-body">
-                                    <div class="row">
-                                        <div class="col-5"><div class="counter_number"><?php echo number_format($card[1]); ?></div></div>
-                                        <div class="col-7"><div class="card-label">{{ $card[0] }}</div></div>
-                                    </div>
-                                </div>
-                                <div class="card-footer d-flex align-items-center justify-content-between">
-                                    View details
-                                    <div class="small text-white"><i class="fa fa-angle-right"></i></div>
-                                </div>
-                            </div>
-                        </a>
+<div class="container-fluid">
+    <h1 class="mt-4">Dashboard</h1>
+    <ol class="breadcrumb mb-4">
+        <li class="breadcrumb-item active">Dashboard</li>
+    </ol>
+    <div class="row">
+        @foreach($dashboard_cards as $card)
+            <div class="col-xl-3 col-md-6">
+                <div class="card bg-primary text-white mb-4">
+                    <div class="card-body"> 
+                    <h4><i class="icon {{ $card[3] }}"></i> {{ $card[0] }}
+                    <p class="float-right"><b><?php echo number_format($card[1]); ?></b></p></h4>
                     </div>
-                @endforeach
+                    <div class="card-footer d-flex align-items-center justify-content-between">
+                        <a class="small text-white stretched-link" href="{{ ($card[2]) }}">View Details</a>
+                        <div class="small text-white"><i class="fa fa-angle-right"></i></div>
+                    </div>
+                </div>
             </div>
-        </div>
+        @endforeach
     </div>
 </div>
 @endsection

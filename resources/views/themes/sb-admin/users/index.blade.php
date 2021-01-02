@@ -1,63 +1,71 @@
-@extends('themes.default.layouts.app')
+@extends('themes.sb-admin.layouts.app')
 @section('content')
     <?php
     $page_number = 1;
     ?>
-    <div class="container">
-        <div class="row justify-content-center">
-            <div class="col-md-12">
-                @if ($errors->any())
-                    <div class="alert alert-danger">
-                        <ul>
-                            @foreach ($errors->all() as $error)
-                                <li>{{ $error }}</li>
-                            @endforeach
-                        </ul>
-                    </div>
-                @endif
-                @if(session('success'))
-                    <div class="alert alert-success">
-                        {{session('success')}}
-                    </div>
-                @endif
-            </div>
-            <div class="col-md-12">
-                <div class="card">
-                    <div class="card-header">
-                        <div class="float-left">
-                            <input type="hidden" name="page_number" id="page_number" class="page_number" value="{{ $page_number }}">
-                            <div class="input-group mb-3 pr-2">
-                                <input type="text" class="form-control search" name="search" id="search" placeholder="Search by Name">
-                            </div>
+    <div class="container-fluid">
+    <h1 class="mt-4">Users</h1>
+    <ol class="breadcrumb mb-4">
+        <li class="breadcrumb-item active">Manage User</li>
+    </ol>
+    <div class="row">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-md-12">
+                    @if ($errors->any())
+                        <div class="alert alert-danger">
+                            <ul>
+                                @foreach ($errors->all() as $error)
+                                    <li>{{ $error }}</li>
+                                @endforeach
+                            </ul>
                         </div>
-                        <button class="btn btn-primary pl-2 search_data">Search</button>
-                        <button class="btn btn-primary pl-2 reset_data">Reset</button>
-                        <div class="float-right">
-                            <div class="input-group mb-3">
-                                <div class="input-group-prepend">
-                                    <label class="input-group-text" for="inputGroupSelect01">Row</label>
+                    @endif
+                    @if(session('success'))
+                        <div class="alert alert-success">
+                            {{session('success')}}
+                        </div>
+                    @endif
+                </div>
+                <div class="col-md-12">
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="float-left">
+                                <input type="hidden" name="page_number" id="page_number" class="page_number" value="{{ $page_number }}">
+                                <div class="input-group mb-3 pr-2">
+                                    <input type="text" class="form-control search" name="search" id="search" placeholder="Search by Name">
                                 </div>
-                                <select class="custom-select change_row_limit" id="inputGroupSelect01">
-                                    <option value="10">10</option>
-                                    <option value="20">20</option>
-                                    <option value="50">50</option>
-                                </select>
-                                <a class="btn btn-primary ml-2" href="{{$create_route}}">Add</a>
-                              </div>
-                        </div>
-                    </div>
-                    <div class="card-body p-0">
-                        <div class="ajax_loader p-3" align="center"><img src="{{ asset('themes/'.config('app.theme').'/images/ajax_loader.gif') }}" alt=""></div>
-                        @if (session('status'))
-                            <div class="alert alert-success" role="alert">
-                                {{ session('status') }}
                             </div>
-                        @endif
-                        <div class="load_data"></div>
+                            <button class="btn btn-primary pl-2 search_data">Search</button>
+                            <button class="btn btn-primary pl-2 reset_data">Reset</button>
+                            <div class="float-right">
+                                <div class="input-group mb-3">
+                                    <div class="input-group-prepend">
+                                        <label class="input-group-text" for="inputGroupSelect01">Row</label>
+                                    </div>
+                                    <select class="custom-select change_row_limit" id="inputGroupSelect01">
+                                        <option value="10">10</option>
+                                        <option value="20">20</option>
+                                        <option value="50">50</option>
+                                    </select>
+                                    <a class="btn btn-primary ml-2" href="{{$create_route}}">Add</a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-body p-0">
+                            <div class="ajax_loader p-3" align="center"><img src="{{ asset('themes/'.config('app.theme').'/images/ajax_loader.gif') }}" alt=""></div>
+                            @if (session('status'))
+                                <div class="alert alert-success" role="alert">
+                                    {{ session('status') }}
+                                </div>
+                            @endif
+                            <div class="load_data"></div>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
+    </div>
     </div>
     @push("scripts")
         <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
