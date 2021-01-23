@@ -16,8 +16,15 @@
           </a>
         </li>
         <?php
-      }else{ ?>
-        <li class="treeview <?php if(in_array(Request::route()->getName(),$menu_items['dropdown_items'])) { echo "is-expanded"; }?>">
+      }else{ 
+  	 	$expanded = '';
+        foreach($menu_items['dropdown_items'] as $tmpt){
+          if(in_array(Request::route()->getName(),$tmpt)) { 
+            $expanded = "is-expanded"; 
+          }
+        }
+        ?>
+        <li class="treeview {{ $expanded }}">
           <a class="app-menu__item" href="#" data-toggle="treeview">
             <i class="app-menu__icon {{ $menu_items['icon'] }}"></i>
             <span class="app-menu__label"> {{ $menu_items['name'] }}</span>
