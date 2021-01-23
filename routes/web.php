@@ -15,7 +15,11 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/','IndexController@index')->name('home');
 
-Auth::routes();
+Auth::routes([
+  'register' => true, // Registration Routes...
+  'reset' => true, // Password Reset Routes...
+  'verify' => true, // Email Verification Routes...
+]);
 
 Route::get('/dashboard', 'HomeController@index')->name('admin.dashboard');
 
