@@ -76,7 +76,9 @@ return [
             'driver' => 'redis',
             'connection' => 'cache',
         ],
-
+        'none' => [
+            'driver' => 'null',
+        ],
         'dynamodb' => [
             'driver' => 'dynamodb',
             'key' => env('AWS_ACCESS_KEY_ID'),
