@@ -100,7 +100,7 @@
                             var data_id = $(this).attr('data-id');
                             // var data_status = $(this).attr('data-status');
                             // var status_msg = "Once delted, User won't be able to login to Application!";
-                            var status_msg = "User will be permanently deleted from the system!";
+                            var status_msg = "It will be permanently deleted from the system!";
                             // if(data_status==1){
                             
                             // }else{
@@ -119,11 +119,11 @@
                                 var token = '{{ csrf_token() }}';
                                 $.ajax({
                                 type: 'POST',
-                                url: '{{ route("admin.users.delete") }}',
+                                url: '{{ $delete_route }}',
                                 data: {_token: token, data_id: data_id},
                                 dataType: 'JSON',
                                 success: function (resp) {
-                                    var res_msg= "User has been deleted successfully.";
+                                    var res_msg= "It has been deleted successfully.";
                                 
                                     swal(res_msg, {
                                     icon: "success",

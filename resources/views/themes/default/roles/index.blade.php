@@ -91,7 +91,7 @@
                             e.preventDefault();
                             var data_id = $(this).attr('data-id');
                             // var data_status = $(this).attr('data-status');
-                            var status_msg = "Role will be permanently deleted from the system!";
+                            var status_msg = "It will be permanently deleted from the system!";
                             swal({
                             title: "Are you sure?",
                             text: status_msg,
@@ -105,11 +105,11 @@
                                 var token = '{{ csrf_token() }}';
                                 $.ajax({
                                 type: 'POST',
-                                url: '{{ route("admin.roles.delete") }}',
+                                url: '{{ $delete_route }}',
                                 data: {_token: token, data_id: data_id},
                                 dataType: 'JSON',
                                 success: function (resp) {
-                                    var res_msg= "Role has been deleted successfully.";
+                                    var res_msg= "It has been deleted successfully.";
                                 
                                     swal(res_msg, {
                                     icon: "success",
