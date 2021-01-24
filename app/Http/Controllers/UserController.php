@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\UserRequests\AddUserRequest;
-use App\Http\Requests\UserRequests\UpdateUserRequest;
+use App\Http\Requests\UserRequests\AddUserRequest as AddRequest;
+use App\Http\Requests\UserRequests\UpdateUserRequest as UpdateRequest;
 use App\Models\User;
 use App\Models\Role;
 use App\Models\RoleUser;
@@ -15,52 +15,41 @@ use Illuminate\View\View;
 
 class UserController extends Controller
 {
-    /**
-     * @return Factory|View
-     */
+    protected $handle_name = "user";
+    protected $handle_name_plural = "users";
+   
     public function index()
     {
-        return kview('users.index', [
-            'ajax_route' => route('admin.users.ajax'),
-            'delete_route'=> route('admin.users.delete'),
-            'create_route' => route('admin.users.create'),
+        return kview($this->handle_name_plural.'.index', [
+            'ajax_route' => route('admin.'.$this->handle_name_plural.'.ajax'),
+            'delete_route'=> route('admin.'.$this->handle_name_plural.'.delete'),
+            'create_route' => route('admin.'.$this->handle_name_plural.'.create'),
         ]);
     }
 
-    /**
-     * @return Factory|View
-     */
     public function create()
     {
         $roles = Role::get();
-        return kview('users.manage', [
-            'form_action' => route('admin.users.store'),
+        return kview($this->handle_name_plural.'.manage', [
+            'form_action' => route('admin.'.$this->handle_name_plural.'.store'),
             'edit' => 0,
             'roles' => $roles
         ]);
     }
 
-    /**
-     * @param Request $request
-     * @return Factory|View
-     */
     public function edit(Request $request)
     {
         $roles = Role::get();
 
-        return kview('users.manage', [
-            'form_action' => route('admin.users.update'),
+        return kview($this->handle_name_plural.'.manage', [
+            'form_action' => route('admin.'.$this->handle_name_plural.'.update'),
             'edit' => 1,
             'roles' => $roles,
             'data' => User::where('id', '=', $request->id)->with('roles')->first()
         ]);
     }
 
-    /**
-     * @param AddUserRequest $request
-     * @return RedirectResponse
-     */
-    public function store(AddUserRequest $request)
+    public function store(AddRequest $request)
     {
         try {
             $request->request->add([
@@ -77,17 +66,13 @@ class UserController extends Controller
                     'role_id'=>$role_id,
                 ]);
             }
-            return redirect()->to(route('admin.users.index'))->with('success', 'New user has been added.');
+            return redirect()->to(route('admin.'.$this->handle_name_plural.'.index'))->with('success', 'New '.ucfirst($this->handle_name).' has been added.');
         } catch (Exception $e) {
             return redirect()->back()->with('error', $e->getMessage());
         }
     }
 
-    /**
-     * @param UpdateUserRequest $request
-     * @return RedirectResponse
-     */
-    public function update(UpdateUserRequest $request)
+    public function update(UpdateRequest $request)
     {
 
         try {
@@ -115,7 +100,7 @@ class UserController extends Controller
                     ]);    
                 }
             }
-            return redirect()->to(route('admin.users.index'))->with('success', 'User has been updated');
+            return redirect()->to(route('admin.'.$this->handle_name_plural.'.index'))->with('success', ucfirst($this->handle_name).' has been updated');
         } catch (Exception $e) {
             return redirect()->back()->with('error', $e->getMessage());
         }
@@ -125,7 +110,7 @@ class UserController extends Controller
     public function ajax(Request $request)
     {
 
-        $edit_route = route('admin.users.edit');
+        $edit_route = route('admin.'.$this->handle_name_plural.'.edit');
         $current_page = $request->page_number;
         if (isset($request->limit)) {
             $limit = $request->limit;
@@ -158,7 +143,7 @@ class UserController extends Controller
             "current_page" => $current_page,
         );
 
-        return kview('users.ajax', compact('edit_route', 'data', 'page_number', 'limit', 'offset', 'pagination'));
+        return kview($this->handle_name_plural.'.ajax', compact('edit_route', 'data', 'page_number', 'limit', 'offset', 'pagination'));
     }
     
     public function delete()

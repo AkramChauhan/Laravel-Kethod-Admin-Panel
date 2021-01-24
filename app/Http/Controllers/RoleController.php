@@ -45,7 +45,7 @@ class RoleController extends Controller
         try {
             $table = Table::createRecord($request->all());
 
-            return redirect()->to(route('admin.'.$this->handle_name_plural.'.index'))->with('success', 'New '.ucfirst($handle_name).' has been added.');
+            return redirect()->to(route('admin.'.$this->handle_name_plural.'.index'))->with('success', 'New '.ucfirst($this->handle_name).' has been added.');
         } catch (Exception $e) {
             return $e->getMessage();
             return redirect()->back()->with('error', $e->getMessage());
@@ -63,7 +63,7 @@ class RoleController extends Controller
                 ]);
             }
             Table::updateRecord($request->except(['_token', 'id']), $request->id);
-            return redirect()->to(route('admin.'.$this->handle_name_plural.'.index'))->with('success', ucfirst($handle_name).' has been updated');
+            return redirect()->to(route('admin.'.$this->handle_name_plural.'.index'))->with('success', ucfirst($this->handle_name).' has been updated');
         } catch (Exception $e) {
             return redirect()->back()->with('error', $e->getMessage());
         }
