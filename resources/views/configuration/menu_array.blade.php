@@ -46,6 +46,19 @@
           "route"=>"admin.roles.index"
         ]
       ],
+    ],
+    [
+      "name"=>"Zipcodes",
+      "icon"=>"fa fa-globe",
+      "dropdown"=>true,
+      "route"=>"",
+      "dropdown_items"=>[
+        [
+          "name"=>"Manage Zipcodes",
+          "icon"=>"fa fa-circle-o",
+          "route"=>"admin.zipcodes.index"
+        ]
+      ],
     ]
     //Menu name => route (No Dropdown)
     // 'Logout'=> 'admin.logout'

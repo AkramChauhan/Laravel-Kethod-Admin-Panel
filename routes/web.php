@@ -41,5 +41,14 @@ Route::middleware(['auth'])->prefix('admin')->group(function () {
     Route::post('/roles/update', "RoleController@update")->name('admin.roles.update');
     Route::get('/roles/ajax', "RoleController@ajax")->name('admin.roles.ajax');
     Route::post('/roles/delete', "RoleController@delete")->name('admin.roles.delete');
+  
+  // For Zipcodes
+    Route::get('/zipcodes', 'ZipcodeController@index')->name('admin.zipcodes.index');
+    Route::get('/zipcodes/add', "ZipcodeController@create")->name('admin.zipcodes.create');
+    Route::get('/zipcodes/edit', "ZipcodeController@edit")->name('admin.zipcodes.edit');
+    Route::post('/zipcodes/store', "ZipcodeController@store")->name('admin.zipcodes.store');
+    Route::post('/zipcodes/update', "ZipcodeController@update")->name('admin.zipcodes.update');
+    Route::get('/zipcodes/ajax', "ZipcodeController@ajax")->name('admin.zipcodes.ajax');
+    Route::post('/zipcodes/delete', "ZipcodeController@delete")->name('admin.zipcodes.delete');
 
 });
