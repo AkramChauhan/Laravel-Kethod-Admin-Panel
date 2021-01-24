@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\RoleRequests\AddRoleRequest;
-use App\Http\Requests\RoleRequests\UpdateRoleRequest;
-use App\Models\Role;
+use App\Http\Requests\RoleRequests\AddRoleRequest as AddRequest;
+use App\Http\Requests\RoleRequests\UpdateRoleRequest as UpdateRequest;
+use App\Models\Role as Table;
 use Exception;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Http\RedirectResponse;
@@ -13,47 +13,45 @@ use Illuminate\View\View;
 
 class RoleController extends Controller
 {
+    protected $handle_name = "role";
+    protected $handle_name_plural = "roles";
+    
     public function index()
     {
-        return kview('roles.index', [
-            'ajax_route' => route('admin.roles.ajax'),
-            'delete_route'=> route('admin.roles.delete'),
-            'create_route' => route('admin.roles.create'),
+        return kview($this->handle_name_plural.'.index', [
+            'ajax_route' => route('admin.'.$this->handle_name_plural.'.ajax'),
+            'delete_route'=> route('admin.'.$this->handle_name_plural.'.delete'),
+            'create_route' => route('admin.'.$this->handle_name_plural.'.create'),
         ]);
 
-        // return view('themes.'.$app_theme.'.roles.index', [
-        //     // 'deploy_route' => route('admin.roles.index'),
-        //     'ajax_route' => route('admin.roles.ajax'),
-        //     'create_route' => route('admin.roles.create'),
-        // ]);
     }
     public function create()
     {
-        return kview('roles.manage', [
-            'form_action' => route('admin.roles.store'),
+        return kview($this->handle_name_plural.'.manage', [
+            'form_action' => route('admin.'.$this->handle_name_plural.'.store'),
             'edit' => 0
         ]);
     }
     public function edit(Request $request)
     {
-        return kview('roles.manage', [
-            'form_action' => route('admin.roles.update'),
+        return kview($this->handle_name_plural.'.manage', [
+            'form_action' => route('admin.'.$this->handle_name_plural.'.update'),
             'edit' => 1,
-            'data' => Role::where('id', '=', $request->id)->first()
+            'data' => Table::where('id', '=', $request->id)->first()
         ]);
     }
-    public function store(AddRoleRequest $request)
+    public function store(AddRequest $request)
     {
         try {
-            $role = Role::createRecord($request->all());
+            $table = Table::createRecord($request->all());
 
-            return redirect()->to(route('admin.roles.index'))->with('success', 'New role has been added.');
+            return redirect()->to(route('admin.'.$this->handle_name_plural.'.index'))->with('success', 'New '.ucfirst($handle_name).' has been added.');
         } catch (Exception $e) {
             return $e->getMessage();
             return redirect()->back()->with('error', $e->getMessage());
         }
     }
-    public function update(UpdateRoleRequest $request)
+    public function update(UpdateRequest $request)
     {
         try {
 
@@ -64,8 +62,8 @@ class RoleController extends Controller
                     'password' => bcrypt($request->password)
                 ]);
             }
-            Role::updateRecord($request->except(['_token', 'id']), $request->id);
-            return redirect()->to(route('admin.roles.index'))->with('success', 'Role has been updated');
+            Table::updateRecord($request->except(['_token', 'id']), $request->id);
+            return redirect()->to(route('admin.'.$this->handle_name_plural.'.index'))->with('success', ucfirst($handle_name).' has been updated');
         } catch (Exception $e) {
             return redirect()->back()->with('error', $e->getMessage());
         }
@@ -73,7 +71,7 @@ class RoleController extends Controller
     }
     public function ajax(Request $request)
     {
-        $edit_route = route('admin.roles.edit');
+        $edit_route = route('admin.'.$this->handle_name_plural.'.edit');
         $current_page = $request->page_number;
         if (isset($request->limit)) {
             $limit = $request->limit;
@@ -81,7 +79,7 @@ class RoleController extends Controller
             $limit = 10;
         }
         $offset = (($current_page - 1) * $limit);
-        $modalObject = new Role();
+        $modalObject = new Table();
         if (isset($request->string)) {
             $string = $request->string;
             $modalObject = $modalObject->where('name', 'like', "%" . $request->string . "%");
@@ -106,15 +104,15 @@ class RoleController extends Controller
             "current_page" => $current_page,
         );
 
-        return kview('roles.ajax', compact('edit_route', 'data', 'page_number', 'limit', 'offset', 'pagination'));
+        return kview($this->handle_name_plural.'.ajax', compact('edit_route', 'data', 'page_number', 'limit', 'offset', 'pagination'));
     }
     
     public function delete()
     {
         try{
-            $role = Role::find(request()->data_id);
-            $role->users()->detach();
-            $role->delete();
+            $table = Table::find(request()->data_id);
+            $table->users()->detach();
+            $table->delete();
             return 1;
         } catch (Exception $e) {
             return redirect()->back()->with('error', $e->getMessage());
