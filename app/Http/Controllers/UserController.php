@@ -21,8 +21,8 @@ class UserController extends Controller
     public function index()
     {
         return kview('users.index', [
-            // 'deploy_route' => route('admin.users.index'),
             'ajax_route' => route('admin.users.ajax'),
+            'delete_route'=> route('admin.users.delete'),
             'create_route' => route('admin.users.create'),
         ]);
     }

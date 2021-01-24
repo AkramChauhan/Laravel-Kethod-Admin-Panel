@@ -16,8 +16,8 @@ class RoleController extends Controller
     public function index()
     {
         return kview('roles.index', [
-            // 'deploy_route' => route('admin.roles.index'),
             'ajax_route' => route('admin.roles.ajax'),
+            'delete_route'=> route('admin.roles.delete'),
             'create_route' => route('admin.roles.create'),
         ]);
 
