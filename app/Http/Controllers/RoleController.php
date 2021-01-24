@@ -113,6 +113,7 @@ class RoleController extends Controller
     {
         try{
             $role = Role::find(request()->data_id);
+            $role->users()->detach();
             $role->delete();
             return 1;
         } catch (Exception $e) {

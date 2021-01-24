@@ -164,6 +164,7 @@ class UserController extends Controller
     public function delete()
     {
         $user = User::find(request()->data_id);
+        $user->roles()->detach();
         $user->delete();
         return 1;
     }
