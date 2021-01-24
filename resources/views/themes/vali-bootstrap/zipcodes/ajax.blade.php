@@ -11,7 +11,6 @@
             <th>State</th>
             <th>County</th>
             <th>Population</th>
-            <th>Timezone</th>
         </tr>
         </thead>
         <tbody>
@@ -19,11 +18,10 @@
             <tr class="row_{{ $v->id }}">
                 <td>{{ ++$record_id }}</td>
                 <td>{{$v->zipcode}}</td>
-                <td>{{$v->city}}</td>
-                <td>{{$v->state_fullname." (".$v->state.")" }}</td>
+                <td>{{$v->city->name }}</td>
+                <td>{{ $v->state->name." (".$v->state->code.")" }}</td>
                 <td>{{$v->county}}</td>
                 <td>{{$v->population}}</td>
-                <td>{{$v->timezone}}</td>
             </tr>
         <?php $page_number++ ?>
 

@@ -8,16 +8,21 @@ class Zipcode extends Model
 {
     protected $fillable = [
       'zipcode',
-      'city',
-      'state',
-      'state_fullname',
+      'city_id',
+      'state_id',
       'population',
       'county',
       'latitude',
       'longitude',
-      'timezone'
     ];
-    
+    public function state(){
+        return $this->belongsTo('App\Models\State');
+    }
+
+    public function city(){
+        return $this->belongsTo('App\Models\City');
+    }
+
     public static function createRecord($obj)
     {
         return self::create($obj);

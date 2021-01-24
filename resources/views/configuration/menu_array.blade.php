@@ -48,11 +48,26 @@
       ],
     ],
     [
-      "name"=>"Zipcodes",
+      "name"=>"Geo Data",
       "icon"=>"fa fa-globe",
       "dropdown"=>true,
       "route"=>"",
       "dropdown_items"=>[
+        [
+          "name"=>"Manage Countries",
+          "icon"=>"fa fa-circle-o",
+          "route"=>"admin.countries.index"
+        ],
+        [
+          "name"=>"Manage States",
+          "icon"=>"fa fa-circle-o",
+          "route"=>"admin.states.index"
+        ],
+        [
+          "name"=>"Manage Cities",
+          "icon"=>"fa fa-circle-o",
+          "route"=>"admin.cities.index"
+        ],
         [
           "name"=>"Manage Zipcodes",
           "icon"=>"fa fa-circle-o",
