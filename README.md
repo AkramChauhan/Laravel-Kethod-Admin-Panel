@@ -26,14 +26,14 @@ In order to create new CRUD operation, you can simply copy existing controller f
 
 Structure of Blade Files
 ---
-table_name/index.blade.php // Base View
-table_name/ajax.blade.php // For Retriving data
-table_name/manage.blade.php // For Insert/Edit
+1. table_name/index.blade.php // Base View
+2. table_name/ajax.blade.php // For Retriving data
+3. table_name/manage.blade.php // For Insert/Edit
 
 e.g. for users table it will be as following.
-users/index.blade.php
-users/ajax.blade.php
-users/manage.blade.php
+1. users/index.blade.php
+2. users/ajax.blade.php
+3. users/manage.blade.php
 
 You can easily clone CRUD operation.
 structure of Controller File & Blade files are standard. So you can just copy controller and blade files to create new CRUD operation.
