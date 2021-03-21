@@ -135,7 +135,6 @@ class UserController extends Controller
 
         return kview($this->handle_name_plural.'.ajax', compact('edit_route', 'data', 'page_number', 'limit', 'offset', 'pagination'));
     }
-    
     public function delete(Request $request)
     {
         if(isset($request->action)){
