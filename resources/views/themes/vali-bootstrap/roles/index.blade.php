@@ -22,8 +22,32 @@
                 @endif
             </div>
             <div class="col-md-12">
+                <?php
+                    ($table_status=="all") ? $all_status = 'active' : $all_status='';
+                    ($table_status=="trashed") ? $trash_status = 'active' : $trash_status='';
+                ?>
+                <ul class="nav nav-tabs">
+                    <input type="hidden" class="all_trashed_input" value="{{ $table_status }}">
+                    <li class="nav-item ">
+                        <a class="nav-link {{ $all_status }} all_trashed" data-val="all" href="#">All ({{ $all_count }})</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link {{ $trash_status }} all_trashed" data-val="trashed" href="#">Trashed ({{ $trashed_count }})</a>
+                    </li>
+                </ul>
                 <div class="card">
                     <div class="card-header">
+                        <input type="hidden" class="action_selected" value="delete">
+                        <div class="float-left delete_selected_button">
+                            <div class="input-group pr-2">
+                                <button class="btn btn-primary delete_selected" name="delete_selected">Delete Selected</button>
+                            </div>
+                        </div>
+                        <div class="float-left restore_selected_button">
+                            <div class="input-group pr-2">
+                                <button class="btn btn-primary restore_selected" name="restore_selected">Restore Selected</button>
+                            </div>
+                        </div>
                         <div class="float-left">
                             <input type="hidden" name="page_number" id="page_number" class="page_number" value="{{ $page_number }}">
                             <div class="input-group mb-3 pr-2">
@@ -70,11 +94,18 @@
                 var limit = $(".change_row_limit option:selected").val();
                 var page_number = $(".page_number").val();
                 var string =  $(".search").val();
+                var all_trashed = $(".all_trashed_input").val();
 
                 $.ajax({
                     type: 'GET',
                     url: '{{ $ajax_route }}',
-                    data: {_token: token, page_number: page_number, string:string, limit:limit},
+                    data: {
+                        _token: token, 
+                        page_number: page_number, 
+                        string:string, 
+                        all_trashed:all_trashed,
+                        limit:limit
+                    },
                     success: function (html) {
                         $(".ajax_loader").hide();
                         $(".load_data").html(html);
@@ -86,7 +117,7 @@
                             load_data();
                         });
 
-                        //Delete Role
+                        //Delete Item
                         $(".delete_btn").click(function(e){
                             e.preventDefault();
                             var data_id = $(this).attr('data-id');
@@ -106,10 +137,172 @@
                                 $.ajax({
                                 type: 'POST',
                                 url: '{{ $delete_route }}',
-                                data: {_token: token, data_id: data_id},
+                                data: {
+                                    _token: token, 
+                                    data_id: data_id,
+                                    action: 'delete',
+                                    is_bulk: 0,
+                                },
                                 dataType: 'JSON',
                                 success: function (resp) {
                                     var res_msg= "It has been deleted successfully.";                                
+                                    swal(res_msg, {
+                                    icon: "success",
+                                    }).then(function(){
+                                    location.reload();
+                                    });
+                                },
+
+                                });
+                            }
+                            });
+                        });
+
+                        //Restore Item
+                        $(".restore_btn").click(function(e){
+                            e.preventDefault();
+                            var data_id = $(this).attr('data-id');
+                            // var data_status = $(this).attr('data-status');
+                            var status_msg = "Item will be restored!";
+                            swal({
+                            title: "Are you sure?",
+                            text: status_msg,
+                            icon: "warning",
+                            buttons: true,
+                            dangerMode: true,
+                            })
+                            .then((willDelete) => {
+                            if (willDelete) {
+                                
+                                var token = '{{ csrf_token() }}';
+                                $.ajax({
+                                type: 'POST',
+                                url: '{{ $delete_route }}',
+                                data: {
+                                    _token: token, 
+                                    data_id: data_id,
+                                    action: 'restore',
+                                    is_bulk: 0,
+                                },
+                                dataType: 'JSON',
+                                success: function (resp) {
+                                    var res_msg= "It has been restored successfully.";                                
+                                    swal(res_msg, {
+                                    icon: "success",
+                                    }).then(function(){
+                                    location.reload();
+                                    });
+                                },
+
+                                });
+                            }
+                            });
+                        });
+
+                        //Changing parent checkbox
+                        $(".row_check_all").change(function(e){
+                            var action = $('.action_selected').val();
+                            if(this.checked) {
+                                $('.row_checkbox').prop('checked', true);
+                                var checkbox_vals = [];
+                                $('.row_checkbox').each(function () {
+                                    (this.checked ? checkbox_vals.push($(this).val()) : "");
+                                });
+                                $("."+action+"_selected_button").show();
+                                $("."+action+"_selected").attr('data-id',checkbox_vals);
+                            }else{
+                                $("."+action+"_selected").attr('data-id','');
+                                $("."+action+"_selected_button").hide();
+                                $('.row_checkbox').prop('checked', false);
+                            }
+                        });
+
+                        //Changing child checkbox
+                        $(".row_checkbox").change(function(e){
+                            var checkbox_vals = [];
+                            $('.row_checkbox').each(function () {
+                                (this.checked ? checkbox_vals.push($(this).val()) : "");
+                            });
+                            var action = $('.action_selected').val();
+                            if(checkbox_vals.length>0){
+                                $("."+action+"_selected_button").show();
+                                $("."+action+"_selected").attr('data-id',checkbox_vals);
+                            }else{
+                                $("."+action+"_selected").attr('data-id','');
+                                $("."+action+"_selected_button").hide();
+                            }
+                        });
+
+                        // Delete selected.
+                        $(".delete_selected").click(function(e){
+                            e.preventDefault();
+                            var data_id = $(this).attr('data-id');
+                            // var data_status = $(this).attr('data-status');
+                            var status_msg = "One or more items will be deleted !";
+                            swal({
+                            title: "Are you sure?",
+                            text: status_msg,
+                            icon: "warning",
+                            buttons: true,
+                            dangerMode: true,
+                            })
+                            .then((willDelete) => {
+                            if (willDelete) {
+                                
+                                var token = '{{ csrf_token() }}';
+                                $.ajax({
+                                type: 'POST',
+                                url: '{{ $delete_route }}',
+                                data: {
+                                    _token: token, 
+                                    data_id: data_id,
+                                    action: 'delete',
+                                    is_bulk: 1,
+                                },
+                                dataType: 'JSON',
+                                success: function (resp) {
+                                    var res_msg= "Items has been deleted successfully.";                                
+                                    swal(res_msg, {
+                                    icon: "success",
+                                    }).then(function(){
+                                    location.reload();
+                                    });
+                                },
+
+                                });
+                            }
+                            });
+                        });
+
+                        // Restore selected.
+                        $(".restore_selected").click(function(e){
+                            e.preventDefault();
+                            var data_id = $(this).attr('data-id');
+                            // var data_status = $(this).attr('data-status');
+                            var status_msg = "One or more items will be deleted !";
+                            swal({
+                            title: "Are you sure?",
+                            text: status_msg,
+                            icon: "warning",
+                            buttons: true,
+                            dangerMode: true,
+                            })
+                            .then((willDelete) => {
+                            if (willDelete) {
+                                
+                                var token = '{{ csrf_token() }}';
+                                $.ajax({
+                                type: 'POST',
+                                url: '{{ $delete_route }}',
+                                data: {
+                                    _token: token, 
+                                    data_id: data_id,
+                                    action: 'restore',
+                                    is_bulk: 1,
+                                },
+                                dataType: 'JSON',
+                                success: function (resp) {
+                                    var res_msg= "Items has been restored successfully.";                                
                                     swal(res_msg, {
                                     icon: "success",
                                     }).then(function(){
@@ -125,7 +318,9 @@
                 });
             }
             $(document).ready(function(){
-                load_data();
+                $(".delete_selected_button").hide();
+                $(".restore_selected_button").hide();
+               load_data();
                 $(".change_row_limit").change(function(){
                     load_data();
                 });
@@ -136,6 +331,21 @@
                 $(".reset_data").click(function(e){
                     e.preventDefault();
                     $(".search").val('');
+                    load_data();
+                });
+                $(".all_trashed").click(function(e){
+                    console.log("here");
+                    e.preventDefault();
+                    temp = $(this).attr('data-val');
+                    $(".all_trashed").removeClass('active');
+                    $(this).addClass('active');
+                    $(".all_trashed_input").val(temp);
+                    if(temp=="all"){
+                        //button to display.
+                        $(".action_selected").val('delete');
+                    }else{
+                        $(".action_selected").val('restore');
+                    }
                     load_data();
                 });
             });

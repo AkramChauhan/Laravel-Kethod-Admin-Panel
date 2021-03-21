@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\RoleRequests\AddRoleRequest as AddRequest;
-use App\Http\Requests\RoleRequests\UpdateRoleRequest as UpdateRequest;
 use App\Models\Role as Table;
+use App\Http\Requests\RoleRequests\UpdateRole;
+use App\Http\Requests\RoleRequests\AddRole;
 use Exception;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Http\RedirectResponse;
@@ -18,10 +18,15 @@ class RoleController extends Controller
     
     public function index()
     {
+        $all_count = Table::count();
+        $trashed_count = Table::onlyTrashed()->count();
         return kview($this->handle_name_plural.'.index', [
             'ajax_route' => route('admin.'.$this->handle_name_plural.'.ajax'),
             'delete_route'=> route('admin.'.$this->handle_name_plural.'.delete'),
             'create_route' => route('admin.'.$this->handle_name_plural.'.create'),
+            'table_status'=> 'all', //all , trashed
+            'all_count'=>$all_count,
+            'trashed_count'=>$trashed_count,
         ]);
 
     }
@@ -40,10 +45,13 @@ class RoleController extends Controller
             'data' => Table::where('id', '=', $request->id)->first()
         ]);
     }
-    public function store(AddRequest $request)
+    public function store(AddRole $request)
     {
         try {
-            $table = Table::createRecord($request->all());
+            $table = Table::create([
+                'name'=>$request->name,
+                'slug'=>$request->slug,
+            ]);
 
             return redirect()->to(route('admin.'.$this->handle_name_plural.'.index'))->with('success', 'New '.ucfirst($this->handle_name).' has been added.');
         } catch (Exception $e) {
@@ -51,23 +59,22 @@ class RoleController extends Controller
             return redirect()->back()->with('error', $e->getMessage());
         }
     }
-    public function update(UpdateRequest $request)
+    public function update(UpdateRole $request)
     {
         try {
-
-            if (is_null($request->password)) {
-                $request->request->remove('password');
-            } else {
-                $request->request->add([
-                    'password' => bcrypt($request->password)
-                ]);
-            }
-            Table::updateRecord($request->except(['_token', 'id']), $request->id);
+            Table::updateOrCreate(
+                [
+                    'id'=> $request->id,
+                ],
+                [
+                    'name'=>$request->name,
+                    'slug'=>$request->slug
+                ]
+            );
             return redirect()->to(route('admin.'.$this->handle_name_plural.'.index'))->with('success', ucfirst($this->handle_name).' has been updated');
         } catch (Exception $e) {
             return redirect()->back()->with('error', $e->getMessage());
         }
-
     }
     public function ajax(Request $request)
     {
@@ -86,11 +93,15 @@ class RoleController extends Controller
             // $modalObject = $modalObject->orWhere('name','like',"%".$request->string."%");
         }
 
+        $all_trashed = $request->all_trashed;
+        if($all_trashed=="trashed"){
+            $modalObject = $modalObject->onlyTrashed();
+        }
         $total_records = $modalObject->count();
         $modalObject = $modalObject->offset($offset);
         $modalObject = $modalObject->take($limit);
         $data = $modalObject->get();
-
+        
         if (isset($request->page_number) && $request->page_number != 1) {
             $page_number = $request->page_number + $limit - 1;
         } else {
@@ -107,15 +118,48 @@ class RoleController extends Controller
         return kview($this->handle_name_plural.'.ajax', compact('edit_route', 'data', 'page_number', 'limit', 'offset', 'pagination'));
     }
     
-    public function delete()
+    public function delete(Request $request)
     {
-        try{
-            $table = Table::find(request()->data_id);
-            $table->users()->detach();
-            $table->delete();
-            return 1;
-        } catch (Exception $e) {
-            return redirect()->back()->with('error', $e->getMessage());
+        if(isset($request->action)){
+            $action = $request->action;
+            $is_bulk = $request->is_bulk;
+            $data_id = $request->data_id;
+        }
+        switch ($action){
+            case 'restore':
+                try{
+                    if($is_bulk==1){
+                        $data_id = explode(",",$data_id);
+                        $table = Table::onlyTrashed()->whereIn('id',$data_id);
+                        $table->restore();
+                        return 1;
+                    }else{
+                        $table = Table::onlyTrashed()->find($data_id);
+                        $table->restore();
+                        return 1;
+                    }
+                } catch (Exception $e) {
+                    return redirect()->back()->with('error', $e->getMessage());
+                }
+                break;
+            case 'delete' :
+                try{
+                    if($is_bulk==1){
+                        $data_id = explode(",",$data_id);
+                        $table = Table::whereIn('id',$data_id);
+                        $table->delete();
+                        return 1;
+                    }else{
+                        $table = Table::find($data_id);
+                        // $table->users()->detach();
+                        $table->delete();
+                        return 1;
+                    }
+                } catch (Exception $e) {
+                    return redirect()->back()->with('error', $e->getMessage());
+                }
+                break;
+            default : 
         }
     }
 }

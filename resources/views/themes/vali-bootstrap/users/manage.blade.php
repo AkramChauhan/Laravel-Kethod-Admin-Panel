@@ -62,7 +62,7 @@
                                     <div class="form-group">
                                         <label for="role">Role</label>
                                             <select class="form-control" name="role">
-                                            <option value="0">No Roles</option>
+                                            <option value="">No Roles</option>
                                             @foreach($roles as $role)
                                                 <option value="{{$role->id}}" <?php if($edit && $data->role_id==$role->id){ echo 'selected'; }else if(old('role')==$role->id){ echo "selected"; } ?>>{{$role->name}}</option>
                                             @endforeach
