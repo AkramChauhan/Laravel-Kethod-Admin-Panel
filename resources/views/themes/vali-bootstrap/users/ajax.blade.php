@@ -1,11 +1,13 @@
 @if(isset($data) && count($data)>0)
 @php
   $record_id = $offset;
-  $record_id++;
 @endphp
    <table class="table table-hover">
         <thead>
         <tr>
+            <th width="10px">
+              <input type="checkbox" name="row_check_all" class="row_check_all">
+            </th>
             <th>ID</th>
             <th>Name</th>
             <th>Email</th>
@@ -17,17 +19,24 @@
         <tbody>
         @foreach($data as $v)
             <tr class="row_{{ $v->id }}">
-                <td>{{ $record_id }}</td>
-                <td>{{$v->name}}</td>
-                <td>{{$v->email}}</td>
-                <td>{{$v->role}}</td>
-                <td>{{$v->created_at}}</td>
-                <td>
-                    <a href="{{$edit_route.'?id='.$v->id}}" class="btn btn-primary btn-sm">Edit</a>
-                    <a href="#" data-id="{{ $v->id }}"                    
-                        class="btn btn-danger btn-sm delete_btn delete{{ $v->id }}"
-                    >Delete</a>
-                </td>
+              <td>
+                <input type="checkbox" name="row_checkbox[]" class="row_checkbox" value="{{ $v->id }}" data-id="{{ $v->id }}">
+              </td>
+              <td>{{ ++$record_id }}</td>
+              <td>{{$v->name}}</td>
+              <td>{{$v->email}}</td>
+              <td>{{$v->role}}</td>
+              <td>{{$v->created_at}}</td>
+              <td>
+                  @if($v->deleted_at==null)
+                      <a href="{{$edit_route.'?id='.$v->id}}" class="btn btn-primary btn-sm">Edit</a>
+                      <a href="#" data-id="{{ $v->id }}"                    
+                          class="btn btn-danger btn-sm delete_btn delete{{ $v->id }}"
+                      >Delete</a>
+                  @else
+                    <a href="#" data-id="{{ $v->id }}" class="btn btn-primary restore_btn restore{{ $v->id }} btn-sm">Restore</a>
+                  @endif
+              </td>
             </tr>
         <?php $page_number++ ?>
 
