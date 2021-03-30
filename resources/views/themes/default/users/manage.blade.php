@@ -53,21 +53,40 @@
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label for="domain">Password</label>
-                                        <input type="password" name="password" class="form-control" id="domain" aria-describedby="domainHelp">
-                                        <small id="domainHelp" class="form-text text-muted"></small>
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-group">
                                         <label for="role">Role</label>
                                             <select class="form-control" name="role">
-                                            <option value="0">No Roles</option>
+                                            <option value="">No Roles</option>
                                             @foreach($roles as $role)
                                                 <option value="{{$role->id}}" <?php if($edit && $data->role_id==$role->id){ echo 'selected'; }else if(old('role')==$role->id){ echo "selected"; } ?>>{{$role->name}}</option>
                                             @endforeach
                                             </select>
                                         <small id="domainHelp" class="form-text text-muted"></small>
+                                    </div>
+                                </div>
+                            </div>
+                            <hr />
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="old_password">Old Password</label>
+                                        <input type="password" name="password" class="form-control" id="old_password" aria-describedby="old_passwordHelp">
+                                        <small id="old_passwordHelp" class="form-text text-muted"></small>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="new_password">New Password</label>
+                                        <input type="password" name="new_password" class="form-control" id="new_password" aria-describedby="new_passwordHelp">
+                                        <small id="new_passwordHelp" class="form-text text-muted"></small>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="new_password_confirmation">Confirm Password</label>
+                                        <input type="password" name="new_password_confirmation" class="form-control" id="new_password_confirmation" aria-describedby="new_password_confirmationHelp">
+                                        <small id="new_password_confirmationHelp" class="form-text text-muted"></small>
                                     </div>
                                 </div>
                             </div>

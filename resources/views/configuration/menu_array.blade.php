@@ -26,24 +26,29 @@
           "name"=>"Manage Users",
           "icon"=>"fa fa-circle-o",
           "route"=>"admin.users.index"
+        ],
+        [
+          "name"=>"Manage User Roles",
+          "icon"=>"fa fa-circle-o",
+          "route"=>"admin.roles.index"
         ]
       ],
     ],
     [
-      "name"=>"Roles",
-      "icon"=>"fa fa-sitemap",
+      "name"=>"Settings",
+      "icon"=>"fa fa-gear",
       "dropdown"=>true,
       "route"=>"",
       "dropdown_items"=>[
         [
-          "name"=>"Add Role",
+          "name"=>"General Settings",
           "icon"=>"fa fa-circle-o",
-          "route"=>"admin.roles.create"
+          "route"=>"admin.settings.index"
         ],
         [
-          "name"=>"Manage Roles",
+          "name"=>"Edit Profile",
           "icon"=>"fa fa-circle-o",
-          "route"=>"admin.roles.index"
+          "route"=>"admin.settings.edit_profile"
         ]
       ],
     ]

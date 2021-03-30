@@ -5,13 +5,14 @@ namespace App\Http\Controllers;
 use App\Models\User as Table;
 use App\Models\Role;
 use Exception;
-use App\Http\Requests\UserRequests\UpdateUser;
-use App\Http\Requests\UserRequests\AddUser;
+use App\Http\Requests\UserRequests\UpdateUser as UpdateRequest;
+use App\Http\Requests\UserRequests\AddUser as AddRequest;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
 use Auth;
+use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
@@ -51,7 +52,7 @@ class UserController extends Controller
             'roles'=>$roles,
         ]);
     }
-    public function store(AddUser $request)
+    public function store(AddRequest $request)
     {
         try {
             $table = Table::create([
@@ -68,7 +69,7 @@ class UserController extends Controller
             return redirect()->back()->with('error', $e->getMessage());
         }
     }
-    public function update(UpdateUser $request)
+    public function update(UpdateRequest $request)
     {
         try {
             $update_data = [
@@ -76,19 +77,32 @@ class UserController extends Controller
                 'email'=>$request->email,
             ];
             if(isset($request->password)){
-                $update_data['password']= bcrypt($request->password);
+                // $password=  Hash::make($request->password);
+                $userObj = Table::where([
+                    'email'=>$request->email,
+                ])->first();
+                
+                if (Hash::check($request->password, $userObj->password)) {
+                  $update_data = [
+                    'name'=>$request->name,
+                    'email'=>$request->email,
+                    'password'=>bcrypt($request->new_password),
+                   ];
+                }else{
+                    return redirect()->back()->with('error', "Old password is incorrect.");
+                }
             }
-            $table = Table::updateOrCreate(
-            [
+            $user_id = Table::where([
                 'id'=>$request->id,
-            ],
-            $update_data);
+            ])->update($update_data);
+
+            $table = Table::findOrFail($user_id);
             if(isset($request->role)){
                 $table->roles()->sync($request->role);
             }else{
                 $table->roles()->detach();
             }
-            return redirect()->to(route('admin.'.$this->handle_name_plural.'.index'))->with('success', ucfirst($this->handle_name).' has been updated');
+            return redirect()->back()->with('success', ucfirst($this->handle_name).' has been updated');
         } catch (Exception $e) {
             return redirect()->back()->with('error', $e->getMessage());
         }

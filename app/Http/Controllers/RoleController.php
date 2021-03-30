@@ -3,8 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Role as Table;
-use App\Http\Requests\RoleRequests\UpdateRole;
-use App\Http\Requests\RoleRequests\AddRole;
+use App\Http\Requests\RoleRequests\UpdateRole as UpdateRequest;
+use App\Http\Requests\RoleRequests\AddRole as AddRequest;
 use Exception;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Http\RedirectResponse;
@@ -45,7 +45,7 @@ class RoleController extends Controller
             'data' => Table::where('id', '=', $request->id)->first()
         ]);
     }
-    public function store(AddRole $request)
+    public function store(AddRequest $request)
     {
         try {
             $table = Table::create([
@@ -59,7 +59,7 @@ class RoleController extends Controller
             return redirect()->back()->with('error', $e->getMessage());
         }
     }
-    public function update(UpdateRole $request)
+    public function update(UpdateRequest $request)
     {
         try {
             Table::updateOrCreate(

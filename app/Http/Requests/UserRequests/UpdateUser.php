@@ -27,7 +27,9 @@ class UpdateUser extends FormRequest
         return [
             'name' => 'required',
             'email' =>  "unique:users,email,$this->id,id",
-            'password' => 'nullable|string'
+            'password' => 'nullable|required_with:new_password|string',
+            'new_password' => 'nullable|required_with:password',
+            'new_password_confirmation' => 'same:new_password',
         ];
     }
 }

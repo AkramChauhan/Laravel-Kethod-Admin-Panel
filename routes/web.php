@@ -16,9 +16,9 @@ use Illuminate\Support\Facades\Route;
 Route::get('/','IndexController@index')->name('home');
 
 Auth::routes([
-  'register' => true, // Registration Routes...
-  'reset' => true, // Password Reset Routes...
-  'verify' => true, // Email Verification Routes...
+  'register' => false, // Registration Routes...
+  'reset' => false, // Password Reset Routes...
+  'verify' => false, // Email Verification Routes...
 ]);
 
 Route::get('/dashboard', 'HomeController@index')->name('admin.dashboard');
@@ -42,4 +42,8 @@ Route::middleware(['auth'])->prefix('admin')->group(function () {
     Route::get('/roles/ajax', "RoleController@ajax")->name('admin.roles.ajax');
     Route::post('/roles/delete', "RoleController@delete")->name('admin.roles.delete');
 
+  // For Settings
+    Route::get('/settings/edit_profile', "SettingController@edit_profile")->name('admin.settings.edit_profile');
+    Route::get('/settings/general', "SettingController@index")->name('admin.settings.index');
+    Route::post('/settings/update', "SettingController@update")->name('admin.settings.update');
 });

@@ -1,4 +1,4 @@
-@extends('themes.default.layouts.app')
+@extends('themes.sb-admin.layouts.app')
 @section('content')
     <div class="container">
         <div class="row justify-content-center">
@@ -29,10 +29,7 @@
                     <div class="card-body">
                         <form action="{{ $form_action }}" class="" method="post">
                             @csrf
-                            @if($edit)
-                                <input type="hidden" value="{{$data->id}}" name="id">
-                            @endif
-
+                           
                             <div class="row form_sec">
                                 <div class="col-12"><h5>Basic Details</h5></div>
                             </div>
@@ -40,15 +37,26 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="name">Name</label>
-                                        <input type="text" name="name" class="form-control" @if($edit) value="{{$data->name}}" @else value="{{old('name')}}" @endif id="name" aria-describedby="nameHelp">
+                                        <input type="text" name="name" class="form-control" value="{{ config('app.name') }}" id="name" aria-describedby="nameHelp">
                                         <small id="nameHelp" class="form-text text-muted"></small>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label for="slug">slug</label>
-                                        <input type="text" name="slug" class="form-control" @if($edit) value="{{$data->slug}}" @else value="{{old('slug')}}" @endif id="slug" aria-describedby="slugHelp">
-                                        <small id="slugHelp" class="form-text text-muted"></small>
+                                        <label for="url">URL</label>
+                                        <input type="text" name="url" class="form-control" value="{{ config('app.url') }}" id="url" aria-describedby="urlHelp">
+                                        <small id="urlHelp" class="form-text text-muted"></small>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="theme">Theme</label>
+                                        <select name="theme" class="form-control">
+                                            <option value="default" <?php if(config('app.theme')=="default"){ echo "selected"; } ?>>Default</option>
+                                            <option value="sb-admin" <?php if(config('app.theme')=="sb-admin"){ echo "selected"; } ?>>SB Admin</option>
+                                            <option value="vali-bootstrap" <?php if(config('app.theme')=="vali-bootstrap"){ echo "selected"; } ?>>Vali Boostrap</option>
+                                        </select>
+                                        <small id="themeHelp" class="form-text text-muted"></small>
                                     </div>
                                 </div>
                             </div>
@@ -56,11 +64,7 @@
                                 <div class="col-md-12">
                                     <div class="form-group">
                                         <button type="submit" class="btn btn-primary add_site">
-                                            @if($edit)
-                                                Update
-                                            @else
-                                                Add
-                                            @endif
+                                            Update
                                         </button>
                                     </div>
                                 </div>

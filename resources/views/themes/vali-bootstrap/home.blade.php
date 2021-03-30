@@ -1,16 +1,7 @@
 @extends('themes.vali-bootstrap.layouts.app')
 
 @section('content')
-<div class="app-title">
-  <div>
-    <h1><i class="fa fa-dashboard"></i> Dashboard</h1>
-    <p>A free and open source Bootstrap 4 admin template</p>
-  </div>
-  <ul class="app-breadcrumb breadcrumb">
-    <li class="breadcrumb-item"><i class="fa fa-home fa-lg"></i></li>
-    <li class="breadcrumb-item"><a href="{{ route('admin.dashboard') }}">Dashboard</a></li>
-  </ul>
-</div>
+
 <div class="row">
   <div class="col-md-12">
     @if (session('status'))
@@ -18,12 +9,6 @@
         {{ session('status') }}
       </div>
     @endif
-    <div class="alert alert-primary alert-dismissible fade show" role="alert">
-        <strong>Welcome {{ Auth::user()->name }}</strong> Your are logged in as <strong>{{ Auth::user()->role }}</strong>.
-        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-        </button>
-    </div>
   </div>
 
   @foreach($dashboard_cards as $card)
