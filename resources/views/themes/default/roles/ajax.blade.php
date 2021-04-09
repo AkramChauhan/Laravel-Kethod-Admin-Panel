@@ -11,7 +11,7 @@
             <th>ID</th>
             <th>Name</th>
             <th>Slug</th>
-            <th>User's count</th>
+            <th>Users</th>
             <th>Date Created</th>
             <th></th>
         </tr>
@@ -26,7 +26,7 @@
               <td>{{$v->name}}</td>
               <td>{{$v->slug}}</td>
               <td>{{$v->users->count()}}</td>
-              <td>{{$v->created_at}}</td>
+              <td>{{ Date('d M, Y',strtotime($v->created_at)) }}</td>
               <td>
                 @if($v->deleted_at==null)
                     <a href="{{$edit_route.'?id='.$v->id}}" class="btn btn-primary btn-sm">Edit</a>
@@ -48,15 +48,18 @@
         Opps, seems like records not available.
     </div>
 @endif
+@if($pagination['total_records']>$pagination['item_per_page'])
 <div class="pl-3">
-<div class="paging_simple_numbers">
-  <ul class="pagination">
-    <?php 
-      echo paginate_function($pagination['item_per_page'],$pagination['current_page'],$pagination['total_records'],$pagination['total_pages']);
+  <div class="paging_simple_numbers">
+    <ul class="pagination">
+      <?php 
+        echo paginate_function($pagination['item_per_page'],$pagination['current_page'],$pagination['total_records'],$pagination['total_pages']);
       ?>
-  </ul>
+    </ul>
+  </div>
 </div>
-</div>
+@endif
+
 <?php
 function paginate_function($item_per_page, $current_page, $total_records, $total_pages){
     $pagination = '';

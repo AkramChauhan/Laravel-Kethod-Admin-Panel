@@ -1634,7 +1634,7 @@ pre code {
 .table {
   width: 100%;
   max-width: 100%;
-  margin-bottom: 1rem;
+  /* margin-bottom: 1rem; */
   background-color: transparent;
 }
 
@@ -12605,7 +12605,7 @@ be a descendant of the grid when it is being dragged.
   flex: 1 0 auto;
   color: #fff;
   text-align: center;
-  font-family: 'Niconne';
+  font-family: 'Roboto';
   padding: 0 15px;
   font-size: 26px;
   font-weight: 400;
@@ -13898,7 +13898,7 @@ be a descendant of the grid when it is being dragged.
 
 .login-content .logo {
   margin-bottom: 40px;
-  font-family: "Niconne";
+  font-family: "Roboto";
   color: #fff;
 }
 

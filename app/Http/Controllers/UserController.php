@@ -58,7 +58,7 @@ class UserController extends Controller
             $table = Table::create([
                 'name'=>$request->name,
                 'email'=>$request->email,
-                'password'=>$request->password,
+                'password'=>bcrypt($request->password),
             ]);
             if(isset($request->role)){
                 $table->roles()->sync($request->role);
@@ -76,17 +76,16 @@ class UserController extends Controller
                 'name'=>$request->name,
                 'email'=>$request->email,
             ];
-            if(isset($request->password)){
+            if(isset($request->old_password)){
                 // $password=  Hash::make($request->password);
                 $userObj = Table::where([
                     'email'=>$request->email,
                 ])->first();
-                
-                if (Hash::check($request->password, $userObj->password)) {
+                if (Hash::check($request->old_password, $userObj->password)) {
                   $update_data = [
                     'name'=>$request->name,
                     'email'=>$request->email,
-                    'password'=>bcrypt($request->new_password),
+                    'password'=>bcrypt($request->password),
                    ];
                 }else{
                     return redirect()->back()->with('error', "Old password is incorrect.");

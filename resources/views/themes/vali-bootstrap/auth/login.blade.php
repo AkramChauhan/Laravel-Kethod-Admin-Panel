@@ -4,14 +4,14 @@
     <meta name="description" content=""/>
     <!-- Twitter meta-->
     <meta property="twitter:card" content="summary_large_image" />
-    <meta property="twitter:site" content="@pratikborsadiya" />
-    <meta property="twitter:creator" content="@pratikborsadiya" />
+    <meta property="twitter:site" content="@digitalchauhan" />
+    <meta property="twitter:creator" content="@digitalchauhan" />
     <!-- Open Graph Meta-->
     <meta property="og:type" content="website" />
-    <meta property="og:site_name" content="Vali Admin" />
-    <meta property="og:title" content="Vali - Free Bootstrap 4 admin theme" />
-    <meta property="og:url" content="http://pratikborsadiya.in/blog/vali-admin" />
-    <meta property="og:description" content="Vali is a responsive and free admin theme built with Bootstrap 4, SASS and PUG.js. It's fully customizable and modular."/>
+    <meta property="og:site_name" content="Admin Panel" />
+    <meta property="og:title" content="Custom Bootstrap Theme" />
+    <meta property="og:url" content="https://akramchauhan.com" />
+    <meta property="og:description" content="This is a responsive and free admin theme built with Bootstrap 4, SASS and PUG.js. It's fully customizable and modular."/>
     <title>{{ config('app.name', 'Laravel') }}</title>
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
@@ -35,7 +35,7 @@
             <div class="col-md-6">
                 <div class="card">
                     <div class="card-header">
-                      <i class="fa fa-lg fa-fw fa-user"></i>{{ __('Login') }}
+                      {{ __('Login') }}
                     </div>
                     <div class="card-body">
                       <form class="login-form" method="POST" action="{{ route('login') }}"> 

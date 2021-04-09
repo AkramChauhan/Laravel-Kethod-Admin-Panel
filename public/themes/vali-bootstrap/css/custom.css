@@ -43,3 +43,10 @@
 .card-hover:hover{
   text-decoration: none !important;
 }
+.table thead tr{
+  font-size:12px;
+  background-color:#f2f2f2;
+}
+.row_checkbox, .row_check_all{
+  cursor: pointer;
+}
