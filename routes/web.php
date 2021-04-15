@@ -21,9 +21,10 @@ Auth::routes([
   'verify' => false, // Email Verification Routes...
 ]);
 
-Route::get('/dashboard', 'HomeController@index')->name('admin.dashboard');
 
 Route::middleware(['auth'])->prefix('admin')->group(function () {
+  Route::get('/dashboard', 'HomeController@index')->name('admin.dashboard');
+
   // For Users
     Route::get('/users', 'UserController@index')->name('admin.users.index');
     Route::get('/users/add', "UserController@create")->name('admin.users.create');
