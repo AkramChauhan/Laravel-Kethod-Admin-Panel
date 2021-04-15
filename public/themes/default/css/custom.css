@@ -20,6 +20,10 @@
 .display_preview img{
   cursor: pointer;
 }
+.load_data .table{
+  padding:0px;
+  margin:0px;
+}
 .table thead tr{
   font-size:12px;
   background-color:#f2f2f2;

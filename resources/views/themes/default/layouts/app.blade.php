@@ -85,7 +85,7 @@
             @yield('content')
         </main>
     </div>
-    <script src="{{ asset('themes/default/js/jquery-3.5.1.min.js') }}"></script>
+    <script src="{{ asset('themes/default/js/jquery-3.6.0.min.js') }}"></script>
     @stack('scripts')
 </body>
 </html>
