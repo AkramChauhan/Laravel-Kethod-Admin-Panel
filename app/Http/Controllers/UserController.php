@@ -91,11 +91,13 @@ class UserController extends Controller
                     return redirect()->back()->with('error', "Old password is incorrect.");
                 }
             }
-            $user_id = Table::where([
-                'id'=>$request->id,
-            ])->update($update_data);
+            $where = [
+                'id'=>$request->id
+            ];
+            $user_id = Table::updateOrCreate($where,$update_data);
 
-            $table = Table::findOrFail($user_id);
+            $table = Table::findOrFail($request->id);
+
             if(isset($request->role)){
                 $table->roles()->sync($request->role);
             }else{

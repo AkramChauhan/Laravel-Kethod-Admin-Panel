@@ -1,9 +1,6 @@
 <?php
 /**
- * Created by PhpStorm.
- * User: SST5
- * Date: 12/12/2019
- * Time: 11:17 AM
+ * Created by Akram Chauhan
  */
 
 function kview($view_path,$array=[]){

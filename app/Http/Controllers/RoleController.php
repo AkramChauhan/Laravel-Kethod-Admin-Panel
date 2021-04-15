@@ -48,9 +48,17 @@ class RoleController extends Controller
     public function store(AddRequest $request)
     {
         try {
+            if(isset($request->slug) && !empty($request->slug)){
+                $slug = $request->slug;
+            }else{
+                $slug = str_slug($request->name);
+            }
+            $tempTable = new Table();
+            $slug = verifySlug($tempTable,'slug',$slug);
+
             $table = Table::create([
                 'name'=>$request->name,
-                'slug'=>$request->slug,
+                'slug'=>$slug,
             ]);
 
             return redirect()->to(route('admin.'.$this->handle_name_plural.'.index'))->with('success', 'New '.ucfirst($this->handle_name).' has been added.');
@@ -62,15 +70,16 @@ class RoleController extends Controller
     public function update(UpdateRequest $request)
     {
         try {
-            Table::updateOrCreate(
-                [
-                    'id'=> $request->id,
-                ],
-                [
-                    'name'=>$request->name,
-                    'slug'=>$request->slug
-                ]
-            );
+            $slug = str_slug($request->slug);
+            
+            $where =    [
+                'id'=> $request->id,
+            ];
+            $update_array = [
+                'name'=>$request->name,
+                'slug'=>$slug
+            ];
+            Table::updateOrCreate($where,$update_array);
             return redirect()->to(route('admin.'.$this->handle_name_plural.'.index'))->with('success', ucfirst($this->handle_name).' has been updated');
         } catch (Exception $e) {
             return redirect()->back()->with('error', $e->getMessage());
