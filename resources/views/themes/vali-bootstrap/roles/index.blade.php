@@ -71,7 +71,7 @@
                         </div>
                     </div>
                     <div class="card-body p-0">
-                        <div class="ajax_loader p-3" align="center"><img src="{{ asset('themes/'.config('app.theme').'/images/ajax_loader.gif') }}" alt=""></div>
+                        <div class="ajax_loader p-3" align="center"><img src="{{ asset('assets/images/ajax_loader_circular.gif') }}" alt=""></div>
                         @if (session('status'))
                             <div class="alert alert-success" role="alert">
                                 {{ session('status') }}
