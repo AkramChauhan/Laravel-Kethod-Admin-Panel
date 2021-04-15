@@ -17,7 +17,13 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password',
+        'name', 
+        'email', 
+        'password',
+        'country_code',
+        'phone_number',
+        'two_factor_code',
+        'two_factor_expires_at'
     ];
 
     /**
@@ -26,7 +32,8 @@ class User extends Authenticatable
      * @var array
      */
     protected $hidden = [
-        'password', 'remember_token',
+        'password', 
+        'remember_token',
     ];
 
     /**
@@ -36,6 +43,7 @@ class User extends Authenticatable
      */
     protected $casts = [
         'email_verified_at' => 'datetime',
+        'two_factor_expires_at' => 'datetime',
     ];
 
     public static function createRecord($obj)
@@ -68,5 +76,19 @@ class User extends Authenticatable
         // dd($role);
         // print_r($role);exit;
         return $roles->isEmpty() ? 'User' :$roles->first()->name;
+    }
+
+    public function generateTwoFactorCode(){
+        $this->timestamps = false; 
+        $this->two_factor_code = rand(10000000,99999999);
+        $this->two_factor_expires_at = now()->addMinutes(10);
+        $this->save();
+    }
+
+    public function resetTwoFactorCode(){
+        $this->timestamps = false;
+        $this->two_factor_code = null;
+        $this->two_factor_expires_at = null;
+        $this->save();
     }
 }

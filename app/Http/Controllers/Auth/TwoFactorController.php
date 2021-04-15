@@ -1,0 +1,51 @@
+<?php
+
+namespace App\Http\Controllers\Auth;
+
+use App\Http\Controllers\Controller;
+use Illuminate\Http\Request;
+use App\Notifications\TwoFactorCode;
+
+class TwoFactorController extends Controller
+{
+    public function __construc(){
+        $this->middleware(['auth','twofactor']);
+    }
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function index()
+    {
+        return kview('auth.two_factor');
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function store(Request $request)
+    {
+        $request->validate([
+            'two_factor_code'=>'integer|required',
+        ]);
+        $user = auth()->user();
+        if($request->input('two_factor_code')==$user->two_factor_code){
+            $user->resetTwoFactorCode();
+            return redirect()->route('admin.dashboard');
+        }
+        return redirect()->back()->withErrors([
+            'two_factor_code'=>'The two factor code you have entered does not match',
+        ]);
+    }
+    
+    public function resend(){
+        $user = auth()->user();
+        $user->generateTwoFactorCode();
+        $user->notify(new TwoFactorCode());
+        return redirect()->back()->withMessage('The verification code has been sent again.');
+    }
+}
