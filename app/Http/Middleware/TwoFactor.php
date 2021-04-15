@@ -16,12 +16,8 @@ class TwoFactor
     public function handle($request, Closure $next)
     {
         $user = auth()->user();
+        // This checks if user is having two factor code. If yes, redirect user to verify page.
         if(auth()->check() && $user->two_factor_code){
-            if($user->two_factor_expires_at->lt(now())){
-                $user->resetTwoFactorCode();
-                auth()->logout();
-                return redirect()->route('login')->withMessage('The two factor code has expired. Please login again');
-            }
             if(!$request->is('verify*')){
                 return redirect()->route('verify.index');
             }

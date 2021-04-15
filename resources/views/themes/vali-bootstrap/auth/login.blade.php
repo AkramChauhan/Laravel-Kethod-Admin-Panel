@@ -29,6 +29,9 @@
     <section class="login-content">
       <div class="logo">
         <h1>{{ config('app.name', 'Laravel') }}</h1>
+        @if(session()->has('message'))
+          <p class="alert alert-info">{{ session()->get('message') }}</p>
+        @endif
       </div>
       <div class="container">
         <div class="row justify-content-center">

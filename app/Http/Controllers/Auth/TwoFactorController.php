@@ -33,6 +33,13 @@ class TwoFactorController extends Controller
             'two_factor_code'=>'integer|required',
         ]);
         $user = auth()->user();
+
+        if($user->two_factor_expires_at->lt(now())){
+            $user->resetTwoFactorCode();
+            auth()->logout();
+            return redirect()->route('login')->withMessage('The two factor code has expired. Please login again');
+        }
+
         if($request->input('two_factor_code')==$user->two_factor_code){
             $user->resetTwoFactorCode();
             return redirect()->route('admin.dashboard');
