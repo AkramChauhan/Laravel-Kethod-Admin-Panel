@@ -8,7 +8,7 @@
         <meta name="author" content="" />
         <title>{{ config('app.name', 'Laravel') }}</title>
         <link href="{{ asset('themes/sb-admin/css/styles.css') }}" rel="stylesheet" />
-        <link rel="stylesheet" type="text/css" href="{{ asset('themes/sb-admin/css/font-awesome/4.7.0/css/font-awesome.min.css') }}"/>
+        <link rel="stylesheet" type="text/css" href="{{ asset('plugins/font-awesome-4.7.0/font-awesome.min.css') }}"/>
         @stack('styles')
         <link href="{{ asset('themes/sb-admin/css/custom.css') }}" rel="stylesheet">
         <link href="{{ asset('themes/sb-admin/css/primary_colors.css') }}" rel="stylesheet">
@@ -34,7 +34,7 @@
         <div id="layoutAuthentication">
         @endif
             <div id="{{ $layout_cls }}">
-                <main>
+                <main class="mainarea">
                     @yield('content')
                 </main>
             @if($is_auth_page)
@@ -60,7 +60,7 @@
         @if(Auth::check()) 
         </div>
         @endif   
-        <script src="{{ asset('themes/sb-admin/js/jquery-3.5.1.min.js') }}"></script>
+        <script src="{{ asset('themes/sb-admin/plugins/jquery-3.5.1.min.js') }}"></script>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
         <script src="{{ asset('themes/sb-admin/js/scripts.js') }}"></script>
         @stack('scripts')

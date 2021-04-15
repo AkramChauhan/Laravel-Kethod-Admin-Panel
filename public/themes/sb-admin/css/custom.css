@@ -1,3 +1,6 @@
+.mainarea{
+  padding:20px 0px;;
+}
 .counter_number{
   font-size:25px;
 }
@@ -8,11 +11,12 @@
   padding:0px 15px
 }
 .form_sec{
-  padding:15px 0px 10px 0px;
+  padding:20px 10px 10px 0px;
   background-color:#fbf5f5;
+  border:0px;
   border-bottom:1px solid #ddd;
   border-top:1px solid #ddd;
-  margin-bottom:10px;
+  margin-bottom:10px;  
 }
 .form_sec h5{
   font-size:14px;

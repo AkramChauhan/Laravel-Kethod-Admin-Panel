@@ -1,6 +1,6 @@
 @extends('themes.sb-admin.layouts.app')
 @section('content')
-  <div class="container">
+  <div class="container-fluid">
     <div class="row justify-content-center">
       <div class="col-md-12">
         @if ($errors->any())
@@ -36,7 +36,6 @@
             <div class="row form_sec">
               <div class="col-12"><h5>Basic Details</h5></div>
             </div>
-            <hr />
             <div class="row">
               <div class="col-md-6">
                 <div class="form-group">
@@ -84,7 +83,6 @@
               <div class="col-12"><h5>Set Password</h5></div>
               @endif
             </div>
-            <hr />
             <div class="row">
               <div class="col-md-6">
                 @if($edit)
