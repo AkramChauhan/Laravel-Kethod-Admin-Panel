@@ -20,6 +20,7 @@ class CreateUsersTable extends Migration
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->integer('country_code')->length(4)->nullable();
+            $table->tinyInteger('two_factor_enable')->default(1);
             $table->string('phone_number')->nullable();
             $table->string('two_factor_code')->nullable();
             $table->dateTime('two_factor_expires_at')->nullable();

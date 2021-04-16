@@ -23,7 +23,8 @@ class User extends Authenticatable
         'country_code',
         'phone_number',
         'two_factor_code',
-        'two_factor_expires_at'
+        'two_factor_expires_at',
+        'two_factor_enable'
     ];
 
     /**

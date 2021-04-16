@@ -25,6 +25,7 @@
     <link rel="stylesheet" type="text/css" href="{{ asset('themes/vali-bootstrap/css/main.css') }}" />
     <link rel="stylesheet" type="text/css" href="{{ asset('plugins/font-awesome-4.7.0/font-awesome.min.css') }}"/>
     <link rel="stylesheet" type="text/css" href="{{ asset('themes/vali-bootstrap/css/custom.css') }}" />
+    <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/global.css') }}" />
     @stack('styles')
   </head>
   <body class="app sidebar-mini rtl">

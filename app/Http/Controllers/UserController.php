@@ -55,11 +55,19 @@ class UserController extends Controller
     public function store(AddRequest $request)
     {
         try {
+            if(isset($request->two_factor_enable) && $request->two_factor_enable=="on"){
+                $two_factor_enable = 1;
+            }else{
+                $two_factor_enable = 0;
+            }
+            
             $table = Table::create([
                 'name'=>$request->name,
                 'email'=>$request->email,
                 'password'=>bcrypt($request->password),
+                'two_factor_enable'=>$two_factor_enable
             ]);
+            
             if(isset($request->role)){
                 $table->roles()->sync($request->role);
             }
@@ -72,21 +80,24 @@ class UserController extends Controller
     public function update(UpdateRequest $request)
     {
         try {
+            if(isset($request->two_factor_enable) && $request->two_factor_enable=="on"){
+                $two_factor_enable = 1;
+            }else{
+                $two_factor_enable = 0;
+            }
             $update_data = [
                 'name'=>$request->name,
                 'email'=>$request->email,
+                'two_factor_enable'=>$two_factor_enable,
             ];
+
             if(isset($request->old_password)){
                 // $password=  Hash::make($request->password);
                 $userObj = Table::where([
                     'email'=>$request->email,
                 ])->first();
                 if (Hash::check($request->old_password, $userObj->password)) {
-                  $update_data = [
-                    'name'=>$request->name,
-                    'email'=>$request->email,
-                    'password'=>bcrypt($request->password),
-                   ];
+                    $update_data['password'] = bcrypt($request->password);
                 }else{
                     return redirect()->back()->with('error', "Old password is incorrect.");
                 }
