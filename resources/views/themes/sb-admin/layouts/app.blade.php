@@ -12,19 +12,23 @@
         @stack('styles')
         <link href="{{ asset('themes/sb-admin/css/custom.css') }}" rel="stylesheet">
         <link href="{{ asset('themes/sb-admin/css/primary_colors.css') }}" rel="stylesheet">
+        <link href="{{ asset('assets/css/global.css') }}" rel="stylesheet">
     </head>
     <?php
       $bg_class = 'sb-nav-fixed';
       $is_auth_page = false;
       $layout_cls = "layoutSidenav_content";
-      if(Request::route()->getName()=='login' || Request::route()->getName()=='register' || Request::route()->getName()=='password.request'){
+      if(Request::route()->getName()=='login' || 
+        Request::route()->getName()=='register' || 
+        Request::route()->getName()=='password.request' ||
+        Request::route()->getName()=='verify.index'){
         $is_auth_page = true;
         $bg_class = 'bg-primary';
         $layout_cls = 'layoutAuthentication_content';
       }
     ?>
     <body class="{{ $bg_class }}">
-        @if(Auth::check())
+        @if(Auth::check() && !$is_auth_page)
             <?php
                 include('../resources/views/configuration/menu_array.blade.php');
             ?>
@@ -57,7 +61,7 @@
                 </div>
             @endif
         </div>
-        @if(Auth::check()) 
+        @if(Auth::check() && !$is_auth_page) 
         </div>
         @endif   
         <script src="{{ asset('themes/sb-admin/plugins/jquery-3.5.1.min.js') }}"></script>

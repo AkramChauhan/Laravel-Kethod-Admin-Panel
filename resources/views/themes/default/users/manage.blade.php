@@ -62,13 +62,6 @@
                     </select>
                   <small id="domainHelp" class="form-text text-muted"></small>
                 </div>
-                @if($edit)
-                <div class="form-group">
-                  <button type="submit" class="btn btn-primary add_site">
-                      Update
-                  </button>
-                </div>
-                @endif
               </div>
             </div>
           </div>
@@ -78,7 +71,7 @@
           <div class="card-body">
             <div class="row form_sec">
               @if($edit)
-              <div class="col-12"><h5>Change Password</h5></div>
+              <div class="col-12"><h5>Change Password (Do not enter if you don't wanted to change it)</h5></div>
               @else
               <div class="col-12"><h5>Set Password</h5></div>
               @endif
@@ -104,20 +97,34 @@
                 </div>
               </div>
             </div>
-           
+          </div>
+        </div>
+        <br />
+        <div class="card">
+          <div class="card-body">
+            <div class="row form_sec">
+              <div class="col-12"><h5>Two Factor Authentication (Email/SMS)</h5></div>
+            </div>
             <div class="row">
-              <div class="col-md-12">
-                <div class="form-group">
-                  <button type="submit" class="btn btn-primary add_site">
-                    @if($edit)
-                      Change Password
-                    @else
-                      Add
-                    @endif
-                  </button>
-                </div>
+              <div class="col-md-6">
+                <label class="switch">
+                  <input type="checkbox" name="two_factor_enable" <?php if($edit){ if($data->two_factor_enable==1){ echo 'checked'; } }else{ echo "checked"; } ?> class="two_factor_enable" id="two_factor_enable">
+                  <span class="slider"></span>
+                </label>
               </div>
             </div>
+          </div>
+        </div>
+        <br />
+        <div class="row">
+          <div class="col-md-12">
+            <button type="submit" class="btn btn-primary add_site">
+              @if($edit)
+                Update Changes
+              @else
+                Add User
+              @endif
+            </button>
           </div>
         </div>
         </form>
