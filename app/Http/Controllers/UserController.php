@@ -94,7 +94,7 @@ class UserController extends Controller
             if(isset($request->old_password)){
                 // $password=  Hash::make($request->password);
                 $userObj = Table::where([
-                    'email'=>$request->email,
+                    'id'=>$request->id,
                 ])->first();
                 if (Hash::check($request->old_password, $userObj->password)) {
                     $update_data['password'] = bcrypt($request->password);
@@ -109,10 +109,12 @@ class UserController extends Controller
 
             $table = Table::findOrFail($request->id);
 
-            if(isset($request->role)){
-                $table->roles()->sync($request->role);
-            }else{
-                $table->roles()->detach();
+            if(Auth::user()->isAdmin()){
+                if(isset($request->role)){
+                    $table->roles()->sync($request->role);
+                }else{
+                    $table->roles()->detach();
+                }
             }
             return redirect()->back()->with('success', ucfirst($this->handle_name).' has been updated');
         } catch (Exception $e) {
