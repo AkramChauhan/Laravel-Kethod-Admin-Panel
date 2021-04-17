@@ -15,6 +15,7 @@ class UserTableSeeder extends Seeder
             'name'=>"Administrator",
             'email'=>"admin@gmail.com",
             'password'=>bcrypt('password'),
+            'two_factor_enable'=>false,
             'created_at'=>\Carbon\Carbon::now(),
             'updated_at'=>\Carbon\Carbon::now()
         ]);
@@ -22,6 +23,7 @@ class UserTableSeeder extends Seeder
             'name'=>"New User",
             'email'=>"new_user@gmail.com",
             'password'=>bcrypt('password'),
+            'two_factor_enable'=>false,
             'created_at'=>\Carbon\Carbon::now(),
             'updated_at'=>\Carbon\Carbon::now()
         ]);

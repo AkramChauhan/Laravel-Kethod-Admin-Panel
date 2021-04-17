@@ -45,8 +45,15 @@ class LoginController extends Controller
     }
 
     public function authenticated(Request $request,$user){
-        $user->generateTwoFactorCode();
-        // $user->notify(new TwoFactorCode());
+        try {
+            if($user->two_factor_enable){
+                $user->generateTwoFactorCode();
+                $user->notify(new TwoFactorCode());
+            }
+        } catch(\Exception $e) {
+            auth()->logout();
+            return redirect()->back()->withMessage("Something went wrong, Please try again after some time.");
+        }
     }
 }
 
