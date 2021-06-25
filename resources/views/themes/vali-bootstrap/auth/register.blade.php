@@ -19,7 +19,7 @@
     <!-- Main CSS-->
     <link rel="stylesheet" type="text/css" href="{{ asset('themes/vali-bootstrap/css/main.css') }}" />
     <!-- Font-icon css-->
-    <link rel="stylesheet" type="text/css" href="{{ asset('themes/vali-bootstrap/css/font-awesome/4.7.0/css/font-awesome.min.css') }}"/>
+    <link rel="stylesheet" type="text/css" href="{{ asset('plugins/font-awesome-4.7.0/font-awesome.min.css') }}"/>
     @stack('styles')
   </head>
   <body class="app sidebar-mini rtl">
@@ -97,12 +97,12 @@
     </section>
 
     <!-- Essential javascripts for application to work-->
-    <script src="{{ asset('themes/vali-bootstrap/js/jquery-3.2.1.min.js') }}"></script>
-    <script src="{{ asset('themes/vali-bootstrap/js/popper.min.js') }}"></script>
-    <script src="{{ asset('themes/vali-bootstrap/js/bootstrap.min.js') }}"></script>
+    <script src="{{ asset('themes/vali-bootstrap/plugins/jquery-3.2.1.min.js') }}"></script>
+    <script src="{{ asset('themes/vali-bootstrap/plugins/popper.min.js') }}"></script>
+    <script src="{{ asset('themes/vali-bootstrap/plugins/bootstrap.min.js') }}"></script>
     <script src="{{ asset('themes/vali-bootstrap/js/main.js') }}"></script>
     <!-- The javascript plugin to display page loading on top-->
-    <script src="{{ asset('themes/vali-bootstrap/js/plugins/pace.min.js') }}"></script>
+    <script src="{{ asset('themes/vali-bootstrap/plugins/pace.min.js') }}"></script>
     @stack('scripts')
   </body>
 </html>
