@@ -272,9 +272,9 @@
                             var action = $('.action_selected').val();
                             if(checkbox_vals.length>0){
                                 $("."+action+"_selected_button").show();
-                                $("."+action+"_selected").attr('data-id',checkbox_vals);
+                                $("."+action+"_selected_button button").attr('data-id',checkbox_vals);
                             }else{
-                                $("."+action+"_selected").attr('data-id','');
+                                $("."+action+"_selected_button button").attr('data-id','');
                                 $("."+action+"_selected_button").hide();
                             }
                         });

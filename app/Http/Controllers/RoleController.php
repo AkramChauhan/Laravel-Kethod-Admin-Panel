@@ -126,7 +126,7 @@ class RoleController extends Controller
 
         return kview($this->handle_name_plural.'.ajax', compact('edit_route', 'data', 'page_number', 'limit', 'offset', 'pagination'));
     }
-    
+
     public function delete(Request $request)
     {
         if(isset($request->action)){
@@ -151,7 +151,7 @@ class RoleController extends Controller
                     return redirect()->back()->with('error', $e->getMessage());
                 }
                 break;
-            case 'delete' :
+            case 'trash' :
                 try{
                     if($is_bulk==1){
                         $data_id = explode(",",$data_id);
@@ -160,7 +160,6 @@ class RoleController extends Controller
                         return 1;
                     }else{
                         $table = Table::find($data_id);
-                        // $table->users()->detach();
                         $table->delete();
                         return 1;
                     }
@@ -168,7 +167,26 @@ class RoleController extends Controller
                     return redirect()->back()->with('error', $e->getMessage());
                 }
                 break;
+            case 'delete' :
+                try{
+                    if($is_bulk==1){
+                        $data_id = explode(",",$data_id);
+                        $table = Table::withTrashed()->whereIn('id',$data_id)->get();
+                        foreach($table as $tbl){
+                            $tbl->forceDelete();    
+                        }
+                        return 1;
+                    }else{
+                        $table = Table::withTrashed()->find($data_id);
+                        $data = $table->forceDelete();
+                        return 1;
+                    }
+                } catch (Exception $e) {
+                    return redirect()->back()->with('error', $e->getMessage());
+                }
+                break;
             default : 
+               return 0;
         }
     }
 }
