@@ -187,7 +187,7 @@ class UserController extends Controller
                     return redirect()->back()->with('error', $e->getMessage());
                 }
                 break;
-            case 'delete' :
+            case 'trash' :
                 try{
                     if($is_bulk==1){
                         $data_id = explode(",",$data_id);
@@ -196,7 +196,6 @@ class UserController extends Controller
                         return 1;
                     }else{
                         $table = Table::find($data_id);
-                        // $table->users()->detach();
                         $table->delete();
                         return 1;
                     }
@@ -204,7 +203,28 @@ class UserController extends Controller
                     return redirect()->back()->with('error', $e->getMessage());
                 }
                 break;
+            case 'delete' :
+                try{
+                    if($is_bulk==1){
+                        $data_id = explode(",",$data_id);
+                        $table = Table::withTrashed()->whereIn('id',$data_id)->get();
+                        foreach($table as $tbl){
+                            $detached_roles = $tbl->roles()->detach();
+                            $tbl->forceDelete();    
+                        }
+                        return 1;
+                    }else{
+                        $table = Table::withTrashed()->find($data_id);
+                        $detached_roles = $table->roles()->detach();
+                        $data = $table->forceDelete();
+                        return 1;
+                    }
+                } catch (Exception $e) {
+                    return redirect()->back()->with('error', $e->getMessage());
+                }
+                break;
             default : 
+               return 0;
         }
     }
 }
