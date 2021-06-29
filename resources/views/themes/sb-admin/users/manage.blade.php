@@ -108,7 +108,7 @@
             <div class="row">
               <div class="col-md-6">
                 <label class="switch">
-                  <input type="checkbox" name="two_factor_enable" <?php if($edit){ if($data->two_factor_enable==1){ echo 'checked'; } }else{ echo "checked"; } ?> class="two_factor_enable" id="two_factor_enable">
+                  <input type="checkbox" name="two_factor_enable" <?php if($edit){ if($data->two_factor_enable==1){ echo 'checked'; } } ?> class="two_factor_enable" id="two_factor_enable">
                   <span class="slider"></span>
                 </label>
               </div>

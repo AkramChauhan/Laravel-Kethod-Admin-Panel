@@ -1,4 +1,4 @@
-@extends('themes.default.layouts.app')
+@extends('themes.sb-admin.layouts.app')
 
 @section('content')
 <div class="container">

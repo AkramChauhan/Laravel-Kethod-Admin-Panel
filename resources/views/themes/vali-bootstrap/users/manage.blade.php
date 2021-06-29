@@ -36,7 +36,6 @@
             <div class="row form_sec">
               <div class="col-12"><h5>Basic Details</h5></div>
             </div>
-            <hr />
             <div class="row">
               <div class="col-md-6">
                 <div class="form-group">
@@ -77,7 +76,6 @@
               <div class="col-12"><h5>Set Password</h5></div>
               @endif
             </div>
-            <hr />
             <div class="row">
               <div class="col-md-6">
                 @if($edit)
@@ -107,11 +105,10 @@
             <div class="row form_sec">
               <div class="col-12"><h5>Two Factor Authentication (Email/SMS)</h5></div>
             </div>
-            <hr />
             <div class="row">
               <div class="col-md-6">
                 <label class="switch">
-                  <input type="checkbox" name="two_factor_enable" <?php if($edit){ if($data->two_factor_enable==1){ echo 'checked'; } }else{ echo "checked"; } ?> class="two_factor_enable" id="two_factor_enable">
+                  <input type="checkbox" name="two_factor_enable" <?php if($edit){ if($data->two_factor_enable==1){ echo 'checked'; } } ?> class="two_factor_enable" id="two_factor_enable">
                   <span class="slider"></span>
                 </label>
               </div>

@@ -31,10 +31,11 @@
                 @if($v->deleted_at==null)
                     <a href="{{$edit_route.'?id='.$v->id}}" class="btn btn-primary btn-sm">Edit</a>
                     <a href="#" data-id="{{ $v->id }}"                    
-                        class="btn btn-danger btn-sm delete_btn delete{{ $v->id }}"
-                    >Delete</a>
+                        class="btn btn-danger btn-sm trash_btn delete{{ $v->id }}"
+                    >Trash</a>
                 @else
                   <a href="#" data-id="{{ $v->id }}" class="btn btn-primary restore_btn restore{{ $v->id }} btn-sm">Restore</a>
+                  <a href="#" data-id="{{ $v->id }}" class="btn btn-danger delete_btn delete{{ $v->id }} btn-sm">Delete</a>
                 @endif
               </td>
             </tr>
