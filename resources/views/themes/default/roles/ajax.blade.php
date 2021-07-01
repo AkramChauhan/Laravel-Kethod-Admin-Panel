@@ -44,6 +44,7 @@
         @endforeach
         <tbody>
     </table>
+    <div class="text-muted p-2">Total Count : {{ $data->count() }}</div>
 @else
     <div class="alert alert-warning" align="center">
         Opps, seems like records not available.
