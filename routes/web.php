@@ -51,4 +51,6 @@ Route::middleware(['auth','twofactor'])->prefix('admin')->group(function () {
   Route::get('/settings/edit_profile', "SettingController@edit_profile")->name('admin.settings.edit_profile');
   Route::get('/settings/general', "SettingController@index")->name('admin.settings.index');
   Route::post('/settings/update', "SettingController@update")->name('admin.settings.update');
+  
+  Route::get('/test', "TestController@test")->name('admin.test');
 });
