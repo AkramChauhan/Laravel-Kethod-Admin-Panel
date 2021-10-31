@@ -43,7 +43,6 @@
     @endforeach
     <tbody>
   </table>
-  <div class="text-muted p-2">Total Count : {{ $data->count() }}</div>
 @else
     <div class="alert alert-warning" align="center">
       Opps, seems like records not available.
@@ -51,13 +50,15 @@
 @endif
 
 @if($pagination['total_records']>$pagination['item_per_page'])
-<div class="pl-3">
-  <div class="paging_simple_numbers">
-    <ul class="pagination">
-      <?php 
-        echo paginate_function($pagination['item_per_page'],$pagination['current_page'],$pagination['total_records'],$pagination['total_pages']);
-      ?>
-    </ul>
+<div class="card-header">
+  <div class="pl-3">
+    <div class="paging_simple_numbers">
+      <ul class="pagination">
+        <?php 
+          echo paginate_function($pagination['item_per_page'],$pagination['current_page'],$pagination['total_records'],$pagination['total_pages']);
+        ?>
+      </ul>
+    </div>
   </div>
 </div>
 @endif
