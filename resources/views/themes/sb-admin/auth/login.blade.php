@@ -14,7 +14,7 @@
                             @csrf
                             <div class="form-group">
                                 <label class="small mb-1" for="inputEmailAddress">Email</label>
-                                <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" required autocomplete="email" autofocus>
+                                <input id="email" type="email" class="form-control email @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" required autocomplete="email" autofocus>
 
                                 @error('email')
                                     <span class="invalid-feedback" role="alert">
@@ -24,7 +24,7 @@
                             </div>
                             <div class="form-group">
                                 <label class="small mb-1" for="inputPassword">Password</label>
-                                <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password" required autocomplete="current-password">
+                                <input id="password" type="password" class="form-control password @error('password') is-invalid @enderror" name="password" required autocomplete="current-password">
                                 @error('password')
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
@@ -41,19 +41,43 @@
                                 @if (Route::has('password.request'))
                                 <a class="small" href="{{ route('password.request') }}">{{ __('Forgot Your Password?') }}</a>
                                 @endif
-                                <button type="submit" class="btn btn-primary">
+                                <button type="submit" class="login-btn btn btn-primary">
                                     {{ __('Login') }}
                                 </button>
                             </div>
                         </form>
                     </div>
+                    @if (Route::has('register'))
                     <div class="card-footer text-center">
-                        @if (Route::has('register'))
-                        <div class="small"><a href="{{ route('register') }}">Need an account? Sign up!</a></div>
-                        @endif
+                      <div class="small"><a href="{{ route('register') }}">Need an account? Sign up!</a></div>
                     </div>
+                    @endif
                 </div>
             </div>
         </div>
     </div>
 @endsection
+@push('scripts')
+<script type="text/javascript">
+  function isEmail(email) {
+    var regex = /^([a-zA-Z0-9_.+-])+\@(([a-zA-Z0-9-])+\.)+([a-zA-Z0-9]{2,4})+$/;
+    return regex.test(email);
+  }
+  $("document").ready(function(){
+    $(".login-btn").click(function(e){
+      let email = $(".email").val();
+      let password = $(".password").val();
+      
+      if(isEmail(email) && email!='' && password!=''){
+        $(".login-btn").html('<div class="text-center">\
+            <div class="spinner-border spinner-border-sm" role="status">\
+              <span class="sr-only">Loading...</span>\
+            </div>\
+          </div>'
+        );
+      }
+    });
+  });
+</script>
+
+@endpush
