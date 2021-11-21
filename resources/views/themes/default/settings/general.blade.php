@@ -54,7 +54,7 @@
                                         <select name="theme" class="form-control">
                                             <option value="default" <?php if(config('app.theme')=="default"){ echo "selected"; } ?>>Default</option>
                                             <option value="sb-admin" <?php if(config('app.theme')=="sb-admin"){ echo "selected"; } ?>>SB Admin</option>
-                                            <option value="vali-bootstrap" <?php if(config('app.theme')=="vali-bootstrap"){ echo "selected"; } ?>>Vali Boostrap</option>
+                                            <option value="simple-bootstrap" <?php if(config('app.theme')=="simple-bootstrap"){ echo "selected"; } ?>>Simple Bootstrap</option>
                                         </select>
                                         <small id="themeHelp" class="form-text text-muted"></small>
                                     </div>

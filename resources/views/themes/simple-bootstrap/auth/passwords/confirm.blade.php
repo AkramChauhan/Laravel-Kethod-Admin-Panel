@@ -17,7 +17,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <!-- Main CSS-->
-    <link rel="stylesheet" type="text/css" href="{{ asset('themes/vali-bootstrap/css/main.css') }}" />
+    <link rel="stylesheet" type="text/css" href="{{ asset('themes/simple-bootstrap/css/main.css') }}" />
     <!-- Font-icon css-->
     <link rel="stylesheet" type="text/css" href="{{ asset('plugins/font-awesome-4.7.0/font-awesome.min.css') }}"/>
     @stack('styles')
@@ -78,12 +78,12 @@
     </section>
 
     <!-- Essential javascripts for application to work-->
-    <script src="{{ asset('themes/vali-bootstrap/plugins/jquery-3.2.1.min.js') }}"></script>
-    <script src="{{ asset('themes/vali-bootstrap/plugins/popper.min.js') }}"></script>
-    <script src="{{ asset('themes/vali-bootstrap/plugins/bootstrap.min.js') }}"></script>
-    <script src="{{ asset('themes/vali-bootstrap/js/main.js') }}"></script>
+    <script src="{{ asset('themes/simple-bootstrap/plugins/jquery-3.2.1.min.js') }}"></script>
+    <script src="{{ asset('themes/simple-bootstrap/plugins/popper.min.js') }}"></script>
+    <script src="{{ asset('themes/simple-bootstrap/plugins/bootstrap.min.js') }}"></script>
+    <script src="{{ asset('themes/simple-bootstrap/js/main.js') }}"></script>
     <!-- The javascript plugin to display page loading on top-->
-    <script src="{{ asset('themes/vali-bootstrap/plugins/pace.min.js') }}"></script>
+    <script src="{{ asset('themes/simple-bootstrap/plugins/pace.min.js') }}"></script>
     @stack('scripts')
   </body>
 </html>

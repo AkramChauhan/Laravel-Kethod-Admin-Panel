@@ -22,9 +22,9 @@
 
     <title>{{ config('app.name', 'Laravel') }}</title>
 
-    <link rel="stylesheet" type="text/css" href="{{ asset('themes/vali-bootstrap/css/main.css') }}" />
+    <link rel="stylesheet" type="text/css" href="{{ asset('themes/simple-bootstrap/css/main.css') }}" />
     <link rel="stylesheet" type="text/css" href="{{ asset('plugins/font-awesome-4.7.0/font-awesome.min.css') }}"/>
-    <link rel="stylesheet" type="text/css" href="{{ asset('themes/vali-bootstrap/css/custom.css') }}" />
+    <link rel="stylesheet" type="text/css" href="{{ asset('themes/simple-bootstrap/css/custom.css') }}" />
     <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/global.css') }}" />
     @stack('styles')
   </head>
@@ -75,17 +75,17 @@
         <?php
           include ('../resources/views/configuration/menu_array.blade.php');
         ?>
-        @include('themes.vali-bootstrap.layouts.partial.menu_items')
+        @include('themes.simple-bootstrap.layouts.partial.menu_items')
     @endif
     <main class="app-content">
       @yield('content')
     </main>
     <!-- Essential javascripts for application to work-->
-    <script src="{{ asset('themes/vali-bootstrap/plugins/jquery-3.2.1.min.js') }}"></script>
-    <script src="{{ asset('themes/vali-bootstrap/plugins/popper.min.js') }}"></script>
-    <script src="{{ asset('themes/vali-bootstrap/plugins/bootstrap.min.js') }}"></script>
-    <script src="{{ asset('themes/vali-bootstrap/plugins/pace.min.js') }}"></script>
-    <script src="{{ asset('themes/vali-bootstrap/js/main.js') }}"></script>
+    <script src="{{ asset('themes/simple-bootstrap/plugins/jquery-3.2.1.min.js') }}"></script>
+    <script src="{{ asset('themes/simple-bootstrap/plugins/popper.min.js') }}"></script>
+    <script src="{{ asset('themes/simple-bootstrap/plugins/bootstrap.min.js') }}"></script>
+    <script src="{{ asset('themes/simple-bootstrap/plugins/pace.min.js') }}"></script>
+    <script src="{{ asset('themes/simple-bootstrap/js/main.js') }}"></script>
     @stack('scripts')
   </body>
 </html>
