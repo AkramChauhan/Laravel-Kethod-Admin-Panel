@@ -4,7 +4,7 @@ This repository is a boilerplate for the Laravel Admin Panel.
 Currently its supporting following themes.
 1. Default Laravel Theme
 2. SB Admin
-3. Vali Bootstrap
+3. Simple Bootstrap
 
 Default login credentials.
 email : admin@gmail.com

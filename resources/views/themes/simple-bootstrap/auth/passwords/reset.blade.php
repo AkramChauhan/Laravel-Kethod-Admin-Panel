@@ -8,11 +8,10 @@
     <meta property="twitter:creator" content="@pratikborsadiya" />
     <!-- Open Graph Meta-->
     <meta property="og:type" content="website" />
-    <meta property="og:site_name" content="Vali Admin" />
-    <meta property="og:title" content="Vali - Free Bootstrap 4 admin theme" />
-    <meta property="og:url" content="http://pratikborsadiya.in/blog/vali-admin" />
-    <meta property="og:description" content="Vali is a responsive and free admin theme built with Bootstrap 4, SASS and PUG.js. It's fully customizable and modular."/>
-    <title>{{ config('app.name', 'Laravel') }}</title>
+    <meta property="og:site_name" content="Admin" />
+    <meta property="og:title" content="Kethod panel" />
+    <meta property="og:url" content="http:/localhost:8000" />
+    <meta property="og:description" content=""/><title>{{ config('app.name', 'Laravel') }}</title>
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
