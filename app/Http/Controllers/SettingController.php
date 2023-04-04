@@ -2,70 +2,62 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\User;
 use App\Models\Role;
-use Exception;
-use App\Http\Requests\UserRequests\UpdateUse;
-use Illuminate\Contracts\View\Factory;
-use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use Auth;
-use Artisan;
-use App;
-use Config;
+use Illuminate\Support\Facades\Auth;
+use App\Models\Setting as Table;
 
-class SettingController extends Controller
-{
-    /**
-     * Create a new controller instance.
-     *
-     * @return void
-     */
-    public function __construct()
-    {
-        $this->middleware('auth');
-    }
+class SettingController extends Controller {
+  /**
+   * Create a new controller instance.
+   *
+   * @return void
+   */
+  public function __construct() {
+    $this->middleware('auth');
+  }
 
-    public function index(){
-        return kview('settings.general', [
-            'form_action' => route('admin.settings.update'),
-            'edit' => 1,
-        ]);
+  public function index() {
+    $settings = Table::all()->keyBy('key');
+    return kview('settings.general', [
+      'form_action' => route('admin.settings.update'),
+      'edit' => 1,
+      'settings' => $settings,
+    ]);
+  }
+  public function edit_profile() {
+    $user = Auth::user();
+    $roles = Role::get();
+    return kview('users.manage', [
+      'form_action' => route('admin.users.update'),
+      'edit' => 1,
+      'data' => $user,
+      'roles' => $roles,
+    ]);
+  }
+
+  public function update(Request $request) {
+    if (isset($request->site_name)) {
+      $this->updateSetting('site_name', $request->site_name);
     }
-    public function edit_profile(){
-        $user = Auth::user();
-        $roles = Role::get();
-        return kview('users.manage', [
-            'form_action' => route('admin.users.update'),
-            'edit' => 1,
-            'data' => $user,
-            'roles'=> $roles,
-        ]);
+    if (isset($request->site_url)) {
+      $this->updateSetting('site_url', $request->site_url);
     }
-    public function update(Request $request){
-        $update_array = [];
-        if(isset($request->name)){
-            $this->setEnvironmentValue('APP_NAME', 'app.name', $request->name);
-        }
-        if(isset($request->url)){
-            $this->setEnvironmentValue('APP_URL', 'app.url', $request->url);
-        }
-        if(isset($request->theme)){
-            $this->setEnvironmentValue('APP_THEME', 'app.theme', $request->theme);
-        }
-        
-        return redirect()->back()->with('success','Settings has been updated');
+    if (isset($request->tagline)) {
+      $this->updateSetting('tagline', $request->tagline);
     }
-    private function setEnvironmentValue($environmentName, $configKey, $newValue) {
-        $read = file_get_contents(App::environmentFilePath());
-        
-        $replaceFrom = $environmentName.'="'.config($configKey).'"';
-        $replaceTo = $environmentName.'="'.$newValue.'"';
-        $read = str_replace($replaceFrom,$replaceTo,$read);
-        file_put_contents(App::environmentFilePath(),$read);
-        // Reload the cached config       
-        if (file_exists(App::getCachedConfigPath())) {
-            Artisan::call("config:cache");
-        }
+    if (isset($request->theme)) {
+      $this->updateSetting('theme', $request->theme);
     }
+    return redirect()->back()->with('success', 'Settings has been updated');
+  }
+  public function updateSetting($key, $value) {
+    $where = [
+      'key' => $key,
+    ];
+    $update_array = [
+      'value' => $value,
+    ];
+    Table::where($where)->update($update_array);
+  }
 }

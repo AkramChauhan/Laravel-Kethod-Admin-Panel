@@ -81,7 +81,7 @@
                 @if($edit)
                 <div class="form-group">
                   <label for="old_password">Old Password</label>
-                  <input type="password" name="old_password" class="form-control" id="old_password" aria-describedby="old_passwordHelp">
+                  <input type="password" name="old_password" class="form-control" id="old_password" autocomplete="new-password" aria-describedby="old_passwordHelp">
                   <small id="old_passwordHelp" class="form-text text-muted"></small>
                 </div>
                 @endif
