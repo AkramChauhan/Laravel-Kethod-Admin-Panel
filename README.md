@@ -9,12 +9,15 @@ Password : password
 ```
 New Feature: Auto Generate CRUD
 --
-In order to auto generate the CRUD operation.
-simply run following command.
-`php artisan make:module table_name` 
+In order to auto generate the CRUD operation. simply run following command.
+```
+php artisan make:module table_name
+```
 
 For example, I want to create a CRUD for the posts table. All you need to do is type
-`php artisan make:module posts` (argument is same as your tablename)
+```
+php artisan make:module posts` (argument is same as your tablename)
+```
 
 What it will do?
 --
