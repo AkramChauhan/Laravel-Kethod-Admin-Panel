@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\PostController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -26,6 +27,13 @@ Route::get('verify/resend', 'Auth\TwoFactorController@resend')->name('verify.res
 Route::resource('verify', 'Auth\TwoFactorController')->only(['index', 'store']);
 
 Route::middleware(['auth', 'twofactor'])->prefix('admin')->group(function () {
+  // Test Route
+  Route::get('/test', "TestController@test")->name('admin.test');
+
+  // For Settings
+  Route::get('/settings/edit_profile', "SettingController@edit_profile")->name('admin.settings.edit_profile');
+  Route::get('/settings/general', "SettingController@index")->name('admin.settings.index');
+  Route::post('/settings/update', "SettingController@update")->name('admin.settings.update');
 
   // For Dashboard
   Route::get('/dashboard', 'HomeController@index')->name('admin.dashboard');
@@ -57,10 +65,4 @@ Route::middleware(['auth', 'twofactor'])->prefix('admin')->group(function () {
   Route::get('/pages/ajax', "Admin\PageController@ajax")->name('admin.pages.ajax');
   Route::post('/pages/delete', "Admin\PageController@delete")->name('admin.pages.delete');
 
-  // For Settings
-  Route::get('/settings/edit_profile', "SettingController@edit_profile")->name('admin.settings.edit_profile');
-  Route::get('/settings/general', "SettingController@index")->name('admin.settings.index');
-  Route::post('/settings/update', "SettingController@update")->name('admin.settings.update');
-
-  Route::get('/test', "TestController@test")->name('admin.test');
 });
