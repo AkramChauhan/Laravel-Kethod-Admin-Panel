@@ -1,4 +1,4 @@
-@extends('themes.sb-admin.layouts.app')
+@extends('theme.layouts.app')
 @section('content')
     <?php
     $page_number = 1;
@@ -55,14 +55,14 @@
                         </div>
                         <div class="float-left">
                             <input type="hidden" name="page_number" id="page_number" class="page_number" value="{{ $page_number }}">
-                            <div class="input-group pr-2">
+                            <div class="input-group mb-3 pr-2">
                                 <input type="text" class="form-control search" name="search" id="search" placeholder="Search by Name">
                             </div>
                         </div>
                         <button class="btn btn-primary pl-2 search_data">Search</button>
                         <button class="btn btn-primary pl-2 reset_data">Reset</button>
                         <div class="float-right">
-                            <div class="input-group">
+                            <div class="input-group mb-3">
                                 <div class="input-group-prepend">
                                     <label class="input-group-text" for="inputGroupSelect01">Row</label>
                                 </div>
@@ -406,8 +406,7 @@
             }
             $(document).ready(function(){
                 $(".bulk_select_btn").hide();
-                // $(".restore_selected_button").hide();
-                load_data();
+               load_data();
                 $(".change_row_limit").change(function(){
                     load_data();
                 });

@@ -75,7 +75,7 @@
         <?php
           include ('../resources/views/configuration/menu_array.blade.php');
         ?>
-        @include('themes.simple-bootstrap.layouts.partial.menu_items')
+        @include('theme.layouts.partial.menu_items')
     @endif
     <main class="app-content">
       @yield('content')

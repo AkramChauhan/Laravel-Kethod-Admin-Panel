@@ -7,9 +7,7 @@ use App\Models\Setting;
  */
 
 function kview($view_path, $array = []) {
-  $settings = Setting::all()->keyBy('key');
-  $app_theme = $settings['theme']['value'];
-  $new_v_path = 'themes.' . $app_theme . '.' . $view_path;
+  $new_v_path = 'theme.' . $view_path;
   return view($new_v_path, $array);
 }
 
