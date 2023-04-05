@@ -19,7 +19,7 @@ php artisan make:module table_name
 For example, I want to create a CRUD for the posts table. All you need to do is type
 
 ```
-php artisan make:module posts` //argument is same as your database table name
+php artisan make:module posts //argument is same as your database table name
 ```
 
 What it will do?
