@@ -57,27 +57,6 @@
                   <small id="taglineHelp" class="form-text text-muted"></small>
                 </div>
               </div>
-              <div class="col-md-6">
-                <div class="form-group">
-                  <label for="theme">Theme</label>
-                  <?php
-                  $theme = $settings['theme']['value'];
-                   $all_themes = [
-                    'default',
-                    'sb-admin',
-                    'simple-bootstrap',
-                  ];
-                  ?>
-                  <select name="theme" class="form-control">
-                    @foreach($all_themes as $site_theme)
-                    <option value="{{ $site_theme }}" <?php if ($theme == $site_theme) {
-                                                        echo "selected";
-                                                      } ?>>{{ ucwords($site_theme) }}</option>
-                    @endforeach
-                  </select>
-                  <small id="themeHelp" class="form-text text-muted"></small>
-                </div>
-              </div>
             </div>
             <div class="row">
               <div class="col-md-12">

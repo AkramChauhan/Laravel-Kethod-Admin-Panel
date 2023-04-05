@@ -25,12 +25,6 @@ class SettingTableSeeder extends Seeder {
       'updated_at' => \Carbon\Carbon::now()
     ]);
     DB::table('settings')->insert([
-      'key' => "theme",
-      'value' => config('app.theme'),
-      'created_at' => \Carbon\Carbon::now(),
-      'updated_at' => \Carbon\Carbon::now()
-    ]);
-    DB::table('settings')->insert([
       'key' => "tagline",
       'value' => "Awesome tabline for your panel",
       'created_at' => \Carbon\Carbon::now(),

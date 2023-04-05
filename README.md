@@ -1,16 +1,9 @@
 ## Kethod Admin Panel
 This repository is a boilerplate for the Laravel Admin Panel.
 ---
-Currently its supporting following themes.
-1. Default Laravel Theme
-2. SB Admin
-3. Simple Bootstrap
-
 Default login credentials.
 email : admin@gmail.com
 pass  : password
-
-You can change theme of admin panel from Settings screen.
 
 Structure of Controller File
 ---
