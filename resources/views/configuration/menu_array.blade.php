@@ -35,6 +35,24 @@
       ],
     ],
     [
+      "name"=>"Pages",
+      "icon"=>"fa fa-file",
+      "dropdown"=>true,
+      "route"=>"",
+      "dropdown_items"=>[
+        [
+          "name"=>"Add Page",
+          "icon"=>"fa fa-circle-o",
+          "route"=>"admin.pages.create"
+        ],
+        [
+          "name"=>"Manage Pages",
+          "icon"=>"fa fa-circle-o",
+          "route"=>"admin.pages.index"
+        ],
+      ],
+    ],
+    [
       "name"=>"Settings",
       "icon"=>"fa fa-gear",
       "dropdown"=>true,
