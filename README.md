@@ -7,18 +7,6 @@ Default login credentials.
 Email 	 : admin@gmail.com
 Password : password
 ```
-
-Structure of Controller File
----
-Basic controller file contain following methods. 
-1. index 
-2. create 
-3. edit
-4. store
-5. update
-6. ajax // This screen actually loads data from database and put in index.blade.php 
-7. delete
-
 New Feature: Auto Generate CRUD
 --
 In order to auto generate the CRUD operation.
@@ -46,6 +34,17 @@ Migration gets auto created with just colomn name. you can modify migration to a
 
 You can create new CRUD manually too. (old fashioned and time consuming).
 In order to create new CRUD operation, you can simply copy existing controller file and change {$handle_name} name. It will allow you to create new CRUD operations faster than before.
+
+Structure of Controller File
+---
+Basic controller file contain following methods. 
+1. index 
+2. create 
+3. edit
+4. store
+5. update
+6. ajax // This screen actually loads data from database and put in index.blade.php 
+7. delete
 
 Structure of Blade Files
 ---
