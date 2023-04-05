@@ -16,6 +16,30 @@ Basic controller file contain following methods.
 6. ajax // This screen actually loads data from database and put in index.blade.php 
 7. delete
 
+New Feature: Auto Generate CRUD
+--
+In order to auto generate the CRUD operation.
+simply run following command.
+`php artisan make:module table_name` 
+
+For example, I want to create a CRUD for the posts table. All you need to do is type
+`php artisan make:module posts` (argument is same as your tablename)
+
+What it will do?
+--
+It will generate following files
+1. Controller -> Http/Controllers/Admin/PostController.php
+2. Model -> Models/Post.php
+3. Migration file -> /migrations/*.create_posts_table.php
+4. Create Views -> /resources/views/theme/posts/* 
+    1. index.blade.php
+    2. ajax.blade.php
+    3. manage.blade.php
+5. It will auto append routes in web.php and menu_arrays.php which will allow you to see new Module in admin panel.
+
+Migration gets auto created with just colomn name. you can modify migration to add additional fields. Well Idea is not to automate everything but saving your time writing scaffolds.
+
+You can create new CRUD manually too. (old fashioned and time consuming).
 In order to create new CRUD operation, you can simply copy existing controller file and change {$handle_name} name. It will allow you to create new CRUD operations faster than before.
 
 Structure of Blade Files
