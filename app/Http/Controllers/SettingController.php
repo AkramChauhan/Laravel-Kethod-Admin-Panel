@@ -18,7 +18,7 @@ class SettingController extends Controller {
   }
 
   public function index() {
-    $settings = Table::all()->keyBy('key');
+    $settings = getSettings();
     return kview('settings.general', [
       'form_action' => route('admin.settings.update'),
       'edit' => 1,
@@ -58,6 +58,6 @@ class SettingController extends Controller {
     $update_array = [
       'value' => $value,
     ];
-    Table::where($where)->update($update_array);
+    Table::updateOrCreate($where, $update_array);
   }
 }

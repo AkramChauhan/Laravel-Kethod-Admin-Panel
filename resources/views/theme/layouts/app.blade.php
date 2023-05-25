@@ -33,7 +33,10 @@
 <body class="app sidebar-mini rtl">
   <!-- Navbar-->
   <header class="app-header">
-    <a class="app-header__logo" href="{{ route('admin.dashboard') }}">{{ config('app.name', 'Laravel') }}</a>
+    <?php
+    $settings = getSettings();
+    ?>
+    <a class="app-header__logo" href="{{ route('admin.dashboard') }}">{{ $settings['site_name']['value'] }}</a>
     <!-- Sidebar toggle button-->
     @if(Auth::check())
     <a class="app-sidebar__toggle" href="#" data-toggle="sidebar" aria-label="Hide Sidebar"></a>

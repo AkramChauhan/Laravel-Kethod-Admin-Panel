@@ -1,6 +1,7 @@
 <?php
 
 use App\Models\Setting;
+use Illuminate\Support\Facades\Log;
 
 /**
  * Created by Akram Chauhan
@@ -11,14 +12,38 @@ function kview($view_path, $array = []) {
   return view($new_v_path, $array);
 }
 
-function default_permissions(){
+function default_permissions() {
   return [
     'list',
     'update',
     'add',
   ];
 }
-
+function getSettings() {
+  $settings = [
+    'site_name' => [
+      'value' => config('app.name')
+    ],
+    'site_url' => [ 
+      'value' => config('app.url'),
+    ],
+    'tagline' => [ 
+      'value' => "Tagline",
+    ],
+  ];
+  try {
+    $new_settings =  Setting::all()->keyBy('key');
+    // dd($new_settings);
+    if ($new_settings->count() > 0 ) {
+      $settings = $new_settings;
+    }
+  } catch (Exception $e) {
+    // dd($e);
+    Log::info("Error while loading the settings:", [$e]);
+    return $settings;
+  }
+  return $settings;
+}
 function verifySlug($table, $slug_name, $str) {
   $existing_slug =  $table::where($slug_name, 'like', $str . '%')->orderBy('id', 'desc');
   if ($existing_slug->count() > 0) {
@@ -45,11 +70,9 @@ function singular_module_name($plural) {
   // Check for some common special cases
   if ($plural == 'people') {
     return 'person';
-  }
-  elseif ($plural == 'children') {
+  } elseif ($plural == 'children') {
     return 'child';
-  }
-  elseif ($plural == 'oxen') {
+  } elseif ($plural == 'oxen') {
     return 'ox';
   }
 
@@ -58,18 +81,14 @@ function singular_module_name($plural) {
     $secondLast = substr($plural, -2, 1);  // Get the second-to-last character
     if ($secondLast == 'e') {
       return substr($plural, 0, -2) . 'is';  // e.g. "cacti"
-    }
-    elseif ($secondLast == 'e' && substr($plural, -3, 1) == 'i') {
+    } elseif ($secondLast == 'e' && substr($plural, -3, 1) == 'i') {
       return substr($plural, 0, -2) . 'us';  // e.g. "fungi"
-    }
-    elseif ($last == 's' && substr($plural, -4) == 'sses') {
+    } elseif ($last == 's' && substr($plural, -4) == 'sses') {
       return substr($plural, 0, -2);  // e.g. "messes"
-    }
-    else {
+    } else {
       return substr($plural, 0, -1);  // e.g. "dogs"
     }
-  }
-  else {
+  } else {
     return $plural;  // Not a valid plural noun
   }
 }
