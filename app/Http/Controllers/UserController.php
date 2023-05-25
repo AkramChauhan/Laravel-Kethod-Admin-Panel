@@ -3,7 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\User as Table;
-use App\Models\Role;
+use Spatie\Permission\Models\Role;
+
 use Exception;
 use App\Http\Requests\UserRequests\UpdateUser as UpdateRequest;
 use App\Http\Requests\UserRequests\AddUser as AddRequest;
@@ -60,17 +61,18 @@ class UserController extends Controller
             }else{
                 $two_factor_enable = 0;
             }
-            
+
             $table = Table::create([
                 'name'=>$request->name,
                 'email'=>$request->email,
                 'password'=>bcrypt($request->password),
                 'two_factor_enable'=>$two_factor_enable
             ]);
-            
+
             if(isset($request->role)){
-                $table->roles()->sync($request->role);
+              $table->syncRoles($request->role);
             }
+            
             return redirect()->to(route('admin.'.$this->handle_name_plural.'.index'))->with('success', 'New '.ucfirst($this->handle_name).' has been added.');
         } catch (Exception $e) {
             return $e->getMessage();
@@ -105,17 +107,12 @@ class UserController extends Controller
             $where = [
                 'id'=>$request->id
             ];
-            $user_id = Table::updateOrCreate($where,$update_data);
 
-            $table = Table::findOrFail($request->id);
-
-            if(Auth::user()->isAdmin()){
-                if(isset($request->role)){
-                    $table->roles()->sync($request->role);
-                }else{
-                    $table->roles()->detach();
-                }
+            $user = Table::updateOrCreate($where,$update_data);
+            if(isset($request->role)){
+              $user->syncRoles($request->role);
             }
+
             return redirect()->back()->with('success', ucfirst($this->handle_name).' has been updated');
         } catch (Exception $e) {
             return redirect()->back()->with('error', $e->getMessage());
@@ -209,13 +206,11 @@ class UserController extends Controller
                         $data_id = explode(",",$data_id);
                         $table = Table::withTrashed()->whereIn('id',$data_id)->get();
                         foreach($table as $tbl){
-                            $detached_roles = $tbl->roles()->detach();
                             $tbl->forceDelete();    
                         }
                         return 1;
                     }else{
                         $table = Table::withTrashed()->find($data_id);
-                        $detached_roles = $table->roles()->detach();
                         $data = $table->forceDelete();
                         return 1;
                     }

@@ -3,7 +3,7 @@
     <?php
     $page_number = 1;
     ?>
-    <div class="container">
+    <div class="container-fluid px-5">
         <div class="row justify-content-center">
             <div class="col-md-12">
                 @if ($errors->any())
@@ -22,47 +22,24 @@
                 @endif
             </div>
             <div class="col-md-12">
-                <?php
-                    ($table_status=="all") ? $all_status = 'active' : $all_status='';
-                    ($table_status=="trashed") ? $trash_status = 'active' : $trash_status='';
-                ?>
-                <ul class="nav nav-tabs">
-                    <input type="hidden" class="all_trashed_input" value="{{ $table_status }}">
-                    <li class="nav-item ">
-                        <a class="nav-link {{ $all_status }} all_trashed" data-val="all" href="#">All ({{ $all_count }})</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link {{ $trash_status }} all_trashed" data-val="trashed" href="#">Trashed ({{ $trashed_count }})</a>
-                    </li>
-                </ul>
                 <div class="card">
                     <div class="card-header">
-                        <input type="hidden" class="action_selected" value="trash">
-                        <div class="float-left trash_selected_button bulk_select_btn">
-                            <div class="input-group pr-2">
-                                <button class="btn btn-primary trash_selected" name="trash_selected">Trash Selected</button>
-                            </div>
-                        </div>
-                        <div class="float-left restore_selected_button bulk_select_btn">
+                        <input type="hidden" class="action_selected" value="delete">
+                        <div class="float-left delete_selected_button bulk_select_btn">
                             <div class="input-group pr-2">
                                 <button class="btn btn-primary delete_selected" name="delete_selected">Delete Selected</button>
                             </div>
                         </div>
-                        <div class="float-left restore_selected_button bulk_select_btn">
-                            <div class="input-group pr-2">
-                                <button class="btn btn-primary restore_selected" name="restore_selected">Restore Selected</button>
-                            </div>
-                        </div>
                         <div class="float-left">
                             <input type="hidden" name="page_number" id="page_number" class="page_number" value="{{ $page_number }}">
-                            <div class="input-group mb-3 pr-2">
+                            <div class="input-group pr-2">
                                 <input type="text" class="form-control search" name="search" id="search" placeholder="Search by Name">
                             </div>
                         </div>
                         <button class="btn btn-primary pl-2 search_data">Search</button>
                         <button class="btn btn-primary pl-2 reset_data">Reset</button>
                         <div class="float-right">
-                            <div class="input-group mb-3">
+                            <div class="input-group">
                                 <div class="input-group-prepend">
                                     <label class="input-group-text" for="inputGroupSelect01">Row</label>
                                 </div>
@@ -99,7 +76,6 @@
                 var limit = $(".change_row_limit option:selected").val();
                 var page_number = $(".page_number").val();
                 var string =  $(".search").val();
-                var all_trashed = $(".all_trashed_input").val();
 
                 $.ajax({
                     type: 'GET',
@@ -108,7 +84,6 @@
                         _token: token, 
                         page_number: page_number, 
                         string:string, 
-                        all_trashed:all_trashed,
                         limit:limit
                     },
                     success: function (html) {
@@ -120,129 +95,6 @@
                             page_number = $(this).attr('data-page');
                             $(".page_number").val(page_number);
                             load_data();
-                        });
-
-                        //Trash Item
-                        $(".trash_btn").click(function(e){
-                            e.preventDefault();
-                            var data_id = $(this).attr('data-id');
-                            // var data_status = $(this).attr('data-status');
-                            var status_msg = "It will be trashed from the system!";
-                            swal({
-                            title: "Are you sure?",
-                            text: status_msg,
-                            icon: "warning",
-                            buttons: true,
-                            dangerMode: true,
-                            })
-                            .then((willDelete) => {
-                            if (willDelete) {
-                                
-                                var token = '{{ csrf_token() }}';
-                                $.ajax({
-                                type: 'POST',
-                                url: '{{ $delete_route }}',
-                                data: {
-                                    _token: token, 
-                                    data_id: data_id,
-                                    action: 'trash',
-                                    is_bulk: 0,
-                                },
-                                dataType: 'JSON',
-                                success: function (resp) {
-                                    var res_msg= "It has been trashed successfully.";                                
-                                    swal(res_msg, {
-                                    icon: "success",
-                                    }).then(function(){
-                                    location.reload();
-                                    });
-                                },
-
-                                });
-                            }
-                            });
-                        });
-
-                        //Delete Item
-                        $(".delete_btn").click(function(e){
-                            e.preventDefault();
-                            var data_id = $(this).attr('data-id');
-                            // var data_status = $(this).attr('data-status');
-                            var status_msg = "It will be deleted from the system!";
-                            swal({
-                            title: "Are you sure?",
-                            text: status_msg,
-                            icon: "warning",
-                            buttons: true,
-                            dangerMode: true,
-                            })
-                            .then((willDelete) => {
-                            if (willDelete) {
-                                
-                                var token = '{{ csrf_token() }}';
-                                $.ajax({
-                                type: 'POST',
-                                url: '{{ $delete_route }}',
-                                data: {
-                                    _token: token, 
-                                    data_id: data_id,
-                                    action: 'delete',
-                                    is_bulk: 0,
-                                },
-                                dataType: 'JSON',
-                                success: function (resp) {
-                                    var res_msg= "Item has been deleted successfully.";                                
-                                    swal(res_msg, {
-                                    icon: "success",
-                                    }).then(function(){
-                                    location.reload();
-                                    });
-                                },
-
-                                });
-                            }
-                            });
-                        });
-
-                        //Restore Item
-                        $(".restore_btn").click(function(e){
-                            e.preventDefault();
-                            var data_id = $(this).attr('data-id');
-                            // var data_status = $(this).attr('data-status');
-                            var status_msg = "Item will be restored!";
-                            swal({
-                            title: "Are you sure?",
-                            text: status_msg,
-                            icon: "warning",
-                            buttons: true,
-                            dangerMode: true,
-                            })
-                            .then((willDelete) => {
-                            if (willDelete) {
-                                
-                                var token = '{{ csrf_token() }}';
-                                $.ajax({
-                                type: 'POST',
-                                url: '{{ $delete_route }}',
-                                data: {
-                                    _token: token, 
-                                    data_id: data_id,
-                                    action: 'restore',
-                                    is_bulk: 0,
-                                },
-                                dataType: 'JSON',
-                                success: function (resp) {
-                                    var res_msg= "It has been restored successfully.";                                
-                                    swal(res_msg, {
-                                    icon: "success",
-                                    }).then(function(){
-                                    location.reload();
-                                    });
-                                },
-
-                                });
-                            }
-                            });
                         });
 
                         //Changing parent checkbox
@@ -277,47 +129,6 @@
                                 $("."+action+"_selected_button button").attr('data-id','');
                                 $("."+action+"_selected_button").hide();
                             }
-                        });
-
-                        // Trash selected.
-                        $(".trash_selected").click(function(e){
-                            e.preventDefault();
-                            var data_id = $(this).attr('data-id');
-                            // var data_status = $(this).attr('data-status');
-                            var status_msg = "One or more items will be trashed !";
-                            swal({
-                            title: "Are you sure?",
-                            text: status_msg,
-                            icon: "warning",
-                            buttons: true,
-                            dangerMode: true,
-                            })
-                            .then((willDelete) => {
-                            if (willDelete) {
-                                
-                                var token = '{{ csrf_token() }}';
-                                $.ajax({
-                                type: 'POST',
-                                url: '{{ $delete_route }}',
-                                data: {
-                                    _token: token, 
-                                    data_id: data_id,
-                                    action: 'trash',
-                                    is_bulk: 1,
-                                },
-                                dataType: 'JSON',
-                                success: function (resp) {
-                                    var res_msg= "Items are trashed successfully.";                                
-                                    swal(res_msg, {
-                                    icon: "success",
-                                    }).then(function(){
-                                    location.reload();
-                                    });
-                                },
-
-                                });
-                            }
-                            });
                         });
 
                         // Delete selected.
@@ -360,53 +171,13 @@
                             }
                             });
                         });
-
-                        // Restore selected.
-                        $(".restore_selected").click(function(e){
-                            e.preventDefault();
-                            var data_id = $(this).attr('data-id');
-                            // var data_status = $(this).attr('data-status');
-                            var status_msg = "One or more items will be deleted !";
-                            swal({
-                            title: "Are you sure?",
-                            text: status_msg,
-                            icon: "warning",
-                            buttons: true,
-                            dangerMode: true,
-                            })
-                            .then((willDelete) => {
-                            if (willDelete) {
-                                
-                                var token = '{{ csrf_token() }}';
-                                $.ajax({
-                                type: 'POST',
-                                url: '{{ $delete_route }}',
-                                data: {
-                                    _token: token, 
-                                    data_id: data_id,
-                                    action: 'restore',
-                                    is_bulk: 1,
-                                },
-                                dataType: 'JSON',
-                                success: function (resp) {
-                                    var res_msg= "Items has been restored successfully.";                                
-                                    swal(res_msg, {
-                                    icon: "success",
-                                    }).then(function(){
-                                    location.reload();
-                                    });
-                                },
-
-                                });
-                            }
-                            });
-                        });
                     },
                 });
             }
             $(document).ready(function(){
                 $(".bulk_select_btn").hide();
-               load_data();
+                // $(".restore_selected_button").hide();
+                load_data();
                 $(".change_row_limit").change(function(){
                     load_data();
                 });

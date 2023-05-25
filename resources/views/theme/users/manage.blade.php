@@ -1,6 +1,6 @@
 @extends('theme.layouts.app')
 @section('content')
-  <div class="container">
+  <div class="container-fluid px-5">
     <div class="row justify-content-center">
       <div class="col-md-12">
         @if ($errors->any())
@@ -55,9 +55,17 @@
                 <div class="form-group">
                   <label for="role">Role</label>
                     <select class="form-control" name="role">
-                    <option value="">No Roles</option>
+                    <option value="">Select Role</option>
                     @foreach($roles as $role)
-                      <option value="{{$role->id}}" <?php if($edit && $data->role_id==$role->id){ echo 'selected'; }else if(old('role')==$role->id){ echo "selected"; } ?>>{{$role->name}}</option>
+                      <?php
+                      $selected ="";
+                      if($edit){
+                        if($data->hasRole($role)){
+                          $selected ="selected";
+                        }
+                      }
+                      ?>
+                      <option value="{{$role->name}}" {{ $selected  }}>{{ ucfirst($role->name) }}</option>
                     @endforeach
                     </select>
                   <small id="domainHelp" class="form-text text-muted"></small>
@@ -81,7 +89,7 @@
                 @if($edit)
                 <div class="form-group">
                   <label for="old_password">Old Password</label>
-                  <input type="password" name="old_password" class="form-control" id="old_password" autocomplete="new-password" aria-describedby="old_passwordHelp">
+                  <input type="password" name="old_password" autocomplete="new-password" class="form-control" id="old_password" aria-describedby="old_passwordHelp">
                   <small id="old_passwordHelp" class="form-text text-muted"></small>
                 </div>
                 @endif

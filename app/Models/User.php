@@ -6,10 +6,11 @@ use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Spatie\Permission\Traits\HasRoles;
 
 class User extends Authenticatable
 {
-    use Notifiable,SoftDeletes;
+    use Notifiable,SoftDeletes,HasRoles;
 
     /**
      * The attributes that are mass assignable.
@@ -55,28 +56,6 @@ class User extends Authenticatable
     public static function updateRecord($obj, $id)
     {
         return self::where('id', '=', $id)->updateOrCreate($obj);
-    }
-    public function roles(){
-        return $this->belongsToMany('App\Models\Role');
-    }
-
-    public function isAdmin() {
-        return $this->roles()->where('name', 'Admin')->exists();
-    }
-
-    public function getRoleIdAttribute() {
-        $roles = $this->roles;
-        // $role =  $this->roles()->first();
-        // dd($role);
-        // print_r($role);exit;
-        return $roles->isEmpty() ? '0' :$roles->first()->id;
-    }
-    public function getRoleAttribute() {
-        $roles = $this->roles;
-        // $role =  $this->roles()->first();
-        // dd($role);
-        // print_r($role);exit;
-        return $roles->isEmpty() ? 'User' :$roles->first()->name;
     }
 
     public function generateTwoFactorCode(){

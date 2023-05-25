@@ -11,6 +11,14 @@ function kview($view_path, $array = []) {
   return view($new_v_path, $array);
 }
 
+function default_permissions(){
+  return [
+    'list',
+    'update',
+    'add',
+  ];
+}
+
 function verifySlug($table, $slug_name, $str) {
   $existing_slug =  $table::where($slug_name, 'like', $str . '%')->orderBy('id', 'desc');
   if ($existing_slug->count() > 0) {

@@ -2,92 +2,97 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Role as Table;
-use App\Http\Requests\RoleRequests\UpdateRole as UpdateRequest;
-use App\Http\Requests\RoleRequests\AddRole as AddRequest;
+use Spatie\Permission\Models\Role as Table;
+use Spatie\Permission\Models\Permission;
 use Exception;
-use Illuminate\Contracts\View\Factory;
-use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use Illuminate\View\View;
+use Auth;
 
-class RoleController extends Controller
-{
+class RoleController extends Controller {
     protected $handle_name = "role";
     protected $handle_name_plural = "roles";
-    
-    public function index()
-    {
+
+    public function index() {
         $all_count = Table::count();
-        $trashed_count = Table::onlyTrashed()->count();
-        return kview($this->handle_name_plural.'.index', [
-            'ajax_route' => route('admin.'.$this->handle_name_plural.'.ajax'),
-            'delete_route'=> route('admin.'.$this->handle_name_plural.'.delete'),
-            'create_route' => route('admin.'.$this->handle_name_plural.'.create'),
-            'table_status'=> 'all', //all , trashed
-            'all_count'=>$all_count,
-            'trashed_count'=>$trashed_count,
-        ]);
-
-    }
-    public function create()
-    {
-        return kview($this->handle_name_plural.'.manage', [
-            'form_action' => route('admin.'.$this->handle_name_plural.'.store'),
-            'edit' => 0
+        return kview($this->handle_name_plural . '.index', [
+            'ajax_route' => route('admin.' . $this->handle_name_plural . '.ajax'),
+            'delete_route' => route('admin.' . $this->handle_name_plural . '.delete'),
+            'create_route' => route('admin.' . $this->handle_name_plural . '.create'),
+            'all_count' => $all_count,
         ]);
     }
-    public function edit(Request $request)
-    {
-        return kview($this->handle_name_plural.'.manage', [
-            'form_action' => route('admin.'.$this->handle_name_plural.'.update'),
+    public function create() {
+        return kview($this->handle_name_plural . '.manage', [
+            'form_action' => route('admin.' . $this->handle_name_plural . '.store'),
+            'edit' => 0,
+        ]);
+    }
+    public function edit(Request $request) {
+        return kview($this->handle_name_plural . '.manage', [
+            'form_action' => route('admin.' . $this->handle_name_plural . '.update'),
             'edit' => 1,
-            'data' => Table::where('id', '=', $request->id)->first()
+            'data' => Table::where('id', '=', $request->id)->first(),
         ]);
     }
-    public function store(AddRequest $request)
-    {
+    public function store(Request $request) {
         try {
-            if(isset($request->slug) && !empty($request->slug)){
-                $slug = $request->slug;
-            }else{
-                $slug = str_slug($request->name);
-            }
-            $tempTable = new Table();
-            $slug = verifySlug($tempTable,'slug',$slug);
-
-            $table = Table::create([
-                'name'=>$request->name,
-                'slug'=>$slug,
+            $role = Table::create([
+                'name' => $request->name,
             ]);
 
-            return redirect()->to(route('admin.'.$this->handle_name_plural.'.index'))->with('success', 'New '.ucfirst($this->handle_name).' has been added.');
+            $permissions = $request->permissions;
+            $addPermissions = [];
+            if ($permissions) {
+                foreach ($permissions as $key => $value) {
+                    if ($value == "on") {
+                        $existingPermission = Permission::where('name', $key)->count();
+                        if ($existingPermission == 0) {
+                            Permission::create(['name' => $key]);
+                        }
+                        array_push($addPermissions, $key);
+                    }
+                }
+                $role->syncPermissions($addPermissions);
+            }
+
+            return redirect()->to(route('admin.' . $this->handle_name_plural . '.index'))->with('success', 'New ' . ucfirst($this->handle_name) . ' has been added.');
         } catch (Exception $e) {
-            return $e->getMessage();
             return redirect()->back()->with('error', $e->getMessage());
         }
     }
-    public function update(UpdateRequest $request)
-    {
+    public function update(Request $request) {
         try {
-            $slug = str_slug($request->slug);
-            
-            $where =    [
-                'id'=> $request->id,
+
+            $update_data = [
+                'name' => $request->name,
             ];
-            $update_array = [
-                'name'=>$request->name,
-                'slug'=>$slug
+            $where = [
+                'id' => $request->id
             ];
-            Table::updateOrCreate($where,$update_array);
-            return redirect()->to(route('admin.'.$this->handle_name_plural.'.index'))->with('success', ucfirst($this->handle_name).' has been updated');
+            $role = Table::updateOrCreate($where, $update_data);
+
+            $permissions = $request->permissions;
+            $addPermissions = [];
+            if ($permissions) {
+                foreach ($permissions as $key => $value) {
+                    if ($value == "on") {
+                        $existingPermission = Permission::where('name', $key)->count();
+                        if ($existingPermission == 0) {
+                            Permission::create(['name' => $key]);
+                        }
+                        array_push($addPermissions, $key);
+                    }
+                }
+                $role->syncPermissions($addPermissions);
+            }
+
+            return redirect()->back()->with('success', ucfirst($this->handle_name) . ' has been updated');
         } catch (Exception $e) {
             return redirect()->back()->with('error', $e->getMessage());
         }
     }
-    public function ajax(Request $request)
-    {
-        $edit_route = route('admin.'.$this->handle_name_plural.'.edit');
+    public function ajax(Request $request) {
+        $edit_route = route('admin.' . $this->handle_name_plural . '.edit');
         $current_page = $request->page_number;
         if (isset($request->limit)) {
             $limit = $request->limit;
@@ -103,14 +108,15 @@ class RoleController extends Controller
         }
 
         $all_trashed = $request->all_trashed;
-        if($all_trashed=="trashed"){
+        if ($all_trashed == "trashed") {
             $modalObject = $modalObject->onlyTrashed();
         }
+
         $total_records = $modalObject->count();
         $modalObject = $modalObject->offset($offset);
         $modalObject = $modalObject->take($limit);
         $data = $modalObject->get();
-        
+
         if (isset($request->page_number) && $request->page_number != 1) {
             $page_number = $request->page_number + $limit - 1;
         } else {
@@ -124,69 +130,32 @@ class RoleController extends Controller
             "current_page" => $current_page,
         );
 
-        return kview($this->handle_name_plural.'.ajax', compact('edit_route', 'data', 'page_number', 'limit', 'offset', 'pagination'));
+        return kview($this->handle_name_plural . '.ajax', compact('edit_route', 'data', 'page_number', 'limit', 'offset', 'pagination'));
     }
-
-    public function delete(Request $request)
-    {
-        if(isset($request->action)){
+    public function delete(Request $request) {
+        if (isset($request->action)) {
             $action = $request->action;
             $is_bulk = $request->is_bulk;
             $data_id = $request->data_id;
         }
-        switch ($action){
-            case 'restore':
-                try{
-                    if($is_bulk==1){
-                        $data_id = explode(",",$data_id);
-                        $table = Table::onlyTrashed()->whereIn('id',$data_id);
-                        $table->restore();
+        switch ($action) {
+            case 'delete':
+                try {
+                    if ($is_bulk == 1) {
+                        $data_id = explode(",", $data_id);
+                        $table = Table::whereIn('id', $data_id)->delete();
                         return 1;
-                    }else{
-                        $table = Table::onlyTrashed()->find($data_id);
-                        $table->restore();
-                        return 1;
-                    }
-                } catch (Exception $e) {
-                    return redirect()->back()->with('error', $e->getMessage());
-                }
-                break;
-            case 'trash' :
-                try{
-                    if($is_bulk==1){
-                        $data_id = explode(",",$data_id);
-                        $table = Table::whereIn('id',$data_id);
-                        $table->delete();
-                        return 1;
-                    }else{
+                    } else {
                         $table = Table::find($data_id);
-                        $table->delete();
+                        $data = $table->delete();
                         return 1;
                     }
                 } catch (Exception $e) {
                     return redirect()->back()->with('error', $e->getMessage());
                 }
                 break;
-            case 'delete' :
-                try{
-                    if($is_bulk==1){
-                        $data_id = explode(",",$data_id);
-                        $table = Table::withTrashed()->whereIn('id',$data_id)->get();
-                        foreach($table as $tbl){
-                            $tbl->forceDelete();    
-                        }
-                        return 1;
-                    }else{
-                        $table = Table::withTrashed()->find($data_id);
-                        $data = $table->forceDelete();
-                        return 1;
-                    }
-                } catch (Exception $e) {
-                    return redirect()->back()->with('error', $e->getMessage());
-                }
-                break;
-            default : 
-               return 0;
+            default:
+                return 0;
         }
     }
 }

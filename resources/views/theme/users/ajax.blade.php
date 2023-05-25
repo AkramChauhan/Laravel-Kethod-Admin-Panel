@@ -25,7 +25,13 @@
           <td>{{ ++$record_id }}</td>
           <td>{{$v->name}}</td>
           <td>{{$v->email}}</td>
-          <td>{{$v->role}}</td>
+          <td>
+            @if($v->roles)
+              @foreach($v->roles as $role)  
+               {{ $role->name }}
+              @endforeach
+            @endif
+          </td>
           <td>{{ Date('d M, Y',strtotime($v->created_at)) }}</td>
           <td>
               @if($v->deleted_at==null)

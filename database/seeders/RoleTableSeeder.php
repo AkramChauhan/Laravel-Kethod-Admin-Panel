@@ -14,10 +14,18 @@ class RoleTableSeeder extends Seeder
     public function run()
     {
         DB::table('roles')->insert([
+          [
             'name'=>"Admin",
-            'slug'=>"admin",
+            'guard_name'=>"web",
             'created_at'=>\Carbon\Carbon::now(),
             'updated_at'=>\Carbon\Carbon::now()
+          ],
+          [
+            'name'=>"User",
+            'guard_name'=>"web",
+            'created_at'=>\Carbon\Carbon::now(),
+            'updated_at'=>\Carbon\Carbon::now()
+          ],
         ]);
     }
 }

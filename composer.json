@@ -16,7 +16,9 @@
         "laravel/helpers": "^1.4",
         "laravel/sanctum": "^2.11",
         "laravel/tinker": "^2.5",
-        "laravel/ui": "^3.4"
+        "laravel/ui": "^3.4",
+        "orangehill/iseed": "^3.0",
+        "spatie/laravel-permission": "^5.10"
     },
     "require-dev": {
         "facade/ignition": "^2.5",
