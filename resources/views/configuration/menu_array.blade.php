@@ -63,6 +63,36 @@ $menu = array (
   ),
   3 => 
   array (
+    'name' => 'Zipcodes',
+    'icon' => 'fa fa-file',
+    'dropdown' => true,
+    'route' => '',
+    'dropdown_items' => 
+    array (
+      0 => array (
+        'name' => 'Manage Countries',
+        'icon' => 'fa fa-circle-o',
+        'route' => 'admin.countries.index',
+      ),
+      1 => array (
+        'name' => 'Manage States',
+        'icon' => 'fa fa-circle-o',
+        'route' => 'admin.states.index',
+      ),
+      2 => array (
+        'name' => 'Manage Cities',
+        'icon' => 'fa fa-circle-o',
+        'route' => 'admin.cities.index',
+      ),
+      3 => array (
+        'name' => 'Manage Zipcodes',
+        'icon' => 'fa fa-circle-o',
+        'route' => 'admin.zipcodes.index',
+      ),
+    ),
+  ),
+  4 => 
+  array (
     'name' => 'Settings',
     'icon' => 'fa fa-gear',
     'dropdown' => true,

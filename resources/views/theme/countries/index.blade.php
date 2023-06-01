@@ -3,7 +3,7 @@
     <?php
     $page_number = 1;
     ?>
-    <div class="container">
+    <div class="container-fluid px-5">
         <div class="row justify-content-center">
             <div class="col-md-12">
                 @if ($errors->any())

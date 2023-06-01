@@ -27,6 +27,8 @@ class CountriesTableSeeder extends Seeder
             $topLevelDomain = $obj->topLevelDomain[0];
             $callingCodes = json_encode($obj->callingCodes);
             
+            $flag = "https://flagsapi.com/".$obj->alpha2Code."/flat/64.png";
+
             DB::table('countries')->insert(array(
                 'name'=>$obj->name,
                 'topLevelDomain'=>$topLevelDomain,
@@ -46,7 +48,7 @@ class CountriesTableSeeder extends Seeder
                 'currencies_code'=>$currencies_code,
                 'currencies_name'=>$currencies_name,
                 'currencies_symbol'=>$currencies_symbol,
-                'flag'=>$obj->flag,
+                'flag'=>$flag,
                 'cioc'=>$obj->cioc,
             ));
         }

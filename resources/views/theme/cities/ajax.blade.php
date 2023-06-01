@@ -31,7 +31,7 @@
         Opps, seems like records not available.
     </div>
 @endif
-<div class="pl-3">
+<div class="card-footer pl-3">
 <div class="paging_simple_numbers">
   <ul class="pagination">
     <?php 
