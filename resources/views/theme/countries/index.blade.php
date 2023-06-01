@@ -1,4 +1,4 @@
-@extends('themes.sb-admin.layouts.app')
+@extends('theme.layouts.app')
 @section('content')
     <?php
     $page_number = 1;
@@ -109,7 +109,8 @@
                                 data: {_token: token, data_id: data_id},
                                 dataType: 'JSON',
                                 success: function (resp) {
-                                    var res_msg= "It has been deleted successfully.";                                
+                                    var res_msg= "It has been deleted successfully.";
+                                
                                     swal(res_msg, {
                                     icon: "success",
                                     }).then(function(){

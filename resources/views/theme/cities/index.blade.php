@@ -1,4 +1,4 @@
-@extends('themes.vali-bootstrap.layouts.app')
+@extends('theme.layouts.app')
 @section('content')
     <?php
     $page_number = 1;

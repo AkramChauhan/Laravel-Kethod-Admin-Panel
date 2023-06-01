@@ -1,4 +1,4 @@
-@extends('themes.vali-bootstrap.layouts.app')
+@extends('theme.layouts.app')
 @section('content')
     <div class="container">
         <div class="row justify-content-center">
