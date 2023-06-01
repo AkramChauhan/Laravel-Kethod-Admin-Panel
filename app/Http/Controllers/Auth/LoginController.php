@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
+use App\Notifications\TwoFactorCode;
+use Illuminate\Http\Request;
 
 class LoginController extends Controller
 {
@@ -41,4 +43,17 @@ class LoginController extends Controller
     {
         return kview('auth.login');
     }
+
+    public function authenticated(Request $request,$user){
+        try {
+            if($user->two_factor_enable){
+                $user->generateTwoFactorCode();
+                $user->notify(new TwoFactorCode());
+            }
+        } catch(\Exception $e) {
+            auth()->logout();
+            return redirect()->back()->withMessage("Something went wrong, Please try again after some time.");
+        }
+    }
 }
+

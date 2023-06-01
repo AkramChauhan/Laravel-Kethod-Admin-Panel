@@ -26,7 +26,6 @@ class UpdateRole extends FormRequest
 
         return [
             'name' => 'required',
-            'slug' =>  "unique:roles,slug,$this->id,id"
         ];
     }
 }

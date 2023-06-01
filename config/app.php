@@ -133,7 +133,7 @@ return [
     | this array to grant expanded functionality to your applications.
     |
     */
-    'theme'=>env('APP_THEME','default'),
+    'theme'=>env('APP_THEME','simple-bootstrap'),
     
     'providers' => [
 
