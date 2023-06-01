@@ -1,6 +1,10 @@
 <?php
+namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 
 class CountriesTableSeeder extends Seeder
 {
@@ -11,7 +15,9 @@ class CountriesTableSeeder extends Seeder
      */
     public function run()
     {
-        $json = file_get_contents(asset("assets/json_files/countries.json"));
+        $path = "assets/json_files/countries.json";
+        $json = public_path($path);
+        $json = file_get_contents($json);
         $data = json_decode($json);
         foreach ($data as $obj) {
 
