@@ -32,8 +32,6 @@ Route::middleware(['auth', 'twofactor'])->prefix('admin')->group(function () {
 
   // For Settings
   Route::get('/settings/edit_profile', "SettingController@edit_profile")->name('admin.settings.edit_profile');
-  Route::get('/settings/general', "SettingController@index")->name('admin.settings.index');
-  Route::post('/settings/update', "SettingController@update")->name('admin.settings.update');
 
   // For Dashboard
   Route::get('/dashboard', 'HomeController@index')->name('admin.dashboard');
@@ -65,4 +63,12 @@ Route::middleware(['auth', 'twofactor'])->prefix('admin')->group(function () {
   Route::get('/pages/ajax', "Admin\PageController@ajax")->name('admin.pages.ajax');
   Route::post('/pages/delete', "Admin\PageController@delete")->name('admin.pages.delete');
 
+  // For Settings
+  Route::get('/settings', 'Admin\SettingController@index')->name('admin.settings.index');
+  Route::get('/settings/add', "Admin\SettingController@create")->name('admin.settings.create');
+  Route::get('/settings/edit', "Admin\SettingController@edit")->name('admin.settings.edit');
+  Route::post('/settings/store', "Admin\SettingController@store")->name('admin.settings.store');
+  Route::post('/settings/update', "Admin\SettingController@update")->name('admin.settings.update');
+  Route::get('/settings/ajax', "Admin\SettingController@ajax")->name('admin.settings.ajax');
+  Route::post('/settings/delete', "Admin\SettingController@delete")->name('admin.settings.delete');
 });

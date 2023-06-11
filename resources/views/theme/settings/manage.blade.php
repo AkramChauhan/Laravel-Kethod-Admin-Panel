@@ -29,6 +29,9 @@
         <div class="card-body">
           <form action="{{ $form_action }}" class="" method="post">
             @csrf
+            @if($edit)
+            <input type="hidden" value="{{$data->id}}" name="id">
+            @endif
 
             <div class="row form_sec">
               <div class="col-12">
@@ -38,30 +41,18 @@
             <div class="row">
               <div class="col-md-6">
                 <div class="form-group">
-                  <label for="SITE_NAME">Name</label>
-                  <input type="text" name="SITE_NAME" class="form-control" value="{{ $settings['SITE_NAME']['value'] }}" id="SITE_NAME" aria-describedby="SITE_NAMEHelp">
-                  <small id="SITE_NAMEHelp" class="form-text text-muted"></small>
+                  <label for="key">Key</label>
+                  <input type="text" name="key" class="form-control" @if($edit) value="{{$data->key}}" @else value="{{old('key')}}" @endif id="key" aria-describedby="keyHelp">
+                  <small id="keyHelp" class="form-text text-muted"></small>
                 </div>
               </div>
+            </div>
+            <div class="row">
               <div class="col-md-6">
                 <div class="form-group">
-                  <label for="site_url">URL</label>
-                  <input type="text" name="site_url" class="form-control" value="{{ $settings['SITE_URL']['value'] }}" id="site_url" aria-describedby="site_urlHelp">
-                  <small id="site_urlHelp" class="form-text text-muted"></small>
-                </div>
-              </div>
-              <div class="col-md-6">
-                <div class="form-group">
-                  <label for="tagline">Tagline</label>
-                  <input type="text" name="tagline" class="form-control" value="{{ $settings['TAGLINE']['value'] }}" id="tagline" aria-describedby="taglineHelp">
-                  <small id="taglineHelp" class="form-text text-muted"></small>
-                </div>
-              </div>
-              <div class="col-md-12">
-                <div class="form-group">
-                  <label for="instagram_cookie">Instagram Cookie</label>
-                  <textarea rows=5 name="instagram_cookie" class="form-control" id="INSTAGRAM_COOKIE" aria-describedby="instagram_cookieHelp">{{ $settings['instagram_cookie']['value'] }}</textarea>
-                  <small id="instagram_cookieHelp" class="form-text text-muted"></small>
+                  <label for="name">Value</label>
+                  <textarea rows=5 type="text" name="value" class="form-control" id="value" aria-describedby="valueHelp">@if($edit){{ $data->value }}@endif</textarea>
+                  <small id="valueHelp" class="form-text text-muted"></small>
                 </div>
               </div>
             </div>
@@ -69,7 +60,11 @@
               <div class="col-md-12">
                 <div class="form-group">
                   <button type="submit" class="btn btn-primary add_site">
+                    @if($edit)
                     Update
+                    @else
+                    Add
+                    @endif
                   </button>
                 </div>
               </div>

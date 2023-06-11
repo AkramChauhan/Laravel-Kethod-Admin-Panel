@@ -21,20 +21,20 @@ function default_permissions() {
 }
 function getSettings() {
   $settings = [
-    'site_name' => [
+    'SITE_NAME' => [
       'value' => config('app.name')
     ],
-    'site_url' => [ 
+    'SITE_URL' => [
       'value' => config('app.url'),
     ],
-    'tagline' => [ 
+    'TAGLINE' => [
       'value' => "Tagline",
     ],
   ];
   try {
     $new_settings =  Setting::all()->keyBy('key');
     // dd($new_settings);
-    if ($new_settings->count() > 0 ) {
+    if ($new_settings->count() > 0) {
       $settings = $new_settings;
     }
   } catch (Exception $e) {

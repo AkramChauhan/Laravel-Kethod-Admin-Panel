@@ -11,7 +11,7 @@
 
   <!-- Open Graph Meta-->
   <meta property="og:type" content="website" />
-  <meta property="og:site_name" content="Kethod Admin Panel - Laravel" />
+  <meta property="og:SITE_NAME" content="Kethod Admin Panel - Laravel" />
   <meta property="og:title" content="Kethod Admin Panel - Laravel" />
   <meta property="og:url" content="http://github.com/akramchauhan" />
   <meta property="og:description" content="My mission is to provide a way to quickly setup admin panel structure." />
@@ -36,7 +36,7 @@
     <?php
     $settings = getSettings();
     ?>
-    <a class="app-header__logo" href="{{ route('admin.dashboard') }}">{{ $settings['site_name']['value'] }}</a>
+    <a class="app-header__logo" href="{{ route('admin.dashboard') }}">{{ $settings['SITE_NAME']['value'] }}</a>
     <!-- Sidebar toggle button-->
     @if(Auth::check())
     <a class="app-sidebar__toggle" href="#" data-toggle="sidebar" aria-label="Hide Sidebar"></a>

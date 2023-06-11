@@ -8,7 +8,7 @@
     <meta property="twitter:creator" content="@pratikborsadiya" />
     <!-- Open Graph Meta-->
     <meta property="og:type" content="website" />
-    <meta property="og:site_name" content="Admin" />
+    <meta property="og:SITE_NAME" content="Admin" />
     <meta property="og:title" content="Kethod panel" />
     <meta property="og:url" content="http:/localhost:8000" />
     <meta property="og:description" content=""/><title>{{ config('app.name', 'Laravel') }}</title>

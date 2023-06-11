@@ -13,19 +13,19 @@ class SettingTableSeeder extends Seeder {
    */
   public function run() {
     DB::table('settings')->insert([
-      'key' => "site_name",
+      'key' => "SITE_NAME",
       'value' => config('app.name'),
       'created_at' => \Carbon\Carbon::now(),
       'updated_at' => \Carbon\Carbon::now()
     ]);
     DB::table('settings')->insert([
-      'key' => "site_url",
+      'key' => "SITE_URL",
       'value' => config('app.url'),
       'created_at' => \Carbon\Carbon::now(),
       'updated_at' => \Carbon\Carbon::now()
     ]);
     DB::table('settings')->insert([
-      'key' => "tagline",
+      'key' => "TAGLINE",
       'value' => "Awesome tabline for your panel",
       'created_at' => \Carbon\Carbon::now(),
       'updated_at' => \Carbon\Carbon::now()
