@@ -8,7 +8,7 @@
     <meta property="twitter:creator" content="@digitalchauhan" />
     <!-- Open Graph Meta-->
     <meta property="og:type" content="website" />
-    <meta property="og:site_name" content="Admin Panel" />
+    <meta property="og:SITE_NAME" content="Admin Panel" />
     <meta property="og:title" content="Custom Bootstrap Theme" />
     <meta property="og:url" content="https://akramchauhan.com" />
     <meta property="og:description" content="This is a responsive and free admin theme built with Bootstrap 4, SASS and PUG.js. It's fully customizable and modular."/>

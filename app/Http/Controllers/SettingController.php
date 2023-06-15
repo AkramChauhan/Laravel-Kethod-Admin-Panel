@@ -37,8 +37,8 @@ class SettingController extends Controller {
   }
 
   public function update(Request $request) {
-    if (isset($request->site_name)) {
-      $this->updateSetting('site_name', $request->site_name);
+    if (isset($request->SITE_NAME)) {
+      $this->updateSetting('SITE_NAME', $request->SITE_NAME);
     }
     if (isset($request->site_url)) {
       $this->updateSetting('site_url', $request->site_url);
