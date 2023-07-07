@@ -146,16 +146,17 @@ class MakeModule extends Command {
         // Add new route
         // Define the new route group
         // Append the new routes to the existing group in the routes file
-
+        $fullControllerName = "Admin\\" . $controller_name;
         $newRoute = [
+
             "// For $normal_plural",
-            "Route::get('$table_name/', [$controller_name::class, 'index'])->name('admin.$table_name.index');",
-            "Route::get('$table_name/add', [$controller_name::class, 'create'])->name('admin.$table_name.create');",
-            "Route::get('$table_name/edit', [$controller_name::class, 'edit'])->name('admin.$table_name.edit');",
-            "Route::post('$table_name/store', [$controller_name::class, 'store'])->name('admin.$table_name.store');",
-            "Route::post('$table_name/update', [$controller_name::class, 'update'])->name('admin.$table_name.update');",
-            "Route::get('$table_name/ajax', [$controller_name::class, 'ajax'])->name('admin.$table_name.ajax');",
-            "Route::post('$table_name/delete', [$controller_name::class, 'delete'])->name('admin.$table_name.delete');",
+            "Route::get('$table_name/', '$fullControllerName@index')->name('admin.$table_name.index');",
+            "Route::get('$table_name/add', '$fullControllerName@create')->name('admin.$table_name.create');",
+            "Route::get('$table_name/edit', '$fullControllerName@edit')->name('admin.$table_name.edit');",
+            "Route::post('$table_name/store', '$fullControllerName@store')->name('admin.$table_name.store');",
+            "Route::post('$table_name/update', '$fullControllerName@update')->name('admin.$table_name.update');",
+            "Route::get('$table_name/ajax', '$fullControllerName@ajax')->name('admin.$table_name.ajax');",
+            "Route::post('$table_name/delete', '$fullControllerName@delete')->name('admin.$table_name.delete');",
             "",
         ];
 
