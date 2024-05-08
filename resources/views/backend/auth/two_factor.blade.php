@@ -43,7 +43,7 @@
                               If you haven't received it, Click <a href="{{ route('verify.resend') }}">here</a>
                               </p>
                               <div class="form-group">
-                                <label for="two_factor_code" class="control-label">{{ __('Two Factor Code') }}</label>
+                                <label for="two_factor_code" class="form-label">{{ __('Two Factor Code') }}</label>
                                 <input id="two_factor_code" type="text" class="form-control @error('two_factor_code') is-invalid @enderror" name="two_factor_code" value="" required autofocus>
 
                                 @error('two_factor_code')
