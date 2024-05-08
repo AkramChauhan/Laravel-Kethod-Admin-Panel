@@ -7,8 +7,7 @@ use App\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Auth\ResetsPasswords;
 use Illuminate\Http\Request;
 
-class ResetPasswordController extends Controller
-{
+class ResetPasswordController extends Controller {
     /*
     |--------------------------------------------------------------------------
     | Password Reset Controller
@@ -27,10 +26,9 @@ class ResetPasswordController extends Controller
      *
      * @var string
      */
-    // protected $redirectTo = RouteServiceProvider::HOME;
+    protected $redirectTo = RouteServiceProvider::HOME;
 
-    public function showResetForm(Request $request, $token = null)
-    {
-        return kview('auth.passwords.reset',['token' => $token, 'email' => $request->email]);
+    public function showResetForm(Request $request, $token = null) {
+        return kview('auth.passwords.reset', ['token' => $token, 'email' => $request->email]);
     }
 }

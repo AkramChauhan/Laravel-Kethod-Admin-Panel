@@ -25,11 +25,11 @@ $record_id = $offset;
       <td>{{ Date('d M, Y',strtotime($v->created_at)) }}</td>
       <td>
         @if($v->deleted_at==null)
-        <a href="{{$edit_route.'?id='.$v->id}}" class="btn btn-primary btn-sm">Edit</a>
-        <a href="#" data-id="{{ $v->id }}" class="btn btn-danger btn-sm trash_btn delete{{ $v->id }}">Trash</a>
+        <a href="{{$edit_route.'?id='.$v->id}}" class="btn k-btn k-btn-primary btn-sm">Edit</a>
+        <a href="#" data-id="{{ $v->id }}" class="btn k-btn k-btn-danger btn-sm trash_btn delete{{ $v->id }}">Trash</a>
         @else
-        <a href="#" data-id="{{ $v->id }}" class="btn btn-primary restore_btn restore{{ $v->id }} btn-sm">Restore</a>
-        <a href="#" data-id="{{ $v->id }}" class="btn btn-danger delete_btn delete{{ $v->id }} btn-sm">Delete</a>
+        <a href="#" data-id="{{ $v->id }}" class="btn k-btn k-btn-primary restore_btn restore{{ $v->id }} btn-sm">Restore</a>
+        <a href="#" data-id="{{ $v->id }}" class="btn k-btn k-btn-danger delete_btn delete{{ $v->id }} btn-sm">Delete</a>
         @endif
       </td>
     </tr>
@@ -38,7 +38,7 @@ $record_id = $offset;
     @endforeach
   <tbody>
 </table>
-<div class="text-muted p-2">Total Count : {{ $data->count() }}</div>
+<div class="text-muted p-2"></div>
 @else
 <div class="alert alert-warning" align="center">
   Opps, seems like records not available.

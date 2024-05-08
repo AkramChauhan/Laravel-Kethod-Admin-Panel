@@ -1,0 +1,8 @@
+:root {
+    --page-background: #fafbfc;
+    --primary-background: #333333;
+    --btn-primary-background-color: #333333;
+    --btn-primary-color: #f2f2f2;
+    --btn-danger-background-color: red;
+    --btn-danger-color:#f2f2f2;
+}

@@ -3,7 +3,7 @@
 <?php
 $page_number = 1;
 ?>
-<div class="container">
+<div class="container page-container">
   <div class="row justify-content-center">
     <div class="col-md-12">
       @if ($errors->any())
@@ -38,45 +38,50 @@ $page_number = 1;
       <div class="card">
         <div class="card-header">
           <input type="hidden" class="action_selected" value="trash">
-          <div class="float-left trash_selected_button bulk_select_btn">
-            <div class="input-group pr-2">
-              <button class="btn btn-primary trash_selected" name="trash_selected">Trash Selected</button>
-            </div>
-          </div>
-          <div class="float-left restore_selected_button bulk_select_btn">
-            <div class="input-group pr-2">
-              <button class="btn btn-primary delete_selected" name="delete_selected">Delete Selected</button>
-            </div>
-          </div>
-          <div class="float-left restore_selected_button bulk_select_btn">
-            <div class="input-group pr-2">
-              <button class="btn btn-primary restore_selected" name="restore_selected">Restore Selected</button>
-            </div>
-          </div>
-          <div class="float-left">
-            <input type="hidden" name="page_number" id="page_number" class="page_number" value="{{ $page_number }}">
-            <div class="input-group mb-3 pr-2">
-              <input type="text" class="form-control search" name="search" id="search" placeholder="Search by Name">
-            </div>
-          </div>
-          <button class="btn btn-primary pl-2 search_data">Search</button>
-          <button class="btn btn-primary pl-2 reset_data">Reset</button>
-          <div class="float-right">
-            <div class="input-group mb-3">
-              <div class="input-group-prepend">
-                <label class="input-group-text" for="inputGroupSelect01">Row</label>
+          <div class="row justify-content-between align-items-center">
+            <div class="col-8">
+              <div class="d-flex align-items-center">
+                <div class="px-2 trash_selected_button bulk_select_btn">
+                  <button class="btn k-btn k-btn-primary trash_selected" name="trash_selected">Trash Selected</button>
+                </div>
+                <div class="px-2 restore_selected_button bulk_select_btn">
+                  <button class="btn k-btn k-btn-primary delete_selected" name="delete_selected">Delete Selected</button>
+                </div>
+                <div class="col-4 px-2">
+                  <input type="hidden" name="page_number" id="page_number" class="page_number" value="{{ $page_number }}">
+                  <div class="input-group pr-2">
+                    <input type="text" class="form-control k-input search" name="search" id="search" placeholder="Search by Name">
+                  </div>
+                </div>
+                <div class="buttons px-2">
+                  <button class="btn k-btn k-btn-primary pl-2 search_data">Search</button>
+                  <button class="btn k-btn k-btn-primary pl-2 reset_data">Reset</button>
+                </div>
               </div>
-              <select class="custom-select change_row_limit" id="inputGroupSelect01">
-                <option value="10">10</option>
-                <option value="20">20</option>
-                <option value="50">50</option>
-              </select>
-              <a class="btn btn-primary ml-2" href="{{$create_route}}">Add</a>
+            </div>
+            <div class="col">
+              <div class="d-flex justify-content-end align-items-center">
+                <div class="limit px-2">
+                  <div class="input-group">
+                    <div class="input-group-prepend">
+                      <label class="input-group-text" for="inputGroupSelect01">Row</label>
+                    </div>
+                    <select class="custom-select form-select change_row_limit" id="inputGroupSelect01">
+                      <option value="10">10</option>
+                      <option value="20">20</option>
+                      <option value="50">50</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="add-btn">
+                  <a class="btn k-btn k-btn-primary ml-2" href="{{$create_route}}">Add</a>
+                </div>
+              </div>
             </div>
           </div>
         </div>
         <div class="card-body p-0">
-          <div class="ajax_loader p-3" align="center"><img src="{{ asset('assets/images/ajax_loader_circular.gif') }}" alt=""></div>
+          <div class="ajax_loader p-3" align="center"><img src="{{ asset('backend/assets/images/ajax_loader_circular.gif') }}" alt=""></div>
           @if (session('status'))
           <div class="alert alert-success" role="alert">
             {{ session('status') }}

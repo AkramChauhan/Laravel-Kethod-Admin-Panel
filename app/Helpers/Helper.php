@@ -34,9 +34,6 @@ function getSettings() {
     'TAGLINE' => [
       'value' => "Tagline",
     ],
-    'THEME' => [
-      'value' => 'theme-2',
-    ],
   ];
   try {
     $new_settings =  Setting::all()->keyBy('key');
