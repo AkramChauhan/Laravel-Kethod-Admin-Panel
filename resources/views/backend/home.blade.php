@@ -1,27 +1,36 @@
 @extends($app_layout)
 @section('content')
-
-<div class="row">
-  <div class="col-md-12">
-    @if (session('status'))
+<div class="container page-container">
+  <div class="row justify-content-center">
+    <div class="col-md-12">
+      @if (session('status'))
       <div class="alert alert-success" role="alert">
         {{ session('status') }}
       </div>
-    @endif
-  </div>  
 
-  @foreach($dashboard_cards as $card)
-    <div class="col-md-6 col-lg-3">
-      <a href="{{ ($card[2]) }}" class="card-hover">
-        <div class="widget-small primary coloured-icon">
-          <i class="icon {{ $card[3] }} fa-3x"></i>
-          <div class="info">
-            <h4>{{ $card[0] }}</h4>
-            <p><b><?php echo number_format($card[1]); ?></b></p>
-          </div>
+      @endif
+      <div class="row">
+        @foreach($dashboard_cards as $card)
+        <div class="col-md-3">
+          <a href="{{ ($card[2]) }}" class="card-link">
+            <div class="card bg-dark text-white mb-4">
+              <div class="card-body">
+                <div class="row">
+                  <div class="col">
+                    <div class="counter_number"><?php echo number_format($card[1]); ?></div>
+                  </div>
+                </div>
+              </div>
+              <div class="card-footer d-flex align-items-center justify-content-between">
+                {{ $card[0] }}
+                <div class="small text-white"><i class="fa fa-angle-right"></i></div>
+              </div>
+            </div>
+          </a>
         </div>
-      </a>
+        @endforeach
+      </div>
     </div>
-  @endforeach
+  </div>
 </div>
 @endsection

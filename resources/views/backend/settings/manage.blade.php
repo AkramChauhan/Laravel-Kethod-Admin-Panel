@@ -1,6 +1,6 @@
 @extends($app_layout)
 @section('content')
-<div class="container">
+<div class="container page-container">
   <div class="row justify-content-center">
     <div class="col-md-12">
       @if ($errors->any())
@@ -40,9 +40,9 @@
             </div>
             <div class="row">
               <div class="col-md-6">
-                <div class="form-group">
+                <div class="mb-3">
                   <label for="key">Key</label>
-                  <input type="text" name="key" class="form-control" @if($edit) value="{{$data->key}}" @else value="{{old('key')}}" @endif id="key" aria-describedby="keyHelp">
+                  <input type="text" name="key" class="form-control k-input" @if($edit) value="{{$data->key}}" @else value="{{old('key')}}" @endif id="key" aria-describedby="keyHelp">
                   <small id="keyHelp" class="form-text text-muted"></small>
                 </div>
               </div>
@@ -50,9 +50,9 @@
             @if($edit && $data->key == 'THEME')
             <div class="row">
               <div class="col-md-6">
-                <div class="form-group">
+                <div class="mb-3">
                   <label for="name">Value</label>
-                  <select name="value" class="form-control" id="value">
+                  <select name="value" class="form-control k-input" id="value">
                     <?php
                     $selected = "";
                     if ($edit && $data->value == 'theme-2') {
@@ -69,9 +69,9 @@
             @else
             <div class="row">
               <div class="col-md-6">
-                <div class="form-group">
+                <div class="mb-3">
                   <label for="name">Value</label>
-                  <textarea rows=5 type="text" name="value" class="form-control" id="value" aria-describedby="valueHelp">@if($edit){{ $data->value }}@endif</textarea>
+                  <textarea rows=5 type="text" name="value" class="form-control k-input" id="value" aria-describedby="valueHelp">@if($edit){{ $data->value }}@endif</textarea>
                   <small id="valueHelp" class="form-text text-muted"></small>
                 </div>
               </div>
@@ -81,8 +81,8 @@
 
             <div class="row">
               <div class="col-md-12">
-                <div class="form-group">
-                  <button type="submit" class="btn btn-primary add_site">
+                <div class="mb-3">
+                  <button type="submit" class="btn k-btn k-btn-primary add_site">
                     @if($edit)
                     Update
                     @else

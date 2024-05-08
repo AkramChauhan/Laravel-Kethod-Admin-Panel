@@ -1,6 +1,6 @@
 @extends($app_layout)
 @section('content')
-<div class="container-fluid px-5">
+<div class="container page-container">
   <div class="row justify-content-center">
     <div class="col-md-12">
       @if ($errors->any())
@@ -40,9 +40,9 @@
             </div>
             <div class="row">
               <div class="col-md-6">
-                <div class="form-group">
+                <div class="mb-3">
                   <label for="name">Name</label>
-                  <input type="text" name="name" class="form-control" @if($edit) value="{{$data->name}}" @else value="{{old('name')}}" @endif id="name" aria-describedby="nameHelp">
+                  <input type="text" name="name" class="form-control k-input" @if($edit) value="{{$data->name}}" @else value="{{old('name')}}" @endif id="name" aria-describedby="nameHelp">
                   <small id="nameHelp" class="form-text text-muted"></small>
                 </div>
               </div>
@@ -80,7 +80,7 @@
                   $temp_checked = "checked";
                 }
                 ?>
-                <div class="form-group">
+                <div class="mb-3">
                   <input type="checkbox" {{ $temp_checked }} name="permissions[{{ $temp_permission }}]" id="{{ $temp_permission }}" aria-describedby="{{ $temp_permission }}Help">
                   <label for="{{ $temp_permission }}">{{ $temp_permission_label }}</label>
                 </div>
@@ -100,7 +100,7 @@
                   $temp_checked = "checked";
                 }
                 ?>
-                <div class="form-group">
+                <div class="mb-3">
                   <input type="checkbox" {{ $temp_checked }} name="permissions[{{ $temp_permission }}]" id="{{ $temp_permission }}" aria-describedby="{{ $temp_permission }}Help">
                   <label for="{{ $temp_permission }}">{{ $temp_permission_label }}</label>
                 </div>
@@ -112,7 +112,7 @@
         <br />
         <div class="row">
           <div class="col-md-12">
-            <button type="submit" class="btn btn-primary add_site">
+            <button type="submit" class="btn k-btn k-btn-primary add_site">
               @if($edit)
               Update Changes
               @else

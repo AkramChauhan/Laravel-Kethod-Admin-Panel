@@ -15,7 +15,7 @@
 </head>
 
 <body class="app">
-  <section class="login-content p-5">
+  <section class="login-content py-5">
     <div class="container">
       <div class="row justify-content-center">
         <div class="col">
@@ -62,7 +62,7 @@
                           @endif
                         </div>
                       </div>
-                      <div class="form-group">
+                      <div class="mb-2">
                         <button class="btn k-btn k-btn-primary btn-block" type="submit">{{ __('Login') }}</button>
                       </div>
                     </form>
@@ -77,7 +77,9 @@
   </section>
 
   <!-- Essential javascripts for application to work-->
+  <script src="{{ asset('backend/assets/plugins/jquery-3.7.1.min.js') }}"></script>
   <script src="{{ asset('backend/assets/plugins/bootstrap-5.3.3/js/bootstrap.min.js') }}"></script>
+  
   @stack('scripts')
 </body>
 
