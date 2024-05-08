@@ -7,34 +7,12 @@ use Illuminate\Support\Facades\Log;
  * Created by Akram Chauhan
  */
 
-
 function kview($view_path, $array = []) {
-  $theme_name = "theme-2";
-  $new_v_path = "modules." . $view_path;
-  $user = auth()->user();
-  if (isset($user) && !$user->is_admin) {
-    $theme_name = "customer-theme";
-    $new_v_path = "customer-theme." . $view_path;
-  }
+  $theme_name = "backend";
+  $new_v_path = $theme_name . "." . $view_path;
   $layout_name = $theme_name . ".layouts.app";
   $array['app_layout'] = $layout_name;
   $array['theme_name'] = $theme_name;
-
-  $excluded_views = [
-    'home',
-    'welcome',
-    'auth.login',
-    'auth.register',
-    'auth.two_factor',
-    'auth.verify',
-    'auth.passwords.confirm',
-    'auth.passwords.email',
-    'auth.passwords.reset',
-  ];
-  if (in_array($view_path, $excluded_views)) {
-    $new_v_path = $theme_name . '.' . $view_path;
-  }
-
   return view($new_v_path, $array);
 }
 
@@ -55,6 +33,9 @@ function getSettings() {
     ],
     'TAGLINE' => [
       'value' => "Tagline",
+    ],
+    'THEME' => [
+      'value' => 'theme-2',
     ],
   ];
   try {
