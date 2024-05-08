@@ -30,11 +30,5 @@ class SettingTableSeeder extends Seeder {
       'created_at' => \Carbon\Carbon::now(),
       'updated_at' => \Carbon\Carbon::now()
     ]);
-    DB::table('settings')->insert([
-      'key' => "THEME",
-      'value' => "theme-2",
-      'created_at' => \Carbon\Carbon::now(),
-      'updated_at' => \Carbon\Carbon::now()
-    ]);
   }
 }
