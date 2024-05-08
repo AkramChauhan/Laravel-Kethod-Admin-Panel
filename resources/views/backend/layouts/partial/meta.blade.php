@@ -17,4 +17,4 @@
 <meta property="twitter:site" content="@digitalchauhan" />
 <meta property="twitter:creator" content="@digitalchauhan" />
 <title>{{ config('app.name', 'Laravel') }}</title>
-<link rel="icon" type="image/x-icon" href="{{ asset('backend/assets/images/favicon.svg') }}">
+<link rel="icon" type="image/x-icon" style="filter: grayscale(100%);" href="{{ asset('backend/assets/images/favicon.png') }}">

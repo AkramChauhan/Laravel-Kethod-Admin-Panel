@@ -1,104 +1,75 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta name="description" content=""/>
-    <!-- Twitter meta-->
-    <meta property="twitter:card" content="summary_large_image" />
-    <meta property="twitter:site" content="@pratikborsadiya" />
-    <meta property="twitter:creator" content="@pratikborsadiya" />
-    <!-- Open Graph Meta-->
-    <meta property="og:type" content="website" />
-    <meta property="og:SITE_NAME" content="Admin" />
-    <meta property="og:title" content="Kethod panel" />
-    <meta property="og:url" content="http:/localhost:8000" />
-    <meta property="og:description" content=""/><title>{{ config('app.name', 'Laravel') }}</title>
-    <meta charset="utf-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <!-- Main CSS-->
-    <link rel="stylesheet" type="text/css" href="{{ asset('backend/assets/css/main.css') }}" />
-    <!-- Font-icon css-->
-    <link rel="stylesheet" type="text/css" href="{{ asset('backend/assets/plugins/font-awesome-4.7.0/font-awesome.min.css') }}"/>
-    @stack('styles')
-  </head>
-  <body class="app sidebar-mini rtl">
-    <section class="material-half-bg">
-      <div class="cover"></div>
-    </section>
-    <section class="login-content">
-      <div class="logo">
-        <h1>{{ config('app.name', 'Laravel') }}</h1>
-      </div>
-      <div class="container">
+@extends('backend.layouts.public-app')
+@section('content')
+<section class="new-password-content py-5">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col">
+        <div class="container">
           <div class="row justify-content-center">
-              <div class="col-md-8">
-                  <div class="card">
-                      <div class="card-header">{{ __('Reset Password') }}</div>
-
-                      <div class="card-body">
-                          <form method="POST" action="{{ route('password.update') }}">
-                              @csrf
-
-                              <input type="hidden" name="token" value="{{ $token }}">
-
-                              <div class="form-group row">
-                                  <label for="email" class="col-md-4 col-form-label text-md-right">{{ __('E-Mail Address') }}</label>
-
-                                  <div class="col-md-6">
-                                      <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ $email ?? old('email') }}" required autocomplete="email" autofocus>
-
-                                      @error('email')
-                                          <span class="invalid-feedback" role="alert">
-                                              <strong>{{ $message }}</strong>
-                                          </span>
-                                      @enderror
-                                  </div>
-                              </div>
-
-                              <div class="form-group row">
-                                  <label for="password" class="col-md-4 col-form-label text-md-right">{{ __('Password') }}</label>
-
-                                  <div class="col-md-6">
-                                      <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password" required autocomplete="new-password">
-
-                                      @error('password')
-                                          <span class="invalid-feedback" role="alert">
-                                              <strong>{{ $message }}</strong>
-                                          </span>
-                                      @enderror
-                                  </div>
-                              </div>
-
-                              <div class="form-group row">
-                                  <label for="password-confirm" class="col-md-4 col-form-label text-md-right">{{ __('Confirm Password') }}</label>
-
-                                  <div class="col-md-6">
-                                      <input id="password-confirm" type="password" class="form-control" name="password_confirmation" required autocomplete="new-password">
-                                  </div>
-                              </div>
-
-                              <div class="form-group row mb-0">
-                                  <div class="col-md-6 offset-md-4">
-                                      <button type="submit" class="btn btn-primary">
-                                          {{ __('Reset Password') }}
-                                      </button>
-                                  </div>
-                              </div>
-                          </form>
-                      </div>
-                  </div>
+            <div class="col-md-4 py-3">
+              @if(session()->has('message'))
+              <div class="alert alert-info">{{ session()->get('message') }}</div>
+              @endif
+              @if (session('status'))
+              <div class="alert alert-success" role="alert">
+                {{ session('status') }}
               </div>
-          </div>
-      </div>
-    </section>
+              @endif
+              <div class="card login-card">
+                <div class="card-body">
+                  <div class="logo text-center">
+                    <img class="img-fluid logo-img" src="{{ asset('backend/assets/images/kethod.png') }}" alt="Kethod" />
+                  </div>
+                  <h5 class="mb-4 text-center">
+                    {{ __('Reset Password') }}
+                  </h5>
+                  <form method="POST" action="{{ route('password.update') }}">
+                    @csrf
 
-    <!-- Essential javascripts for application to work-->
-    <script src="{{ asset('backend/assets/plugins/jquery-3.2.1.min.js') }}"></script>
-    <script src="{{ asset('backend/assets/plugins/popper.min.js') }}"></script>
-    <script src="{{ asset('backend/assets/plugins/bootstrap.min.js') }}"></script>
-    <script src="{{ asset('backend/assets/js/main.js') }}"></script>
-    <!-- The javascript plugin to display page loading on top-->
-    <script src="{{ asset('backend/assets/plugins/plugins/pace.min.js') }}"></script>
-    @stack('scripts')
-  </body>
-</html>
+                    <input type="hidden" name="token" value="{{ $token }}">
+
+                    <div class="mb-3">
+                      <label class="form-label" for="email">{{ __('E-Mail Address') }}</label>
+                      <input id="email" type="email" class="form-control k-input @error('email') is-invalid @enderror" name="email" value="{{ $email ?? old('email') }}" required autocomplete="email" autofocus>
+
+                      @error('email')
+                      <span class="invalid-feedback" role="alert">
+                        <strong>{{ $message }}</strong>
+                      </span>
+                      @enderror
+                    </div>
+
+                    <div class="mb-3">
+                      <label class="form-label" for="password">{{ __('Password') }}</label>
+                      <input id="password" type="password" class="form-control k-input @error('password') is-invalid @enderror" name="password" required autocomplete="new-password">
+                      @error('password')
+                      <span class="invalid-feedback" role="alert">
+                        <strong>{{ $message }}</strong>
+                      </span>
+                      @enderror
+                    </div>
+
+                    <div class="mb-3">
+                      <label class="form-label" for="password-confirm">{{ __('Confirm Password') }}</label>
+                      <input id="password-confirm" type="password" class="form-control k-input" name="password_confirmation" required autocomplete="new-password">
+                    </div>
+
+                    <div class="mb-3  d-grid gap-2">
+                      <button type="submit" class="btn k-btn k-btn-primary">
+                        {{ __('Reset Password') }}
+                      </button>
+                    </div>
+                    <div class="mt-4 text-center">
+                      <p class="semibold-text mb-2"><a href="{{ route('login') }}" data-toggle="flip" class="k-link">{{ __('Back to login?') }}</a></p>
+                    </div>
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+@endsection
