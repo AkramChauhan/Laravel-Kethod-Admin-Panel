@@ -2,13 +2,13 @@
 @php
 $record_id = $offset;
 @endphp
-<table class="table table-hover">
-  <thead>
+<table class="table k-table table-hover">
+  <thead class="table-light">
     <tr>
       <th width="10px">
         <input type="checkbox" name="row_check_all" class="row_check_all k-input">
       </th>
-      <th>ID</th>
+      <th>#</th>
       <th>Name</th>
       <th>Email</th>
       <th>Role</th>
@@ -35,11 +35,11 @@ $record_id = $offset;
       <td>{{ Date('d M, Y',strtotime($v->created_at)) }}</td>
       <td>
         @if($v->deleted_at==null)
-        <a href="{{$edit_route.'?id='.$v->id}}" class="btn k-btn k-btn-primary btn-sm">Edit</a>
-        <a href="#" data-id="{{ $v->id }}" class="btn k-btn k-btn-danger btn-sm trash_btn delete{{ $v->id }}">Trash</a>
+        <a href="{{$edit_route.'?id='.$v->id}}" class="btn k-btn-sm k-btn-primary btn-sm">Edit</a>
+        <a href="#" data-id="{{ $v->id }}" class="btn k-btn-sm k-btn-danger btn-sm trash_btn delete{{ $v->id }}">Trash</a>
         @else
-        <a href="#" data-id="{{ $v->id }}" class="btn k-btn k-btn-primary restore_btn restore{{ $v->id }} btn-sm">Restore</a>
-        <a href="#" data-id="{{ $v->id }}" class="btn k-btn k-btn-danger delete_btn delete{{ $v->id }} btn-sm">Delete</a>
+        <a href="#" data-id="{{ $v->id }}" class="btn k-btn-sm k-btn-primary restore_btn restore{{ $v->id }} btn-sm">Restore</a>
+        <a href="#" data-id="{{ $v->id }}" class="btn k-btn-sm k-btn-danger delete_btn delete{{ $v->id }} btn-sm">Delete</a>
         @endif
       </td>
     </tr>

@@ -64,6 +64,15 @@ input:focus,
   border: 2px solid var(--btn-primary-background-color);
 }
 
+.k-btn-sm {
+  font-size: 14px;
+  border: 2px solid var(--btn-primary-background-color);
+}
+
+.k-btn-sm:hover {
+  border: 2px solid var(--btn-primary-background-color);
+}
+
 .k-btn-primary {
   color: var(--btn-primary-color);
   background-color: var(--btn-primary-background-color);
@@ -78,6 +87,10 @@ input:focus,
 .k-btn-danger:hover {
   color: var(--btn-danger-background-color);
   border: 2px solid var(--btn-danger-background-color);
+}
+
+.k-table {
+  font-size: 14px;
 }
 
 .card-link {

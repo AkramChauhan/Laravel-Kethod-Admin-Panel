@@ -22,11 +22,11 @@ $page_number = 1;
       @endif
     </div>
     <div class="col-md-12">
-      <div class="card">
-        <div class="card-header">
+      <div class="row">
+        <div class="col-12 py-3">
           <input type="hidden" class="action_selected" value="restore">
           <div class="row justify-content-between align-items-center">
-            <div class="col-8">
+            <div class="col-7">
               <div class="d-flex align-items-center">
                 <div class="px-2 trash_selected_button bulk_select_btn">
                   <button class="btn k-btn k-btn-primary trash_selected" name="trash_selected">Trash Selected</button>
@@ -34,7 +34,7 @@ $page_number = 1;
                 <div class="px-2 restore_selected_button bulk_select_btn">
                   <button class="btn k-btn k-btn-primary delete_selected" name="delete_selected">Delete Selected</button>
                 </div>
-                <div class="col-4 px-2">
+                <div class="col-4">
                   <input type="hidden" name="page_number" id="page_number" class="page_number" value="{{ $page_number }}">
                   <div class="input-group pr-2">
                     <input type="text" class="form-control k-input search" name="search" id="search" placeholder="Search by Name">
@@ -67,8 +67,10 @@ $page_number = 1;
             </div>
           </div>
         </div>
+      </div>
+      <div class="card">
         <div class="card-body p-0">
-          <div class="ajax_loader p-3" align="center"><img src="{{ asset('backend/assets/images/ajax_loader_circular.gif') }}" alt=""></div>
+          <div class="ajax_loader p-3 text-center"><img src="{{ asset('backend/assets/images/ajax_loader_circular.gif') }}" alt=""></div>
           @if (session('status'))
           <div class="alert alert-success" role="alert">
             {{ session('status') }}
@@ -81,7 +83,7 @@ $page_number = 1;
   </div>
 </div>
 @push("scripts")
-<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+<script src="{{ asset('backend/assets/plugins/sweetalert.min.js') }}"></script>
 <script type="text/javascript">
   function load_data() {
     $(".load_data").html('');
@@ -91,6 +93,7 @@ $page_number = 1;
     var limit = $(".change_row_limit option:selected").val();
     var page_number = $(".page_number").val();
     var string = $(".search").val();
+    var all_trashed = $(".change_display option:selected").val();
 
     $.ajax({
       type: 'GET',
@@ -99,6 +102,7 @@ $page_number = 1;
         _token: token,
         page_number: page_number,
         string: string,
+        all_trashed: all_trashed,
         limit: limit
       },
       success: function(html) {
@@ -110,6 +114,129 @@ $page_number = 1;
           page_number = $(this).attr('data-page');
           $(".page_number").val(page_number);
           load_data();
+        });
+
+        //Trash Item
+        $(".trash_btn").click(function(e) {
+          e.preventDefault();
+          var data_id = $(this).attr('data-id');
+          // var data_status = $(this).attr('data-status');
+          var status_msg = "It will be trashed from the system!";
+          swal({
+              title: "Are you sure?",
+              text: status_msg,
+              icon: "warning",
+              buttons: true,
+              dangerMode: true,
+            })
+            .then((willDelete) => {
+              if (willDelete) {
+
+                var token = '{{ csrf_token() }}';
+                $.ajax({
+                  type: 'POST',
+                  url: '{{ $delete_route }}',
+                  data: {
+                    _token: token,
+                    data_id: data_id,
+                    action: 'trash',
+                    is_bulk: 0,
+                  },
+                  dataType: 'JSON',
+                  success: function(resp) {
+                    var res_msg = "It has been trashed successfully.";
+                    swal(res_msg, {
+                      icon: "success",
+                    }).then(function() {
+                      location.reload();
+                    });
+                  },
+
+                });
+              }
+            });
+        });
+
+        //Delete Item
+        $(".delete_btn").click(function(e) {
+          e.preventDefault();
+          var data_id = $(this).attr('data-id');
+          // var data_status = $(this).attr('data-status');
+          var status_msg = "It will be deleted from the system!";
+          swal({
+              title: "Are you sure?",
+              text: status_msg,
+              icon: "warning",
+              buttons: true,
+              dangerMode: true,
+            })
+            .then((willDelete) => {
+              if (willDelete) {
+
+                var token = '{{ csrf_token() }}';
+                $.ajax({
+                  type: 'POST',
+                  url: '{{ $delete_route }}',
+                  data: {
+                    _token: token,
+                    data_id: data_id,
+                    action: 'delete',
+                    is_bulk: 0,
+                  },
+                  dataType: 'JSON',
+                  success: function(resp) {
+                    var res_msg = "Item has been deleted successfully.";
+                    swal(res_msg, {
+                      icon: "success",
+                    }).then(function() {
+                      location.reload();
+                    });
+                  },
+
+                });
+              }
+            });
+        });
+
+        //Restore Item
+        $(".restore_btn").click(function(e) {
+          e.preventDefault();
+          var data_id = $(this).attr('data-id');
+          // var data_status = $(this).attr('data-status');
+          var status_msg = "Item will be restored!";
+          swal({
+              title: "Are you sure?",
+              text: status_msg,
+              icon: "warning",
+              buttons: true,
+              dangerMode: true,
+            })
+            .then((willDelete) => {
+              if (willDelete) {
+
+                var token = '{{ csrf_token() }}';
+                $.ajax({
+                  type: 'POST',
+                  url: '{{ $delete_route }}',
+                  data: {
+                    _token: token,
+                    data_id: data_id,
+                    action: 'restore',
+                    is_bulk: 0,
+                  },
+                  dataType: 'JSON',
+                  success: function(resp) {
+                    var res_msg = "It has been restored successfully.";
+                    swal(res_msg, {
+                      icon: "success",
+                    }).then(function() {
+                      location.reload();
+                    });
+                  },
+
+                });
+              }
+            });
         });
 
         //Changing parent checkbox
@@ -186,6 +313,7 @@ $page_number = 1;
               }
             });
         });
+
         // Delete selected.
         $(".delete_selected").click(function(e) {
           e.preventDefault();
@@ -226,6 +354,47 @@ $page_number = 1;
               }
             });
         });
+
+        // Restore selected.
+        $(".restore_selected").click(function(e) {
+          e.preventDefault();
+          var data_id = $(this).attr('data-id');
+          // var data_status = $(this).attr('data-status');
+          var status_msg = "One or more items will be deleted !";
+          swal({
+              title: "Are you sure?",
+              text: status_msg,
+              icon: "warning",
+              buttons: true,
+              dangerMode: true,
+            })
+            .then((willDelete) => {
+              if (willDelete) {
+
+                var token = '{{ csrf_token() }}';
+                $.ajax({
+                  type: 'POST',
+                  url: '{{ $delete_route }}',
+                  data: {
+                    _token: token,
+                    data_id: data_id,
+                    action: 'restore',
+                    is_bulk: 1,
+                  },
+                  dataType: 'JSON',
+                  success: function(resp) {
+                    var res_msg = "Items has been restored successfully.";
+                    swal(res_msg, {
+                      icon: "success",
+                    }).then(function() {
+                      location.reload();
+                    });
+                  },
+
+                });
+              }
+            });
+        });
       },
     });
   }
@@ -236,6 +405,20 @@ $page_number = 1;
     $(".change_row_limit").change(function() {
       load_data();
     });
+
+    $(".change_display").change(function(e) {
+      $(".bulk_select_btn").hide();
+      e.preventDefault();
+      temp = $(this).val();
+      $(".all_trashed_input").val(temp);
+      if (temp == "all") {
+        $(".action_selected").val('trash');
+      } else {
+        $(".action_selected").val('restore');
+      }
+      load_data();
+    });
+
     $(".search_data").click(function(e) {
       e.preventDefault();
       load_data();
@@ -243,20 +426,6 @@ $page_number = 1;
     $(".reset_data").click(function(e) {
       e.preventDefault();
       $(".search").val('');
-      load_data();
-    });
-    $(".all_trashed").click(function(e) {
-      $(".bulk_select_btn").hide();
-      e.preventDefault();
-      temp = $(this).attr('data-val');
-      $(".all_trashed").removeClass('active');
-      $(this).addClass('active');
-      $(".all_trashed_input").val(temp);
-      if (temp == "all") {
-        $(".action_selected").val('trash');
-      } else {
-        $(".action_selected").val('restore');
-      }
       load_data();
     });
   });

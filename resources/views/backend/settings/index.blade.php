@@ -23,23 +23,14 @@ $page_number = 1;
     </div>
     <div class="col-md-12">
       <?php
-      ($table_status == "all") ? $all_status = 'active' : $all_status = '';
-      ($table_status == "trashed") ? $trash_status = 'active' : $trash_status = '';
+      ($table_status == "all") ? $all_status = 'selected' : $all_status = '';
+      ($table_status == "trashed") ? $trash_status = 'selected' : $trash_status = '';
       ?>
-      <ul class="nav nav-tabs">
-        <input type="hidden" class="all_trashed_input" value="{{ $table_status }}">
-        <li class="nav-item ">
-          <a class="nav-link {{ $all_status }} all_trashed" data-val="all" href="#">All ({{ $all_count }})</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link {{ $trash_status }} all_trashed" data-val="trashed" href="#">Trashed ({{ $trashed_count }})</a>
-        </li>
-      </ul>
-      <div class="card">
-        <div class="card-header">
+      <div class="row">
+        <div class="col-12 py-3">
           <input type="hidden" class="action_selected" value="trash">
           <div class="row justify-content-between align-items-center">
-            <div class="col-8">
+            <div class="col-7">
               <div class="d-flex align-items-center">
                 <div class="px-2 trash_selected_button bulk_select_btn">
                   <button class="btn k-btn k-btn-primary trash_selected" name="trash_selected">Trash Selected</button>
@@ -47,7 +38,7 @@ $page_number = 1;
                 <div class="px-2 restore_selected_button bulk_select_btn">
                   <button class="btn k-btn k-btn-primary delete_selected" name="delete_selected">Delete Selected</button>
                 </div>
-                <div class="col-4 px-2">
+                <div class="col-4">
                   <input type="hidden" name="page_number" id="page_number" class="page_number" value="{{ $page_number }}">
                   <div class="input-group pr-2">
                     <input type="text" class="form-control k-input search" name="search" id="search" placeholder="Search by Name">
@@ -61,6 +52,18 @@ $page_number = 1;
             </div>
             <div class="col">
               <div class="d-flex justify-content-end align-items-center">
+                <div class="trashed px-2">
+                  <div class="input-group">
+                    <input type="hidden" class="all_trashed_input" value="{{ $table_status }}">
+                    <div class="input-group-prepend">
+                      <label class="input-group-text" for="inputGroupSelect01">Display</label>
+                    </div>
+                    <select class="custom-select form-select change_display" id="inputGroupSelect01">
+                      <option {{ $all_status }} value="all">All ({{ $all_count }})</option>
+                      <option {{ $trash_status }} value="trashed">Trashed ({{ $trashed_count }})</option>
+                    </select>
+                  </div>
+                </div>
                 <div class="limit px-2">
                   <div class="input-group">
                     <div class="input-group-prepend">
@@ -80,8 +83,10 @@ $page_number = 1;
             </div>
           </div>
         </div>
+      </div>
+      <div class="card">
         <div class="card-body p-0">
-          <div class="ajax_loader p-3" align="center"><img src="{{ asset('backend/assets/images/ajax_loader_circular.gif') }}" alt=""></div>
+          <div class="ajax_loader p-3 text-center"><img src="{{ asset('backend/assets/images/ajax_loader_circular.gif') }}" alt=""></div>
           @if (session('status'))
           <div class="alert alert-success" role="alert">
             {{ session('status') }}
@@ -94,7 +99,7 @@ $page_number = 1;
   </div>
 </div>
 @push("scripts")
-<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+<script src="{{ asset('backend/assets/plugins/sweetalert.min.js') }}"></script>
 <script type="text/javascript">
   function load_data() {
     $(".load_data").html('');
@@ -104,7 +109,7 @@ $page_number = 1;
     var limit = $(".change_row_limit option:selected").val();
     var page_number = $(".page_number").val();
     var string = $(".search").val();
-    var all_trashed = $(".all_trashed_input").val();
+    var all_trashed = $(".change_display option:selected").val();
 
     $.ajax({
       type: 'GET',
@@ -411,10 +416,25 @@ $page_number = 1;
   }
   $(document).ready(function() {
     $(".bulk_select_btn").hide();
+    // $(".restore_selected_button").hide();
     load_data();
     $(".change_row_limit").change(function() {
       load_data();
     });
+
+    $(".change_display").change(function(e) {
+      $(".bulk_select_btn").hide();
+      e.preventDefault();
+      temp = $(this).val();
+      $(".all_trashed_input").val(temp);
+      if (temp == "all") {
+        $(".action_selected").val('trash');
+      } else {
+        $(".action_selected").val('restore');
+      }
+      load_data();
+    });
+
     $(".search_data").click(function(e) {
       e.preventDefault();
       load_data();
@@ -422,20 +442,6 @@ $page_number = 1;
     $(".reset_data").click(function(e) {
       e.preventDefault();
       $(".search").val('');
-      load_data();
-    });
-    $(".all_trashed").click(function(e) {
-      $(".bulk_select_btn").hide();
-      e.preventDefault();
-      temp = $(this).attr('data-val');
-      $(".all_trashed").removeClass('active');
-      $(this).addClass('active');
-      $(".all_trashed_input").val(temp);
-      if (temp == "all") {
-        $(".action_selected").val('trash');
-      } else {
-        $(".action_selected").val('restore');
-      }
       load_data();
     });
   });
