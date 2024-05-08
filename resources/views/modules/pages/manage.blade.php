@@ -1,4 +1,4 @@
-@extends('theme.layouts.app')
+@extends($app_layout)
 @section('content')
 <div class="container">
   <div class="row justify-content-center">
@@ -41,18 +41,9 @@
             <div class="row">
               <div class="col-md-6">
                 <div class="form-group">
-                  <label for="key">Key</label>
-                  <input type="text" name="key" class="form-control" @if($edit) value="{{$data->key}}" @else value="{{old('key')}}" @endif id="key" aria-describedby="keyHelp">
-                  <small id="keyHelp" class="form-text text-muted"></small>
-                </div>
-              </div>
-            </div>
-            <div class="row">
-              <div class="col-md-6">
-                <div class="form-group">
-                  <label for="name">Value</label>
-                  <textarea rows=5 type="text" name="value" class="form-control" id="value" aria-describedby="valueHelp">@if($edit){{ $data->value }}@endif</textarea>
-                  <small id="valueHelp" class="form-text text-muted"></small>
+                  <label for="name">Name</label>
+                  <input type="text" name="name" class="form-control" @if($edit) value="{{$data->name}}" @else value="{{old('name')}}" @endif id="name" aria-describedby="nameHelp">
+                  <small id="nameHelp" class="form-text text-muted"></small>
                 </div>
               </div>
             </div>

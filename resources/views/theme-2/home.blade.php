@@ -1,5 +1,4 @@
-@extends('theme.layouts.app')
-
+@extends($app_layout)
 @section('content')
 
 <div class="row">

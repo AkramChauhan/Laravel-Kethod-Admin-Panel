@@ -1,4 +1,4 @@
-@extends('theme.layouts.app')
+@extends($app_layout)
 @section('content')
     <?php
     $page_number = 1;

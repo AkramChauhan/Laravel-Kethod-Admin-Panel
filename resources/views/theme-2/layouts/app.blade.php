@@ -67,7 +67,7 @@
   <?php
   include('../resources/views/configuration/menu_array.blade.php');
   ?>
-  @include('theme.layouts.partial.menu_items')
+  @include($theme_name.'.layouts.partial.menu_items')
   @endif
   <main class="app-content">
     @yield('content')

@@ -8,9 +8,8 @@ use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Spatie\Permission\Traits\HasRoles;
 
-class User extends Authenticatable
-{
-    use Notifiable,SoftDeletes,HasRoles;
+class User extends Authenticatable {
+    use Notifiable, SoftDeletes, HasRoles;
 
     /**
      * The attributes that are mass assignable.
@@ -18,8 +17,8 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 
-        'email', 
+        'name',
+        'email',
         'password',
         'country_code',
         'phone_number',
@@ -34,7 +33,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $hidden = [
-        'password', 
+        'password',
         'remember_token',
     ];
 
@@ -48,24 +47,27 @@ class User extends Authenticatable
         'two_factor_expires_at' => 'datetime',
     ];
 
-    public static function createRecord($obj)
-    {
+    public static function createRecord($obj) {
         return self::create($obj);
     }
 
-    public static function updateRecord($obj, $id)
-    {
+    public static function updateRecord($obj, $id) {
         return self::where('id', '=', $id)->updateOrCreate($obj);
     }
 
-    public function generateTwoFactorCode(){
-        $this->timestamps = false; 
-        $this->two_factor_code = rand(10000000,99999999);
+    public function generateTwoFactorCode() {
+        $this->timestamps = false;
+        $this->two_factor_code = rand(10000000, 99999999);
         $this->two_factor_expires_at = now()->addMinutes(10);
         $this->save();
     }
-
-    public function resetTwoFactorCode(){
+    public function getIsUserAttribute() {
+        return $this->hasRole('User');
+    }
+    public function getIsAdminAttribute() {
+        return $this->hasRole('Admin');
+    }
+    public function resetTwoFactorCode() {
         $this->timestamps = false;
         $this->two_factor_code = null;
         $this->two_factor_expires_at = null;
