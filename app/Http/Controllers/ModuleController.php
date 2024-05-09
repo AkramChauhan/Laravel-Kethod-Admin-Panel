@@ -28,11 +28,15 @@ class ModuleController extends Controller {
     public function create(Request $request) {
         $module_name = $request->module_name;
         $command = "make:module " . $module_name;
+        if (!$module_name) {
+            return redirect()->back()->with('error', "Module name can't be empty");
+        }
         if (isset($request->run_migrations) && $request->run_migrations == "on") {
             $command .= " --migration";
         }
         Artisan::call($command);
         Artisan::call('route:cache');
+        sleep(3);
         return redirect()->to(route('admin.module.index'))->with('success', 'New module has been created.');
     }
 }
