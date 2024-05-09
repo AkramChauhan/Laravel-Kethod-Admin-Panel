@@ -36,7 +36,7 @@ class ModuleController extends Controller {
       $command .= " --migration";
     }
 
-    if ($request->column_count > 1) {
+    if ($request->column_count >= 1) {
       $cols = json_decode($request->column_names, true);
       $schema_columns = [];
 
@@ -70,6 +70,6 @@ class ModuleController extends Controller {
     Artisan::call($command);
     Artisan::call('route:cache');
     sleep(3);
-    return redirect()->to(route('admin.module.index'))->with('success', 'New module has been created.');
+    // return redirect()->to(route('admin.module.index'))->with('success', 'New module has been created.');
   }
 }

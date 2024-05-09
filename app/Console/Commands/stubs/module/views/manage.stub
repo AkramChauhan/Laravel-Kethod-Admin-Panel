@@ -39,13 +39,7 @@
               </div>
             </div>
             <div class="row">
-              <div class="col-md-6">
-                <div class="mb-3">
-                  <label for="name">Name</label>
-                  <input type="text" name="name" class="form-control k-input" @if($edit) value="{{$data->name}}" @else value="{{old('name')}}" @endif id="name" aria-describedby="nameHelp">
-                  <small id="nameHelp" class="form-text text-muted"></small>
-                </div>
-              </div>
+              <div class="col-md-6"><div class="mb-3"><label for="name">Name</label><input type="text" name="name" class="form-control k-input" @if($edit) value="{{$data->name}}" @else value="{{old("name")}}" @endif id="name" aria-describedby="nameHelp"><small id="nameHelp" class="form-text text-muted"></small></div></div>
             </div>
             <div class="row">
               <div class="col-md-12">
