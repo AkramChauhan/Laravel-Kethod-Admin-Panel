@@ -14,7 +14,7 @@ class MakeModule extends Command {
      *
      * @var string
      */
-    protected $signature = 'make:module {module_name} {--migration}';
+    protected $signature = 'make:module {module_name} {--migration} {--column_data=}';
 
     /**
      * The console command description.
@@ -40,7 +40,13 @@ class MakeModule extends Command {
     public function handle() {
         $argument = $this->argument('module_name');
         $options = $this->options();
-
+        $data = $this->option('column_data');
+        $col_data = [];
+        if ($this->option('column_data')) {
+            $col_data = json_decode(base64_decode($this->option('column_data')), true);
+        }
+        // json_decode($this->option('json'), true);
+        // dd($col_data);
         $run_migration = 0;
         if (isset($options['migration']) && $options['migration']) {
             $run_migration = 1;

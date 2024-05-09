@@ -151,6 +151,16 @@ function snakeCaseToPascalCase($snake) {
   return $pascal;
 }
 
+function getColumnTypeSchema($type) {
+  $pairs = [
+    'textarea' => 'longText',
+    'text' => 'string',
+    'date' => 'date',
+    'dropdown' => 'string',
+  ];
+  return $pairs[$type];
+}
+
 function snakeToNormal($snake) {
   $words = explode('_', $snake);  // Split the snake_case string into an array of words
   $normal = '';
