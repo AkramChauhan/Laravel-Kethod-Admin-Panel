@@ -70,6 +70,6 @@ class ModuleController extends Controller {
     Artisan::call($command);
     Artisan::call('route:cache');
     sleep(3);
-    // return redirect()->to(route('admin.module.index'))->with('success', 'New module has been created.');
+    return redirect()->to(route('admin.module.index'))->with('success', 'New module has been created.');
   }
 }

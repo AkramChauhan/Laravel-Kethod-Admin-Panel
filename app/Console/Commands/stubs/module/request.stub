@@ -22,9 +22,7 @@ class {REQUEST_NAME} extends FormRequest
      */
     public function rules()
     {
-
-        return [
-            'name' => 'required',
-        ];
+        $data = ['name' => 'required'];
+        return $data;
     }
 }

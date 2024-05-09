@@ -66,7 +66,7 @@ class MakeModule extends Command {
     if (count($migrationFiles) > 0) {
       $this->error("Migration file for table $table_name exists.");
       //TODO: remove this comment
-      // return 0;
+      return 0;
     } else {
       $this->info("Creating migration file...");
     }
@@ -81,7 +81,9 @@ class MakeModule extends Command {
       "Migration file name" => $migration_file_name,
     ];
     $col_names = [];
+    $request_required_fields = [];
     foreach ($col_data as $cols) {
+      $request_required_fields[$cols['name']] = 'required';
       array_push($col_names, $cols['name']);
     }
     // MODIFY MODEL FILE based on COLDATA
@@ -103,6 +105,12 @@ class MakeModule extends Command {
 
     // Creating add/update requests        
     $stub = file_get_contents(__DIR__ . '/stubs/module/request.stub');
+
+    $new_data_string = var_export($request_required_fields, true);
+    $new_data_string = preg_replace('/^/m', "\t\t", $new_data_string);
+
+    // $stub = preg_replace("/\\\$data\s*=\s*\[.*?\];/s", '$data = ' . $new_data_string . ';', $stub);
+    $stub = preg_replace("/\\\$data\s*=\s*\[.*?\];/s", "\$data = " . $new_data_string . ";", $stub);
 
     $add_stub = str_replace('{MODEL_NAME}', $model_name, $stub);
     $add_stub = str_replace('{REQUEST_NAME}', "Add" . $model_name, $add_stub);
@@ -133,7 +141,6 @@ class MakeModule extends Command {
     $path = $directory . '/Update' . $model_name . '.php';
     file_put_contents($path, $update_stub);
     $this->info('Request pages created successfully!');
-
 
     // Creating controller file.
     $stub = file_get_contents(__DIR__ . '/stubs/module/controller.stub');
@@ -217,7 +224,7 @@ class MakeModule extends Command {
       $stub = preg_replace("/\\\$table->string\('name'\);/", $new_content, $stub);
     }
     // TODO: change
-    // file_put_contents($path, $stub);
+    file_put_contents($path, $stub);
     $this->info('Migration created successfully!');
 
     // Create a directory in resources folder for the views.
@@ -258,7 +265,6 @@ class MakeModule extends Command {
     }
     $this->info("Views for {$table_name} created successfully.");
 
-    dd("Here");
     // Add new route
     // Define the new route group
     // Append the new routes to the existing group in the routes file
