@@ -71,6 +71,11 @@ $currentRoute = Request::route()->getName(); // Adjust this based on how you sto
             @endforeach
             <li class="nav-item">
               <a class="nav-link
+              {{ Request::route()->getName() == 'admin.module.index' ? 'active' : '' }}
+              " aria-current="page" href="{{ route('admin.module.index') }}">{{ __('Create Module') }}</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link
               {{ Request::route()->getName() == 'admin.settings.edit_profile' ? 'active' : '' }}
               " aria-current="page" href="{{ route('admin.settings.edit_profile') }}">{{ __('Edit Profile') }}</a>
             </li>

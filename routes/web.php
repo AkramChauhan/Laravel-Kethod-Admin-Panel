@@ -36,6 +36,10 @@ Route::middleware(['auth', 'twofactor'])->prefix('admin')->group(function () {
   // For Dashboard
   Route::get('/dashboard', 'HomeController@index')->name('admin.dashboard');
 
+  // For Module
+  Route::get('/module', 'ModuleController@index')->name('admin.module.index');
+  Route::post('/module/create', 'ModuleController@create')->name('admin.module.create');
+
   // For Users
   Route::get('/users', 'UserController@index')->name('admin.users.index');
   Route::get('/users/add', "UserController@create")->name('admin.users.create');
