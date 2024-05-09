@@ -127,7 +127,7 @@ class MakeModule extends Command {
 
         // Create a directory in resources folder for the views.
         $stubDirectory = __DIR__ . '/stubs/module/views';
-        $viewDirectory = resource_path("views/theme/{$table_name}");
+        $viewDirectory = resource_path("views/backend/{$table_name}");
         if (!File::exists($viewDirectory)) {
             File::makeDirectory($viewDirectory, 0755, true);
         }
@@ -194,8 +194,8 @@ class MakeModule extends Command {
 
         $this->info("Menu updated successfully.");
 
-        Artisan::call('migrate');
         Artisan::call('route:cache');
+        Artisan::call('migrate');
 
         $this->info("New module has been created and added to admin panel.");
 
