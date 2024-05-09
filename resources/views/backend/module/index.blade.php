@@ -47,7 +47,24 @@
           </div>
         </div>
         <br />
-
+        <div class="card">
+          <div class="card-body">
+            <div class="row form_sec">
+              <div class="col-12">
+                <h5>Auto run migrations?</h5>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-6">
+                <label class="switch">
+                  <input type="checkbox" name="run_migrations" class="run_migrations k-input" id="run_migrations">
+                  <span class="slider"></span>
+                </label>
+              </div>
+            </div>
+          </div>
+        </div>
+        <br />
         <div class="row">
           <div class="col-md-12">
             <button type="submit" class="btn k-btn k-btn-primary add_site">

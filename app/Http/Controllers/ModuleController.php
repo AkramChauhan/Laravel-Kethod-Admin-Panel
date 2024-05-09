@@ -27,7 +27,11 @@ class ModuleController extends Controller {
     }
     public function create(Request $request) {
         $module_name = $request->module_name;
-        Artisan::call('make:module ' . $module_name);
+        $command = "make:module " . $module_name;
+        if (isset($request->run_migrations) && $request->run_migrations == "on") {
+            $command .= " --migration";
+        }
+        Artisan::call($command);
         Artisan::call('route:cache');
         return redirect()->to(route('admin.module.index'))->with('success', 'New module has been created.');
     }

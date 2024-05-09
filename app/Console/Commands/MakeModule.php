@@ -14,7 +14,7 @@ class MakeModule extends Command {
      *
      * @var string
      */
-    protected $signature = 'make:module {module_name}';
+    protected $signature = 'make:module {module_name} {--migration}';
 
     /**
      * The console command description.
@@ -39,7 +39,12 @@ class MakeModule extends Command {
      */
     public function handle() {
         $argument = $this->argument('module_name');
+        $options = $this->options();
 
+        $run_migration = 0;
+        if (isset($options['migration']) && $options['migration']) {
+            $run_migration = 1;
+        }
         //Lets create names first.
         //Expecting argument to be snake_case
         $table_name = $argument;
@@ -195,7 +200,9 @@ class MakeModule extends Command {
         $this->info("Menu updated successfully.");
 
         Artisan::call('route:cache');
-        Artisan::call('migrate');
+        if ($run_migration) {
+            Artisan::call('migrate');
+        }
 
         $this->info("New module has been created and added to admin panel.");
 
