@@ -14,19 +14,17 @@
   @stack('styles')
 </head>
 
-<body class="app">
+<body class="app m-0 p-0" >
   <!-- Navbar-->
-  <header class="app-header">
-    <?php
-    $settings = getSettings();
-    ?>
-    @if(Auth::check())
-    <?php
-    include('../resources/views/configuration/menu_array.blade.php');
-    ?>
-    @include($theme_name.'.layouts.partial.menu_items')
-    @endif
-  </header>
+  <?php
+  $settings = getSettings();
+  ?>
+  @if(Auth::check())
+  <?php
+  include('../resources/views/configuration/menu_array.blade.php');
+  ?>
+  @include($theme_name.'.layouts.partial.menu_items')
+  @endif
   <main class="app-content p-5">
     @yield('content')
   </main>
