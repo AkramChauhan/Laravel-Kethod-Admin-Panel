@@ -274,7 +274,6 @@ class MakeModule extends Command {
       "Route::post('$table_name/update', '$fullControllerName@update')->name('admin.$table_name.update');",
       "Route::get('$table_name/ajax', '$fullControllerName@ajax')->name('admin.$table_name.ajax');",
       "Route::post('$table_name/delete', '$fullControllerName@delete')->name('admin.$table_name.delete');",
-      "",
     ];
 
     $this->appendRoutesToGroup($newRoute);
