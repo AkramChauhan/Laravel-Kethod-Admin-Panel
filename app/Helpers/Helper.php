@@ -151,13 +151,24 @@ function snakeCaseToPascalCase($snake) {
   return $pascal;
 }
 
-function getColumnTypeSchema($type) {
+function getColumnTypes() {
   $pairs = [
-    'textarea' => 'longText',
-    'text' => 'string',
-    'date' => 'date',
-    'dropdown' => 'string',
+    'integer' => 'INTEGER',
+    'bigInteger' => 'BIG INTEGER',
+    'tinyInteger' => 'BOOLEAN',
+    'date' => 'DATE',
+    'dateTime' => 'DATE AND TIME',
+    'text' => 'TEXT',
+    'longText' => 'LONG TEXT',
+    'string' => 'VARCHAR',
+    'decimal' => 'DECIMAL',
+    'double' => 'DOUBLE',
   ];
+  return $pairs;
+}
+
+function getColumnTypeSchema($type) {
+  $pairs = getColumnTypes();
   return $pairs[$type];
 }
 

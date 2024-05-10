@@ -37,8 +37,13 @@ Route::middleware(['auth', 'twofactor'])->prefix('admin')->group(function () {
   Route::get('/dashboard', 'HomeController@index')->name('admin.dashboard');
 
   // For Module
-  Route::get('/module', 'ModuleController@index')->name('admin.module.index');
-  Route::post('/module/create', 'ModuleController@create')->name('admin.module.create');
+  Route::get('/modules', 'Admin\ModuleController@index')->name('admin.modules.index');
+  Route::get('/modules/add', "Admin\ModuleController@create")->name('admin.modules.create');
+  Route::get('/modules/edit', "Admin\ModuleController@edit")->name('admin.modules.edit');
+  Route::post('/modules/store', "Admin\ModuleController@store")->name('admin.modules.store');
+  Route::post('/modules/update', "Admin\ModuleController@update")->name('admin.modules.update');
+  Route::get('/modules/ajax', "Admin\ModuleController@ajax")->name('admin.modules.ajax');
+  Route::post('/modules/delete', "Admin\ModuleController@delete")->name('admin.modules.delete');
 
   // For Users
   Route::get('/users', 'UserController@index')->name('admin.users.index');

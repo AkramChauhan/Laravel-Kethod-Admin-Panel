@@ -78,9 +78,15 @@
                     <div class="mb-3">
                       <label for="col1_type">Column Type</label>
                       <select name="col1_type" class="form-control">
-                        <option value="text">Text Field</option>
-                        <option value="date">Date</option>
-                        <option value="dropdown">Dropdown</option>
+                        @foreach($col_types as $col_type_key => $col_type_value)
+                        <?php 
+                        $selected = "";
+                        if ($col_type_key == "string") {
+                          $selected = "selected";
+                        }
+                        ?>
+                        <option {{ $selected }} value="{{ $col_type_key }}">{{ $col_type_value }}</option>
+                        @endforeach
                       </select>
                       <small id="col1_typeHelp" class="form-text text-muted"></small>
                     </div>
@@ -153,9 +159,9 @@
       <div class="mb-3">
         <label for="col-new_type">Column Type</label>
         <select name="col-new_type" class="form-control">
-          <option value="text">Text Field</option>
-          <option value="date">Date</option>
-          <option value="dropdown">Dropdown</option>
+          @foreach($col_types as $col_type_key => $col_type_value)
+          <option value="{{ $col_type_key }}">{{ $col_type_value }}</option>
+          @endforeach
         </select>
         <small id="col-new_typeHelp" class="form-text text-muted"></small>
       </div>

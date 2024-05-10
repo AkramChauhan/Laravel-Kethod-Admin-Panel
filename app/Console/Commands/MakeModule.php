@@ -182,16 +182,11 @@ class MakeModule extends Command {
     if (count($col_names) >= 1) {
       // Define the new lines you want to replace with
       foreach ($col_data as $col) {
-        if ($col['type']) {
-          $col_type = getColumnTypeSchema($col['type']);
-        }
+        $col_type = $col['type'];
         $col_name = "'" . $col['name'] . "'";
         $col_name_copy = "'" . $col['name'] . "'";
         array_push($ajax_header_lines, "<th>" . snakeToNormal($col['name']) . "</th>");
         array_push($ajax_body_lines, "<td>{{ \$v->" . $col['name'] . " }}</td>");
-        if ($col['type'] == 'text') {
-          $col_name = "'" . $col['name'] . "', " . $col['length'];
-        }
         $new_line = "\$table->$col_type($col_name)";
         if ($col['nullable']) {
           $new_line .= "->nullable()";
