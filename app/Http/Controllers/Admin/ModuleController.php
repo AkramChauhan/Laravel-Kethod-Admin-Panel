@@ -30,7 +30,7 @@ class ModuleController extends Controller {
   }
 
   public function create() {
-    $form_action = route('admin.modules.create');
+    $form_action = route('admin.modules.store');
     $col_types = getColumnTypes();
     $edit = 0;
     return kview($this->handle_name_plural . '.manage', compact('form_action', 'col_types', 'edit'));
@@ -126,7 +126,7 @@ class ModuleController extends Controller {
       );
     }
     $this->run_module($module);
-    return redirect()->to(route('admin.module.index'))->with('success', 'New module has been created.');
+    return redirect()->to(route('admin.modules.index'))->with('success', 'New module has been created.');
   }
 
   public function update(Request $request) {
@@ -306,12 +306,11 @@ class ModuleController extends Controller {
       case 'delete':
         try {
           $table = Table::withTrashed()->find($data_id);
-          $detach_relationship = $table->module_schemas()->detach();
-          $data = $table->delete();
+          $table->module_schemas()->forceDelete();
           $data = $table->forceDelete();
           return 1;
         } catch (Exception $e) {
-          return redirect()->back()->with('error', $e->getMessage());
+          dd($e);
         }
         break;
       default:
