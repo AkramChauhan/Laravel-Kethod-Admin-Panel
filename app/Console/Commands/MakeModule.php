@@ -179,6 +179,7 @@ class MakeModule extends Command {
     $ajax_header_lines = [];
     $ajax_body_lines = [];
     $manage_body_lines = [];
+    $manage_script_lines = [];
     if (count($col_names) >= 1) {
       // Define the new lines you want to replace with
       foreach ($col_data as $col) {
@@ -193,7 +194,34 @@ class MakeModule extends Command {
         }
         $new_line .= ";";
         array_push($new_lines, $new_line);
-        $manage_body_line = '<div class="col-md-6">
+        if ($col_type == "longText") {
+          $manage_body_line = '<div class="col-md-12">
+                  <div class="mb-3">
+                    <label for="' . $col['name'] . '">' . snakeToNormal($col['name']) . '</label>
+                    <textarea 
+                      name="' . $col['name'] . '"
+                      rows="10" class="form-control tiny-cloud-editor k-input" 
+                      id="' . $col['name'] . '" 
+                      aria-describedby="' . $col['name'] . 'Help">@if($edit){{$data->' . $col['name'] . '}}@else{{old(' . $col_name_copy . ')}}@endif</textarea>
+                    <small id="' . $col['name'] . 'Help" class="form-text text-muted"></small>
+                  </div>
+                </div>';
+          $manage_script_lines = <<<EOD
+            \n@push("scripts")
+            <script src="https://cdn.tiny.cloud/1/rjcn06xon4v0snhiv3rvotq9163xs47zt4tx0sdp6izhg8o3/tinymce/6/tinymce.min.js" referrerpolicy="origin"></script>
+            <script>
+              tinymce.init({
+                selector: ".tiny-cloud-editor",
+                skin: "bootstrap",
+                plugins: "lists, link, image, media",
+                toolbar: "h1 h2 h3 h4 h5 | fontfamily fontsize | bold italic strikethrough blockquote | align lineheight bullist numlist backcolor | link ",
+                menubar: false,
+              });
+            </script>
+            @endpush
+          EOD;
+        } else {
+          $manage_body_line = '<div class="col-md-6">
                   <div class="mb-3">
                     <label for="' . $col['name'] . '">' . snakeToNormal($col['name']) . '</label>
                     <input 
@@ -210,6 +238,8 @@ class MakeModule extends Command {
                     <small id="' . $col['name'] . 'Help" class="form-text text-muted"></small>
                   </div>
                 </div>';
+        }
+
         array_push($manage_body_lines, $manage_body_line);
       }
 
@@ -254,6 +284,7 @@ class MakeModule extends Command {
           implode("\n							", $manage_body_lines),
           $stubContent
         );
+        $stubContent .= $manage_script_lines;
       }
       // Copy the modified content to the blade file
       file_put_contents($fullViewPath, $stubContent);

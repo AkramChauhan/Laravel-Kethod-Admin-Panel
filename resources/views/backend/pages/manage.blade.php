@@ -46,6 +46,13 @@
                   <small id="nameHelp" class="form-text text-muted"></small>
                 </div>
               </div>
+              <div class="col-md-12">
+                <div class="mb-3">
+                  <label for="content">Content</label>
+                  <textarea name="content" rows="10" class="form-control tiny-cloud-editor k-input" id="content" aria-describedby="contentHelp">@if($edit){{$data->name}}@else{{old('name')}}@endif</textarea>
+                  <small id="contentHelp" class="form-text text-muted"></small>
+                </div>
+              </div>
             </div>
             <div class="row">
               <div class="col-md-12">
@@ -67,3 +74,15 @@
   </div>
 </div>
 @endsection
+@push("scripts")
+<script src="https://cdn.tiny.cloud/1/rjcn06xon4v0snhiv3rvotq9163xs47zt4tx0sdp6izhg8o3/tinymce/6/tinymce.min.js" referrerpolicy="origin"></script>
+<script>
+  tinymce.init({
+    selector: '.tiny-cloud-editor',
+    skin: 'bootstrap',
+    plugins: 'lists, link, image, media',
+    toolbar: 'h1 h2 h3 h4 h5 | fontfamily fontsize | bold italic strikethrough blockquote | align lineheight bullist numlist backcolor | link ',
+    menubar: false,
+  });
+</script>
+@endpush
