@@ -62,16 +62,6 @@ Route::middleware(['auth', 'twofactor'])->prefix('admin')->group(function () {
   Route::get('roles/ajax', "Admin\RoleController@ajax")->name('admin.roles.ajax');
   Route::post('roles/delete', "Admin\RoleController@delete")->name('admin.roles.delete');
 
-  // For Page
-  Route::get('pages', 'Admin\PageController@index')->name('admin.pages.index');
-  Route::get('pages/add', "Admin\PageController@create")->name('admin.pages.create');
-  Route::get('pages/edit/{encrypted_id}', "Admin\PageController@edit")->name('admin.pages.edit');
-  Route::get('pages/show/{encrypted_id}', "Admin\PageController@show")->name('admin.pages.show');
-  Route::post('pages/store', "Admin\PageController@store")->name('admin.pages.store');
-  Route::post('pages/update', "Admin\PageController@update")->name('admin.pages.update');
-  Route::get('pages/ajax', "Admin\PageController@ajax")->name('admin.pages.ajax');
-  Route::post('pages/delete', "Admin\PageController@delete")->name('admin.pages.delete');
-
   // For Settings
   Route::get('settings', 'Admin\SettingController@index')->name('admin.settings.index');
   Route::get('settings/add', "Admin\SettingController@create")->name('admin.settings.create');
@@ -82,4 +72,14 @@ Route::middleware(['auth', 'twofactor'])->prefix('admin')->group(function () {
   Route::post('settings/update', "Admin\SettingController@update")->name('admin.settings.update');
   Route::get('settings/ajax', "Admin\SettingController@ajax")->name('admin.settings.ajax');
   Route::post('settings/delete', "Admin\SettingController@delete")->name('admin.settings.delete');
+
+  // For Page
+  Route::get('pages', 'Admin\PageController@index')->name('admin.pages.index');
+  Route::get('pages/add', "Admin\PageController@create")->name('admin.pages.create');
+  Route::get('pages/edit/{encrypted_id}', "Admin\PageController@edit")->name('admin.pages.edit');
+  Route::get('pages/show/{encrypted_id}', "Admin\PageController@show")->name('admin.pages.show');
+  Route::post('pages/store', "Admin\PageController@store")->name('admin.pages.store');
+  Route::post('pages/update', "Admin\PageController@update")->name('admin.pages.update');
+  Route::get('pages/ajax', "Admin\PageController@ajax")->name('admin.pages.ajax');
+  Route::post('pages/delete', "Admin\PageController@delete")->name('admin.pages.delete');
 });
