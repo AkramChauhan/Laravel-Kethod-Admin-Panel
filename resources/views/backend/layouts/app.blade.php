@@ -16,9 +16,6 @@
 
 <body class="app m-0 p-0">
   <!-- Navbar-->
-  <?php
-  $settings = getSettings();
-  ?>
   @if(Auth::check())
   <?php
   include('../resources/views/configuration/menu_array.blade.php');

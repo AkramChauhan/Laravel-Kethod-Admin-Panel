@@ -11,6 +11,7 @@ $record_id = $offset;
       <th>#</th>
       <th>KEY</th>
       <th>VALUE</th>
+      <th>Usage</th>
       <th></th>
     </tr>
   </thead>
@@ -27,6 +28,7 @@ $record_id = $offset;
           {{ $v->value }}
         </div>
       </td>
+      <td>get_setting('{{ strtoupper($v->key) }}')</td>
       <td>
         @if($v->deleted_at==null)
         <a href="{{$edit_route.'?id='.$v->id}}" class="btn k-btn-sm k-btn-primary btn-sm">Edit</a>

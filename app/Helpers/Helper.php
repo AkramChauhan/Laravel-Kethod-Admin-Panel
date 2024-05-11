@@ -23,30 +23,12 @@ function default_permissions() {
     'add',
   ];
 }
-function getSettings() {
-  $settings = [
-    'SITE_NAME' => [
-      'value' => config('app.name')
-    ],
-    'SITE_URL' => [
-      'value' => config('app.url'),
-    ],
-    'TAGLINE' => [
-      'value' => "Tagline",
-    ],
-  ];
-  try {
-    $new_settings =  Setting::all()->keyBy('key');
-    // dd($new_settings);
-    if ($new_settings->count() > 0) {
-      $settings = $new_settings;
-    }
-  } catch (Exception $e) {
-    // dd($e);
-    Log::info("Error while loading the settings:", [$e]);
-    return $settings;
+function get_setting($key) {
+  $setting = Setting::select('value')->where('key', $key)->first()->toArray();
+  if ($setting) {
+    return $setting['value'];
   }
-  return $settings;
+  return "";
 }
 function verifySlug($table, $slug_name, $str) {
   $existing_slug =  $table::where($slug_name, 'like', $str . '%')->orderBy('id', 'desc');
