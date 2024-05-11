@@ -9,7 +9,7 @@ $record_id = $offset;
         <input type="checkbox" name="row_check_all" class="row_check_all">
       </th>
       <th>#</th>
-      <th>Name</th>
+      <!-- ajax table header -->
       <th>Date Created</th>
       <th></th>
     </tr>
@@ -21,7 +21,7 @@ $record_id = $offset;
         <input type="checkbox" name="row_checkbox[]" class="row_checkbox" value="{{ $v->id }}" data-id="{{ $v->id }}">
       </td>
       <td>{{ ++$record_id }}</td>
-      <td><a href="{{ $v->show_route }}">{{$v->name}}</a></td>
+      <!-- ajax table body -->
       <td>{{ Date('d M, Y',strtotime($v->created_at)) }}</td>
       <td>
         @if($v->deleted_at==null)

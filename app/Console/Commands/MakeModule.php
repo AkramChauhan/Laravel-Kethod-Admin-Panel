@@ -188,8 +188,6 @@ class MakeModule extends Command {
         $col_type = $col['type'];
         $col_name = "'" . $col['name'] . "'";
         $col_name_copy = "'" . $col['name'] . "'";
-        array_push($ajax_header_lines, "<th>" . snakeToNormal($col['name']) . "</th>");
-        array_push($ajax_body_lines, "<td>{{ \$v->" . $col['name'] . " }}</td>");
         $new_line = "\$table->$col_type($col_name)";
         if ($col['nullable']) {
           $new_line .= "->nullable()";
@@ -230,6 +228,13 @@ class MakeModule extends Command {
             @endpush
           EOD;
         } else {
+          array_push($ajax_header_lines, "<th>" . snakeToNormal($col['name']) . "</th>");
+          if (count($ajax_body_lines) == 0) {
+            array_push($ajax_body_lines, "<td><a href='{{ \$v->show_route }}'>{{ \$v->" . $col['name'] . " }}</a></td>");
+          } else {
+            array_push($ajax_body_lines, "<td>{{ \$v->" . $col['name'] . " }}</td>");
+          }
+
           $manage_body_line = '<div class="col-md-6">
                   <div class="mb-3">
                     <label for="' . $col['name'] . '">' . snakeToNormal($col['name']) . '</label>
@@ -295,10 +300,10 @@ class MakeModule extends Command {
       // Modify the content of ajax.stub before copying
       if ($stubFile === 'ajax.stub') {
         // Change the line <th>Name</th> to <th>Name1</th><th>Name2</th>
-        $newAjaxHeaderContent = implode("\n			", $ajax_header_lines);
-        $newAjaxBodyContent = implode("\n			", $ajax_body_lines);
-        $stubContent = str_replace('<th>Name</th>', $newAjaxHeaderContent, $stubContent);
-        $stubContent = str_replace('<td>{{$v->name}}</td>', $newAjaxBodyContent, $stubContent);
+        $newAjaxHeaderContent = "<!-- ajax table header -->" . implode("\n			", $ajax_header_lines);
+        $newAjaxBodyContent = "<!-- ajax table body -->" . implode("\n			", $ajax_body_lines);
+        $stubContent = str_replace('<!-- ajax table header -->', $newAjaxHeaderContent, $stubContent);
+        $stubContent = str_replace('<!-- ajax table body -->', $newAjaxBodyContent, $stubContent);
       }
       if ($stubFile === 'manage.stub') {
         $stubContent = str_replace(
