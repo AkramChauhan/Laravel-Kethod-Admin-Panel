@@ -23,8 +23,7 @@
       </div>
       @endif
     </div>
-@include($theme_name.'.layouts.partial.breadcrumb')
-
+    @include($theme_name.'.layouts.partial.breadcrumb')
 
     <div class="col-md-12 form_page">
       <div class="card">
@@ -38,6 +37,12 @@
             <div class="row form_sec">
               <div class="col-12">
                 <h5>Basic Details</h5>
+              </div>
+              <div class="col text-end">
+                <a href="{{ $index_route }}" class="btn k-btn k-btn-primary text-right">View All</a>
+                @if($edit)
+                <a href="{{ $data->edit_route }}" class="btn k-btn k-btn-primary text-right add_site">Edit</a>
+                @endif
               </div>
             </div>
             <div class="row">

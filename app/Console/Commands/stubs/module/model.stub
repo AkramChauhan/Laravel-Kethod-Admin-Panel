@@ -13,4 +13,23 @@ class {MODEL_NAME} extends Model
     protected $fillable = [
         'name', 
     ];
+
+    public function getEncryptedIdAttribute() {
+        $id = Crypt::encryptString($this->id);
+        return $id;
+    }
+    public function getShowRouteAttribute() {
+        $e_id = Crypt::encryptString($this->id);
+        $route = route('admin.{MODULE_NAME}.show', ['encrypted_id' => $e_id]);
+        return $route;
+    }
+    public function getEditRouteAttribute() {
+        $e_id = Crypt::encryptString($this->id);
+        $route = route('admin.{MODULE_NAME}.edit', ['encrypted_id' => $e_id]);
+        return $route;
+    }
+    public function getIndexRouteAttribute() {
+        $route = route('admin.{MODULE_NAME}.index');
+        return $route;
+    }
 }

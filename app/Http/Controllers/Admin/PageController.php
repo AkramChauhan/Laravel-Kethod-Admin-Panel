@@ -75,7 +75,6 @@ class PageController extends Controller {
   }
   public function store(AddRequest $request) {
     try {
-
       $table = Table::create([
         'name' => $request->name,
       ]);
