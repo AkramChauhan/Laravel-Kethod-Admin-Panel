@@ -335,7 +335,7 @@ class MakeModule extends Command {
     $newRoute = [
 
       "// For $normal_plural",
-      "Route::get('$table_name/', '$fullControllerName@index')->name('admin.$table_name.index');",
+      "Route::get('$table_name', '$fullControllerName@index')->name('admin.$table_name.index');",
       "Route::get('$table_name/add', '$fullControllerName@create')->name('admin.$table_name.create');",
       "Route::get('$table_name/edit/{encrypted_id}', '$fullControllerName@edit')->name('admin.$table_name.edit');",
       "Route::get('$table_name/show/{encrypted_id}', '$fullControllerName@show')->name('admin.$table_name.show');",
