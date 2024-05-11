@@ -1,3 +1,5 @@
+[![Laravel](https://github.com/AkramChauhan/Laravel-Kethod-Admin-Panel/actions/workflows/laravel.yml/badge.svg?branch=master)](https://github.com/AkramChauhan/Laravel-Kethod-Admin-Panel/actions/workflows/laravel.yml)
+
 ## Kethod Admin Panel
 This repository is a boilerplate for the Laravel Admin Panel.
 ---
