@@ -179,7 +179,7 @@ class MakeModule extends Command {
     $ajax_header_lines = [];
     $ajax_body_lines = [];
     $manage_body_lines = [];
-    $manage_script_lines = [];
+    $manage_script_lines = "";
     if (count($col_names) >= 1) {
       // Define the new lines you want to replace with
       foreach ($col_data as $col) {
