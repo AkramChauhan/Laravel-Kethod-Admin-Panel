@@ -22,6 +22,10 @@ class {CONTROLLER_NAME} extends Controller {
       'create_route' => route('admin.' . $this->handle_name_plural . '.create'),
       'table_status' => 'all', //all , trashed
       'all_count' => $all_count,
+      'module_names' => [
+        'singular' => $this->handle_name,
+        'plural' => $this->handle_name_plural,
+      ],
       'trashed_count' => $trashed_count,
     ]);
   }
@@ -29,12 +33,20 @@ class {CONTROLLER_NAME} extends Controller {
     return kview($this->handle_name_plural . '.manage', [
       'form_action' => route('admin.' . $this->handle_name_plural . '.store'),
       'edit' => 0,
+      'module_names' => [
+        'singular' => $this->handle_name,
+        'plural' => $this->handle_name_plural,
+      ],
     ]);
   }
   public function edit(Request $request) {
     return kview($this->handle_name_plural . '.manage', [
       'form_action' => route('admin.' . $this->handle_name_plural . '.update'),
       'edit' => 1,
+      'module_names' => [
+        'singular' => $this->handle_name,
+        'plural' => $this->handle_name_plural,
+      ],
       'data' => Table::where('id', '=', $request->id)->first(),
     ]);
   }

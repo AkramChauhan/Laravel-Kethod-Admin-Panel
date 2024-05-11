@@ -25,6 +25,10 @@ class ModuleController extends Controller {
       'create_route' => route('admin.' . $this->handle_name_plural . '.create'),
       'table_status' => 'all', //all , trashed
       'all_count' => $all_count,
+      'module_names' => [
+        'singular' => $this->handle_name,
+        'plural' => $this->handle_name_plural,
+      ],
       'trashed_count' => $trashed_count,
     ]);
   }
@@ -33,7 +37,11 @@ class ModuleController extends Controller {
     $form_action = route('admin.modules.store');
     $col_types = getColumnTypes();
     $edit = 0;
-    return kview($this->handle_name_plural . '.manage', compact('form_action', 'col_types', 'edit'));
+    $module_names = [
+      'singular' => $this->handle_name,
+      'plural' => $this->handle_name_plural,
+    ];
+    return kview($this->handle_name_plural . '.manage', compact('form_action', 'module_names', 'col_types', 'edit'));
   }
 
   public function edit(Request $request) {
@@ -42,9 +50,13 @@ class ModuleController extends Controller {
     $col_types = getColumnTypes();
     $data = Table::where('id', '=', $request->id)->first();
     $edit = 0;
+    $module_names = [
+      'singular' => $this->handle_name,
+      'plural' => $this->handle_name_plural,
+    ];
     return kview(
       $this->handle_name_plural . '.manage',
-      compact('form_action', 'col_types', 'data', 'edit')
+      compact('form_action', 'col_types', 'module_names', 'data', 'edit')
     );
   }
 

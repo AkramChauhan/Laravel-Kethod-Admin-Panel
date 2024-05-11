@@ -30,9 +30,6 @@ Route::middleware(['auth', 'twofactor'])->prefix('admin')->group(function () {
   // Test Route
   Route::get('/test', "TestController@test")->name('admin.test');
 
-  // For Settings
-  Route::get('/settings/edit_profile', "SettingController@edit_profile")->name('admin.settings.edit_profile');
-
   // For Dashboard
   Route::get('/dashboard', 'HomeController@index')->name('admin.dashboard');
 
@@ -76,6 +73,7 @@ Route::middleware(['auth', 'twofactor'])->prefix('admin')->group(function () {
   Route::get('/settings', 'Admin\SettingController@index')->name('admin.settings.index');
   Route::get('/settings/add', "Admin\SettingController@create")->name('admin.settings.create');
   Route::get('/settings/edit', "Admin\SettingController@edit")->name('admin.settings.edit');
+  Route::get('/settings/edit_profile', "Admin\SettingController@edit_profile")->name('admin.settings.edit_profile');
   Route::post('/settings/store', "Admin\SettingController@store")->name('admin.settings.store');
   Route::post('/settings/update', "Admin\SettingController@update")->name('admin.settings.update');
   Route::get('/settings/ajax', "Admin\SettingController@ajax")->name('admin.settings.ajax');

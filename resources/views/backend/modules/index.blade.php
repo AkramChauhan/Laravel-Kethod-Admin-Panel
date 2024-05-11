@@ -5,6 +5,7 @@ $page_number = 1;
 ?>
 <div class="container page-container">
   <div class="row justify-content-center">
+    @include($theme_name.'.layouts.partial.breadcrumb')
     <div class="col-md-12">
       @if ($errors->any())
       <div class="alert alert-danger">
