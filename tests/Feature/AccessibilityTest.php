@@ -5,15 +5,13 @@ namespace Tests\Feature;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
-class ExampleTest extends TestCase
-{
+class AccessibilityTest extends TestCase {
     /**
-     * A basic test example.
+     * A basic accessibility test.
      *
      * @return void
      */
-    public function testBasicTest()
-    {
+    public function testAccessibilityTest() {
         $response = $this->get('/');
 
         $response->assertStatus(200);

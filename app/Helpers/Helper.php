@@ -13,6 +13,7 @@ function kview($view_path, $array = []) {
   $layout_name = $theme_name . ".layouts.app";
   $array['app_layout'] = $layout_name;
   $array['theme_name'] = $theme_name;
+  $array['new_v_path'] = $new_v_path;
   return view($new_v_path, $array);
 }
 
@@ -24,12 +25,14 @@ function default_permissions() {
   ];
 }
 function get_setting($key) {
-  $setting = Setting::select('value')->where('key', $key)->first()->toArray();
-  if ($setting) {
+  $settingObject = Setting::select('value')->where('key', $key)->first();
+  if ($settingObject) {
+    $setting = $settingObject->toArray();
     return $setting['value'];
   }
   return "";
 }
+
 function verifySlug($table, $slug_name, $str) {
   $existing_slug =  $table::where($slug_name, 'like', $str . '%')->orderBy('id', 'desc');
   if ($existing_slug->count() > 0) {
@@ -49,40 +52,42 @@ function verifySlug($table, $slug_name, $str) {
   }
   return $str;
 }
-function encryptId($id) {
-  // ENCRYPTION_KEY that you can modify
-  $key = "encryption_key";
-  $encrypted_string = encrypt($id);
-  dd($encrypted_string);
-  return 1;
-}
+
 function singular_module_name($plural) {
-  $last = substr($plural, -1);  // Get the last character of the plural noun
+  // Remove non-alphabetic characters and underscores
+  $plural = preg_replace('/[^a-zA-Z_]/', '', $plural);
 
-  // Check for some common special cases
-  if ($plural == 'people') {
-    return 'person';
-  } elseif ($plural == 'children') {
-    return 'child';
-  } elseif ($plural == 'oxen') {
-    return 'ox';
+  // Convert to lowercase for case-insensitive processing
+  $plural = strtolower($plural);
+
+  // Apply the rule to transform "ies" to "y"
+  if (preg_match('/(ies)$/i', $plural)) {
+    return preg_replace('/(ies)$/i', 'y', $plural);
   }
 
-  // Apply the basic rules for forming singulars
-  if ($last == 's') {
-    $secondLast = substr($plural, -2, 1);  // Get the second-to-last character
-    if ($secondLast == 'e') {
-      return substr($plural, 0, -2) . 'is';  // e.g. "cacti"
-    } elseif ($secondLast == 'e' && substr($plural, -3, 1) == 'i') {
-      return substr($plural, 0, -2) . 'us';  // e.g. "fungi"
-    } elseif ($last == 's' && substr($plural, -4) == 'sses') {
-      return substr($plural, 0, -2);  // e.g. "messes"
-    } else {
-      return substr($plural, 0, -1);  // e.g. "dogs"
+  // Define common plural rules
+  $rules = array(
+    '/(s)$/i' => '',
+    '/((sh)es|ces|xes|zes)$/i' => '$2',
+    '/(([^f])ves)$/i' => '$2fe',
+    '/((ss))$/i' => '$1',
+    '/(ies)$/i' => 'ie',
+    '/(ch|x)ies$/i' => '$1ie',
+    '/(ves)$/i' => 'fe',
+    '/(o)es$/i' => '$1',
+    '/(us)es$/i' => '$1s',
+    '/([^u])s$/i' => '$1',
+  );
+
+  // Apply the remaining rules to convert plural to singular
+  foreach ($rules as $pattern => $replacement) {
+    if (preg_match($pattern, $plural, $matches)) {
+      return preg_replace($pattern, $replacement, $plural);
     }
-  } else {
-    return $plural;  // Not a valid plural noun
   }
+
+  // If no rule matched, return the original word
+  return $plural;
 }
 
 function paginate_function($item_per_page, $current_page, $total_records, $total_pages) {
