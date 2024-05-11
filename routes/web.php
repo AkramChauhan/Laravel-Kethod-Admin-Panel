@@ -27,10 +27,10 @@ Route::resource('verify', 'Auth\TwoFactorController')->only(['index', 'store']);
 
 Route::middleware(['auth', 'twofactor'])->prefix('admin')->group(function () {
   // Test Route
-  Route::get('/test', "TestController@test")->name('admin.test');
+  Route::get('/test', "Admin\TestController@test")->name('admin.test');
 
   // For Dashboard
-  Route::get('/dashboard', 'HomeController@index')->name('admin.dashboard');
+  Route::get('/dashboard', 'Admin\HomeController@index')->name('admin.dashboard');
 
   // For Module
   Route::get('/modules', 'Admin\ModuleController@index')->name('admin.modules.index');
@@ -43,24 +43,24 @@ Route::middleware(['auth', 'twofactor'])->prefix('admin')->group(function () {
   Route::post('/modules/delete', "Admin\ModuleController@delete")->name('admin.modules.delete');
 
   // For Users
-  Route::get('/users', 'UserController@index')->name('admin.users.index');
-  Route::get('/users/add', "UserController@create")->name('admin.users.create');
-  Route::get('/users/edit/{encrypted_id}', "UserController@edit")->name('admin.users.edit');
-  Route::get('/users/show/{encrypted_id}', "UserController@show")->name('admin.users.show');
-  Route::post('/users/store', "UserController@store")->name('admin.users.store');
-  Route::post('/users/update', "UserController@update")->name('admin.users.update');
-  Route::get('/users/ajax', "UserController@ajax")->name('admin.users.ajax');
-  Route::post('/users/delete', "UserController@delete")->name('admin.users.delete');
+  Route::get('/users', 'Admin\UserController@index')->name('admin.users.index');
+  Route::get('/users/add', "Admin\UserController@create")->name('admin.users.create');
+  Route::get('/users/edit/{encrypted_id}', "Admin\UserController@edit")->name('admin.users.edit');
+  Route::get('/users/show/{encrypted_id}', "Admin\UserController@show")->name('admin.users.show');
+  Route::post('/users/store', "Admin\UserController@store")->name('admin.users.store');
+  Route::post('/users/update', "Admin\UserController@update")->name('admin.users.update');
+  Route::get('/users/ajax', "Admin\UserController@ajax")->name('admin.users.ajax');
+  Route::post('/users/delete', "Admin\UserController@delete")->name('admin.users.delete');
 
   // For Roles
-  Route::get('/roles', 'RoleController@index')->name('admin.roles.index');
-  Route::get('/roles/add', "RoleController@create")->name('admin.roles.create');
-  Route::get('/roles/edit', "RoleController@edit")->name('admin.roles.edit');
-  Route::get('/roles/show/{encrypted_id}', "RoleController@show")->name('admin.roles.show');
-  Route::post('/roles/store', "RoleController@store")->name('admin.roles.store');
-  Route::post('/roles/update', "RoleController@update")->name('admin.roles.update');
-  Route::get('/roles/ajax', "RoleController@ajax")->name('admin.roles.ajax');
-  Route::post('/roles/delete', "RoleController@delete")->name('admin.roles.delete');
+  Route::get('/roles', 'Admin\RoleController@index')->name('admin.roles.index');
+  Route::get('/roles/add', "Admin\RoleController@create")->name('admin.roles.create');
+  Route::get('/roles/edit', "Admin\RoleController@edit")->name('admin.roles.edit');
+  Route::get('/roles/show/{encrypted_id}', "Admin\RoleController@show")->name('admin.roles.show');
+  Route::post('/roles/store', "Admin\RoleController@store")->name('admin.roles.store');
+  Route::post('/roles/update', "Admin\RoleController@update")->name('admin.roles.update');
+  Route::get('/roles/ajax', "Admin\RoleController@ajax")->name('admin.roles.ajax');
+  Route::post('/roles/delete', "Admin\RoleController@delete")->name('admin.roles.delete');
 
   // For Page
   Route::get('/pages', 'Admin\PageController@index')->name('admin.pages.index');
