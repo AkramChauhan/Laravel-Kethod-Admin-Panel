@@ -83,7 +83,9 @@ class ModuleController extends Controller {
   }
 
   public function store(Request $request) {
-    $module_name = $request->module_name;
+    $module_name = $request->name;
+    $name_singular = $request->name_singular;
+
     $run_migration = 0;
     if (!$module_name) {
       return redirect()->back()->with('error', "Module name can't be empty");
@@ -123,7 +125,7 @@ class ModuleController extends Controller {
     }
 
     // STORING MODULE IN DB:
-    $name_singular = singular_module_name($module_name);
+    // $name_singular = singular_module_name($module_name);
     $model_name = snakeCaseToPascalCase($name_singular);
     $controller_name = snakeCaseToPascalCase($name_singular) . "Controller";
 
@@ -246,7 +248,7 @@ class ModuleController extends Controller {
 
   public function run_module(Table $module) {
     $module_name = $module->name;
-    $run_migration = $module->run_migration;
+    $name_singular = $module->name_singular;
     $module_schemas = $module->module_schemas;
     $schema_columns = [];
     $counter = 1;
@@ -261,13 +263,11 @@ class ModuleController extends Controller {
       $counter++;
     }
     $command = "make:module " . $module_name;
+    $command .= " --name_singular=" . $name_singular;
     if (!$module_name) {
       return redirect()->back()->with('error', "Module name can't be empty");
     }
     $command .= " --migration";
-    // if ($run_migration == 1) {
-    //   $command .= " --migration";
-    // }
 
     if (!empty($schema_columns)) {
       $command .= " --column_data=" . base64_encode(json_encode($schema_columns));

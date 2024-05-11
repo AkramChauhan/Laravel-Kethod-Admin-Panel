@@ -14,7 +14,7 @@ class MakeModule extends Command {
    *
    * @var string
    */
-  protected $signature = 'make:module {module_name} {--migration} {--column_data=}';
+  protected $signature = 'make:module {module_name} {--name_singular=} {--migration} {--column_data=}';
 
   /**
    * The console command description.
@@ -45,8 +45,11 @@ class MakeModule extends Command {
     if ($this->option('column_data')) {
       $col_data = json_decode(base64_decode($this->option('column_data')), true);
     }
-    // json_decode($this->option('json'), true);
-    // dd($col_data);
+    if ($this->option('name_singular')) {
+      $singular_snake_case = $this->option('name_singular');
+    } else {
+      $singular_snake_case = singular_module_name($argument);
+    }
     $run_migration = 0;
     if (isset($options['migration']) && $options['migration']) {
       $run_migration = 1;
@@ -54,8 +57,9 @@ class MakeModule extends Command {
 
     //Lets create names first.
     //Expecting argument to be snake_case
+    // SNAKECASE -> snake_case
+    // PASCALCASE -> PascalCase
     $table_name = $argument;
-    $singular_snake_case = singular_module_name($argument);
     $model_name = snakeCaseToPascalCase($singular_snake_case);
     $migration_class_name = snakeCaseToPascalCase($table_name);
     $controller_name = snakeCaseToPascalCase($singular_snake_case) . "Controller";
@@ -63,14 +67,6 @@ class MakeModule extends Command {
     $normal_singular = snakeToNormal($singular_snake_case);
     $migration_file_name = date('Y_m_d_His') . '_create_' . str_replace('-', '_', $table_name) . '_table';
     $migrationFiles = glob(database_path('migrations/*_create_' . $table_name . '_table.php'));
-    if (count($migrationFiles) > 0) {
-      $this->error("Migration file for table $table_name exists.");
-      //TODO: remove this comment
-      return 0;
-    } else {
-      $this->info("Creating migration file...");
-    }
-
     $name_generation = [
       "Table name" => $table_name,
       "Resource dir name" => $table_name,
@@ -80,6 +76,13 @@ class MakeModule extends Command {
       "Normal name singular" => $normal_singular,
       "Migration file name" => $migration_file_name,
     ];
+    if (count($migrationFiles) > 0) {
+      $this->error("Migration file for table $table_name exists.");
+      return 0;
+    } else {
+      $this->info("Creating migration file...");
+    }
+
     $col_names = [];
     $request_required_fields = [];
     foreach ($col_data as $cols) {

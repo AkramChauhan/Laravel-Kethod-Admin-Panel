@@ -45,9 +45,16 @@
             <div class="row">
               <div class="col-md-6">
                 <div class="mb-3">
-                  <label for="module_name">Name</label>
-                  <input type="text" name="module_name" class="form-control k-input" @if($edit) value="{{$data->name}}" @else value="{{old('name')}}" @endif id="module_name" aria-describedby="module_nameHelp">
-                  <small id="module_nameHelp" class="form-text text-muted"></small>
+                  <label for="name">Name</label>
+                  <input type="text" name="name" class="form-control k-input module-name" @if($edit) value="{{$data->name}}" @else value="{{old('name')}}" @endif id="name" aria-describedby="nameHelp">
+                  <small id="nameHelp" class="form-text text-muted"><i>Table name: must be plural</i></small>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="mb-3">
+                  <label for="name_singular">Name Singular</label>
+                  <input type="text" name="name_singular" class="form-control k-input name_singular" @if($edit) value="{{$data->name}}" @else value="{{old('name')}}" @endif id="name_singular" aria-describedby="name_singularHelp">
+                  <small id="name_singularHelp" class="form-text text-muted"></small>
                 </div>
               </div>
             </div>
@@ -236,6 +243,11 @@
       console.log(target_class);
       $("." + target_class).remove();
       updateTotalCountOfColumns();
+    });
+    $(".module-name").on('keyup', function(e) {
+      var plural = $(this).val();
+      var singular = pluralToSingular(plural);
+      $('.name_singular').val(singular);
     });
   });
 </script>
