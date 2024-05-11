@@ -93,6 +93,10 @@ input:focus,
   font-size: 14px;
 }
 
+.k-table a {
+  text-decoration: none;
+}
+
 .card-link {
   text-decoration: none;
 }
