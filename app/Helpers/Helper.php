@@ -49,7 +49,13 @@ function verifySlug($table, $slug_name, $str) {
   }
   return $str;
 }
-
+function encryptId($id) {
+  // ENCRYPTION_KEY that you can modify
+  $key = "encryption_key";
+  $encrypted_string = encrypt($id);
+  dd($encrypted_string);
+  return 1;
+}
 function singular_module_name($plural) {
   $last = substr($plural, -1);  // Get the last character of the plural noun
 

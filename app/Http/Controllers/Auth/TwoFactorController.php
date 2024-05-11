@@ -27,7 +27,22 @@ class TwoFactorController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function show(Request $request) {
+    $ecrypted_id = $request->encrypted_id;
+    $id = Crypt::decryptString($ecrypted_id);
+    $data = Table::where('id', '=', $id)->first();
+
+    return kview($this->handle_name_plural . '.show', [
+      'form_action' => route('admin.' . $this->handle_name_plural . '.update'),
+      'edit' => 1,
+      'data' => $data,
+      'module_names' => [
+        'singular' => $this->handle_name,
+        'plural' => $this->handle_name_plural,
+      ],
+    ]);
+  }
+public function store(Request $request)
     {
         $request->validate([
             'two_factor_code'=>'integer|required',

@@ -36,7 +36,8 @@ Route::middleware(['auth', 'twofactor'])->prefix('admin')->group(function () {
   // For Module
   Route::get('/modules', 'Admin\ModuleController@index')->name('admin.modules.index');
   Route::get('/modules/add', "Admin\ModuleController@create")->name('admin.modules.create');
-  Route::get('/modules/edit', "Admin\ModuleController@edit")->name('admin.modules.edit');
+  Route::get('/modules/edit/{encrypted_id}', "Admin\ModuleController@edit")->name('admin.modules.edit');
+  Route::get('/modules/show/{encrypted_id}', "Admin\ModuleController@show")->name('admin.modules.show');
   Route::post('/modules/store', "Admin\ModuleController@store")->name('admin.modules.store');
   Route::post('/modules/update', "Admin\ModuleController@update")->name('admin.modules.update');
   Route::get('/modules/ajax', "Admin\ModuleController@ajax")->name('admin.modules.ajax');
@@ -45,7 +46,8 @@ Route::middleware(['auth', 'twofactor'])->prefix('admin')->group(function () {
   // For Users
   Route::get('/users', 'UserController@index')->name('admin.users.index');
   Route::get('/users/add', "UserController@create")->name('admin.users.create');
-  Route::get('/users/edit', "UserController@edit")->name('admin.users.edit');
+  Route::get('/users/edit/{encrypted_id}', "UserController@edit")->name('admin.users.edit');
+  Route::get('/users/show/{encrypted_id}', "UserController@show")->name('admin.users.show');
   Route::post('/users/store', "UserController@store")->name('admin.users.store');
   Route::post('/users/update', "UserController@update")->name('admin.users.update');
   Route::get('/users/ajax', "UserController@ajax")->name('admin.users.ajax');
@@ -55,6 +57,7 @@ Route::middleware(['auth', 'twofactor'])->prefix('admin')->group(function () {
   Route::get('/roles', 'RoleController@index')->name('admin.roles.index');
   Route::get('/roles/add', "RoleController@create")->name('admin.roles.create');
   Route::get('/roles/edit', "RoleController@edit")->name('admin.roles.edit');
+  Route::get('/roles/show/{encrypted_id}', "RoleController@show")->name('admin.roles.show');
   Route::post('/roles/store', "RoleController@store")->name('admin.roles.store');
   Route::post('/roles/update', "RoleController@update")->name('admin.roles.update');
   Route::get('/roles/ajax', "RoleController@ajax")->name('admin.roles.ajax');
@@ -63,7 +66,8 @@ Route::middleware(['auth', 'twofactor'])->prefix('admin')->group(function () {
   // For Page
   Route::get('/pages', 'Admin\PageController@index')->name('admin.pages.index');
   Route::get('/pages/add', "Admin\PageController@create")->name('admin.pages.create');
-  Route::get('/pages/edit', "Admin\PageController@edit")->name('admin.pages.edit');
+  Route::get('/pages/edit/{encrypted_id}', "Admin\PageController@edit")->name('admin.pages.edit');
+  Route::get('/pages/show/{encrypted_id}', "Admin\PageController@show")->name('admin.pages.show');
   Route::post('/pages/store', "Admin\PageController@store")->name('admin.pages.store');
   Route::post('/pages/update', "Admin\PageController@update")->name('admin.pages.update');
   Route::get('/pages/ajax', "Admin\PageController@ajax")->name('admin.pages.ajax');
@@ -72,7 +76,8 @@ Route::middleware(['auth', 'twofactor'])->prefix('admin')->group(function () {
   // For Settings
   Route::get('/settings', 'Admin\SettingController@index')->name('admin.settings.index');
   Route::get('/settings/add', "Admin\SettingController@create")->name('admin.settings.create');
-  Route::get('/settings/edit', "Admin\SettingController@edit")->name('admin.settings.edit');
+  Route::get('/settings/edit/{encrypted_id}', "Admin\SettingController@edit")->name('admin.settings.edit');
+  Route::get('/settings/show/{encrypted_id}', "Admin\SettingController@show")->name('admin.settings.show');
   Route::get('/settings/edit_profile', "Admin\SettingController@edit_profile")->name('admin.settings.edit_profile');
   Route::post('/settings/store', "Admin\SettingController@store")->name('admin.settings.store');
   Route::post('/settings/update', "Admin\SettingController@update")->name('admin.settings.update');

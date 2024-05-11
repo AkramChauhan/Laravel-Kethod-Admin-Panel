@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Artisan;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Crypt;
 
 use Exception;
 
@@ -35,31 +36,51 @@ class ModuleController extends Controller {
 
   public function create() {
     $form_action = route('admin.modules.store');
+    $index_route = route('admin.' . $this->handle_name_plural . '.index');
     $col_types = getColumnTypes();
     $edit = 0;
     $module_names = [
       'singular' => $this->handle_name,
       'plural' => $this->handle_name_plural,
     ];
-    return kview($this->handle_name_plural . '.manage', compact('form_action', 'module_names', 'col_types', 'edit'));
+    return kview($this->handle_name_plural . '.manage', compact('form_action', 'index_route', 'module_names', 'col_types', 'edit'));
   }
 
   public function edit(Request $request) {
-
-    $form_action =  route('admin.' . $this->handle_name_plural . '.update');
     $col_types = getColumnTypes();
-    $data = Table::where('id', '=', $request->id)->first();
-    $edit = 0;
-    $module_names = [
-      'singular' => $this->handle_name,
-      'plural' => $this->handle_name_plural,
-    ];
-    return kview(
-      $this->handle_name_plural . '.manage',
-      compact('form_action', 'col_types', 'module_names', 'data', 'edit')
-    );
+    $ecrypted_id = $request->encrypted_id;
+    $id = Crypt::decryptString($ecrypted_id);
+    $data = Table::where('id', '=', $id)->first();
+    $index_route = route('admin.' . $this->handle_name_plural . '.index');
+    return kview($this->handle_name_plural . '.manage', [
+      'index_route' => $index_route,
+      'form_action' => route('admin.' . $this->handle_name_plural . '.update'),
+      'col_types' => $col_types,
+      'edit' => 1,
+      'data' => $data,
+      'module_names' => [
+        'singular' => $this->handle_name,
+        'plural' => $this->handle_name_plural,
+      ],
+    ]);
   }
 
+
+  public function show(Request $request) {
+    $ecrypted_id = $request->encrypted_id;
+    $id = Crypt::decryptString($ecrypted_id);
+    $data = Table::where('id', '=', $id)->first();
+
+    return kview($this->handle_name_plural . '.show', [
+      'form_action' => route('admin.' . $this->handle_name_plural . '.update'),
+      'edit' => 1,
+      'data' => $data,
+      'module_names' => [
+        'singular' => $this->handle_name,
+        'plural' => $this->handle_name_plural,
+      ],
+    ]);
+  }
 
   public function store(Request $request) {
     $module_name = $request->module_name;
@@ -219,7 +240,7 @@ class ModuleController extends Controller {
       );
     }
     $this->run_module($module);
-    return redirect()->back()->with('success', ucfirst($this->handle_name) . ' has been updated');
+    return redirect()->to($module->show_route)->with('success', ucfirst($this->handle_name) . ' has been updated');
   }
 
 
@@ -258,7 +279,6 @@ class ModuleController extends Controller {
   }
 
   public function ajax(Request $request) {
-    $edit_route = route('admin.' . $this->handle_name_plural . '.edit');
     $current_page = $request->page_number;
     if (isset($request->limit)) {
       $limit = $request->limit;
@@ -296,7 +316,7 @@ class ModuleController extends Controller {
       "current_page" => $current_page,
     );
 
-    return kview($this->handle_name_plural . '.ajax', compact('edit_route', 'data', 'page_number', 'limit', 'offset', 'pagination'));
+    return kview($this->handle_name_plural . '.ajax', compact('data', 'page_number', 'limit', 'offset', 'pagination'));
   }
 
   public function delete(Request $request) {

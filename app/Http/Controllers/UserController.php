@@ -14,6 +14,7 @@ use Illuminate\Http\Request;
 use Illuminate\View\View;
 use Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Crypt;
 
 class UserController extends Controller {
   protected $handle_name = "user";
@@ -37,7 +38,9 @@ class UserController extends Controller {
   }
   public function create() {
     $roles = Role::get();
+    $index_route = route('admin.' . $this->handle_name_plural . '.index');
     return kview($this->handle_name_plural . '.manage', [
+      'index_route' => $index_route,
       'form_action' => route('admin.' . $this->handle_name_plural . '.store'),
       'edit' => 0,
       'module_names' => [
@@ -49,15 +52,35 @@ class UserController extends Controller {
   }
   public function edit(Request $request) {
     $roles = Role::get();
+    $ecrypted_id = $request->encrypted_id;
+    $id = Crypt::decryptString($ecrypted_id);
+    $data = Table::where('id', '=', $id)->first();
+    $index_route = route('admin.' . $this->handle_name_plural . '.index');
     return kview($this->handle_name_plural . '.manage', [
+      'index_route' => $index_route,
       'form_action' => route('admin.' . $this->handle_name_plural . '.update'),
       'edit' => 1,
-      'data' => Table::where('id', '=', $request->id)->first(),
+      'data' => $data,
       'module_names' => [
         'singular' => $this->handle_name,
         'plural' => $this->handle_name_plural,
       ],
       'roles' => $roles,
+    ]);
+  }
+  public function show(Request $request) {
+    $ecrypted_id = $request->encrypted_id;
+    $id = Crypt::decryptString($ecrypted_id);
+    $data = Table::where('id', '=', $id)->first();
+
+    return kview($this->handle_name_plural . '.show', [
+      'form_action' => route('admin.' . $this->handle_name_plural . '.update'),
+      'edit' => 1,
+      'data' => $data,
+      'module_names' => [
+        'singular' => $this->handle_name,
+        'plural' => $this->handle_name_plural,
+      ],
     ]);
   }
   public function store(AddRequest $request) {
@@ -117,14 +140,12 @@ class UserController extends Controller {
       if (isset($request->role)) {
         $user->syncRoles($request->role);
       }
-
-      return redirect()->back()->with('success', ucfirst($this->handle_name) . ' has been updated');
+      return redirect()->to($user->show_route)->with('success', ucfirst($this->handle_name) . ' has been updated');
     } catch (Exception $e) {
       return redirect()->back()->with('error', $e->getMessage());
     }
   }
   public function ajax(Request $request) {
-    $edit_route = route('admin.' . $this->handle_name_plural . '.edit');
     $current_page = $request->page_number;
     if (isset($request->limit)) {
       $limit = $request->limit;
@@ -162,7 +183,7 @@ class UserController extends Controller {
       "current_page" => $current_page,
     );
 
-    return kview($this->handle_name_plural . '.ajax', compact('edit_route', 'data', 'page_number', 'limit', 'offset', 'pagination'));
+    return kview($this->handle_name_plural . '.ajax', compact('data', 'page_number', 'limit', 'offset', 'pagination'));
   }
   public function delete(Request $request) {
     if (isset($request->action)) {

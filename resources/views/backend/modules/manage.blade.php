@@ -30,9 +30,9 @@
       </div>
       @endif
     </div>
+    @include($theme_name.'.layouts.partial.breadcrumb')
 
     <div class="col-md-12 form_page">
-      <h4>Create Module</h4><br />
       <form action="{{ $form_action }}" class="" method="post">
         @csrf
         <div class="card">
@@ -46,7 +46,7 @@
               <div class="col-md-6">
                 <div class="mb-3">
                   <label for="module_name">Name</label>
-                  <input type="text" name="module_name" class="form-control k-input" value="{{old('module_name')}}" id="module_name" aria-describedby="module_nameHelp">
+                  <input type="text" name="module_name" class="form-control k-input" @if($edit) value="{{$data->name}}" @else value="{{old('name')}}" @endif id="module_name" aria-describedby="module_nameHelp">
                   <small id="module_nameHelp" class="form-text text-muted"></small>
                 </div>
               </div>
@@ -79,7 +79,7 @@
                       <label for="col1_type">Column Type</label>
                       <select name="col1_type" class="form-control">
                         @foreach($col_types as $col_type_key => $col_type_value)
-                        <?php 
+                        <?php
                         $selected = "";
                         if ($col_type_key == "string") {
                           $selected = "selected";

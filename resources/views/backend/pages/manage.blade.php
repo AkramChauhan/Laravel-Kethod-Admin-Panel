@@ -2,7 +2,6 @@
 @section('content')
 <div class="container page-container">
   <div class="row justify-content-center">
-    @include($theme_name.'.layouts.partial.breadcrumb')
     <div class="col-md-12">
       @if ($errors->any())
       <div class="alert alert-danger">
@@ -24,6 +23,7 @@
       </div>
       @endif
     </div>
+    @include($theme_name.'.layouts.partial.breadcrumb')
 
     <div class="col-md-12 form_page">
       <div class="card">
@@ -35,8 +35,14 @@
             @endif
 
             <div class="row form_sec">
-              <div class="col-12">
+              <div class="col">
                 <h5>Basic Details</h5>
+              </div>
+              <div class="col text-end">
+                <a href="{{ $index_route }}" class="btn k-btn k-btn-primary text-right">View All</a>
+                @if($edit)
+                <a href="{{ $data->edit_route }}" class="btn k-btn k-btn-primary text-right add_site">Edit</a>
+                @endif
               </div>
             </div>
             <div class="row">
@@ -50,7 +56,7 @@
               <div class="col-md-12">
                 <div class="mb-3">
                   <label for="content">Content</label>
-                  <textarea name="content" rows="10" class="form-control tiny-cloud-editor k-input" id="content" aria-describedby="contentHelp">@if($edit){{$data->name}}@else{{old('name')}}@endif</textarea>
+                  <textarea name="content" rows="10" class="form-control tiny-cloud-editor k-input" id="content" aria-describedby="contentHelp">@if($edit){{$data->content}}@else{{old('content')}}@endif</textarea>
                   <small id="contentHelp" class="form-text text-muted"></small>
                 </div>
               </div>

@@ -22,7 +22,7 @@ $record_id = $offset;
         <input type="checkbox" name="row_checkbox[]" class="row_checkbox" value="{{ $v->id }}" data-id="{{ $v->id }}">
       </td>
       <td>{{ ++$record_id }}</td>
-      <td>{{ strtoupper($v->key) }}</td>
+      <td><a href="{{ $v->show_route }}">{{ strtoupper($v->key) }}</a></td>
       <td>
         <div class="col" style="width: 400px;">
           {{ $v->value }}
@@ -31,7 +31,7 @@ $record_id = $offset;
       <td>get_setting('{{ strtoupper($v->key) }}')</td>
       <td>
         @if($v->deleted_at==null)
-        <a href="{{$edit_route.'?id='.$v->id}}" class="btn k-btn-sm k-btn-primary btn-sm">Edit</a>
+        <a href="{{ $v->edit_route }}" class="btn k-btn-sm k-btn-primary btn-sm">Edit</a>
         <a href="#" data-id="{{ $v->id }}" class="btn k-btn-sm k-btn-danger btn-sm trash_btn delete{{ $v->id }}">Trash</a>
         @else
         <a href="#" data-id="{{ $v->id }}" class="btn k-btn-sm k-btn-primary restore_btn restore{{ $v->id }} btn-sm">Restore</a>

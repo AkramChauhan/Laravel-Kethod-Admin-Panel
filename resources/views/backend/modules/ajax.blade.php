@@ -18,14 +18,14 @@ $record_id = $offset;
     @foreach($data as $v)
     <tr class="row_{{ $v->id }}">
       <td>{{ ++$record_id }}</td>
-      <td>{{$v->name}}</td>
+      <td><a href="{{ $v->show_route }}">{{$v->name}}</a></td>
       <td>{{$v->name_singular}}</td>
       <td>{{$v->model_name}}</td>
       <td>{{$v->controller_name}}</td>
       <td>{{ Date('d M, Y',strtotime($v->created_at)) }}</td>
       <td>
         @if($v->deleted_at==null)
-        <a href="{{$edit_route.'?id='.$v->id}}" class="btn k-btn-sm k-btn-primary btn-sm">Edit</a>
+        <!-- <a href="{{ $v->edit_route }}" class="btn k-btn-sm k-btn-primary btn-sm">Edit</a> -->
         <a href="#" data-id="{{ $v->id }}" class="btn k-btn-sm k-btn-danger btn-sm delete_btn delete{{ $v->id }}">Delete</a>
         @endif
       </td>

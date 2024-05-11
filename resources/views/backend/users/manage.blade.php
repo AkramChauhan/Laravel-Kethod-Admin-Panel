@@ -2,7 +2,6 @@
 @section('content')
 <div class="container">
   <div class="row justify-content-center">
-    @include($theme_name.'.layouts.partial.breadcrumb')
     <div class="col-md-12">
       @if ($errors->any())
       <div class="alert alert-danger">
@@ -24,6 +23,7 @@
       </div>
       @endif
     </div>
+    @include($theme_name.'.layouts.partial.breadcrumb')
 
     <div class="col-md-12 form_page">
       <form action="{{ $form_action }}" class="" method="post">

@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Setting as Table;
 use Exception;
+use Illuminate\Support\Facades\Crypt;
 
 class SettingController extends Controller {
   protected $handle_name = "setting";
@@ -64,7 +65,9 @@ class SettingController extends Controller {
     ]);
   }
   public function create() {
+    $index_route = route('admin.' . $this->handle_name_plural . '.index');
     return kview($this->handle_name_plural . '.manage', [
+      'index_route' => $index_route,
       'form_action' => route('admin.' . $this->handle_name_plural . '.store'),
       'edit' => 0,
       'module_names' => [
@@ -73,15 +76,36 @@ class SettingController extends Controller {
       ],
     ]);
   }
+  
   public function edit(Request $request) {
+    $ecrypted_id = $request->encrypted_id;
+    $id = Crypt::decryptString($ecrypted_id);
+    $data = Table::where('id', '=', $id)->first();
+    $index_route = route('admin.' . $this->handle_name_plural . '.index');
     return kview($this->handle_name_plural . '.manage', [
+      'index_route' => $index_route,
       'form_action' => route('admin.' . $this->handle_name_plural . '.update'),
       'edit' => 1,
       'module_names' => [
         'singular' => $this->handle_name,
         'plural' => $this->handle_name_plural,
       ],
-      'data' => Table::where('id', '=', $request->id)->first(),
+      'data' => $data,
+    ]);
+  }
+  public function show(Request $request) {
+    $ecrypted_id = $request->encrypted_id;
+    $id = Crypt::decryptString($ecrypted_id);
+    $data = Table::where('id', '=', $id)->first();
+
+    return kview($this->handle_name_plural . '.show', [
+      'form_action' => route('admin.' . $this->handle_name_plural . '.update'),
+      'edit' => 1,
+      'data' => $data,
+      'module_names' => [
+        'singular' => $this->handle_name,
+        'plural' => $this->handle_name_plural,
+      ],
     ]);
   }
   public function store(Request $request) {
@@ -107,15 +131,13 @@ class SettingController extends Controller {
       $where = [
         'id' => $request->id
       ];
-      Table::updateOrCreate($where, $update_data);
-
-      return redirect()->to(route('admin.' . $this->handle_name_plural . '.index'))->with('success', 'New ' . ucfirst($this->handle_name) . ' has been added.');
+      $updated_model = Table::updateOrCreate($where, $update_data);
+      return redirect()->to($updated_model->show_route)->with('success', ucfirst($this->handle_name) . ' has been updated');
     } catch (Exception $e) {
       return redirect()->back()->with('error', $e->getMessage());
     }
   }
   public function ajax(Request $request) {
-    $edit_route = route('admin.' . $this->handle_name_plural . '.edit');
     $current_page = $request->page_number;
     if (isset($request->limit)) {
       $limit = $request->limit;
@@ -152,7 +174,7 @@ class SettingController extends Controller {
       "current_page" => $current_page,
     );
 
-    return kview($this->handle_name_plural . '.ajax', compact('edit_route', 'data', 'page_number', 'limit', 'offset', 'pagination'));
+    return kview($this->handle_name_plural . '.ajax', compact('data', 'page_number', 'limit', 'offset', 'pagination'));
   }
   public function delete(Request $request) {
     if (isset($request->action)) {

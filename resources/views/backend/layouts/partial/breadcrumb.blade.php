@@ -10,6 +10,8 @@ $page_name = "List ".ucwords($module_names['plural']);
 $page_name = "Edit ".ucwords($module_names['singular']);
 } else if ($page == 'create'){
 $page_name = "Add ".ucwords($module_names['singular']);
+} else if ($page == 'show'){
+$page_name = "View ".ucwords($module_names['singular']);
 } else {
 $page_name = "";
 }

@@ -7,6 +7,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Spatie\Permission\Traits\HasRoles;
+use Illuminate\Support\Facades\Crypt;
 
 class User extends Authenticatable {
     use Notifiable, SoftDeletes, HasRoles;
@@ -72,5 +73,23 @@ class User extends Authenticatable {
         $this->two_factor_code = null;
         $this->two_factor_expires_at = null;
         $this->save();
+    }
+    public function getEncryptedIdAttribute() {
+        $id = Crypt::encryptString($this->id);
+        return $id;
+    }
+    public function getShowRouteAttribute() {
+        $e_id = Crypt::encryptString($this->id);
+        $route = route('admin.users.show', ['encrypted_id' => $e_id]);
+        return $route;
+    }
+    public function getEditRouteAttribute() {
+        $e_id = Crypt::encryptString($this->id);
+        $route = route('admin.users.edit', ['encrypted_id' => $e_id]);
+        return $route;
+    }
+    public function getIndexRouteAttribute() {
+        $route = route('admin.users.index');
+        return $route;
     }
 }
