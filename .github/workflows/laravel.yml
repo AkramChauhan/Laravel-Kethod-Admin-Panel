@@ -28,7 +28,7 @@ jobs:
           php-version: '8.2.12'
           extensions: mbstring, mysql, pdo_mysql, xml, zip
       - name: Checkout code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
 
       - name: Copy .env file
         run: cp .env.example .env
