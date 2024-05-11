@@ -18,6 +18,8 @@
   @yield('content')
   <!-- Essential javascripts for application to work-->
   @stack('scripts')
+  <script src="{{ asset('backend/assets/plugins/jquery-3.7.1.min.js') }}"></script>
+  <script src="{{ asset('backend/assets/js/custom.js') }}"></script>
 </body>
 
 </html>

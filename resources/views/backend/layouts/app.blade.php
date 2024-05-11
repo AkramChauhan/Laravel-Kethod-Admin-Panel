@@ -14,7 +14,7 @@
   @stack('styles')
 </head>
 
-<body class="app m-0 p-0" >
+<body class="app m-0 p-0">
   <!-- Navbar-->
   <?php
   $settings = getSettings();
@@ -32,6 +32,7 @@
   <script src="{{ asset('backend/assets/plugins/jquery-3.7.1.min.js') }}"></script>
   <script src="{{ asset('backend/assets/plugins/popper.min.js') }}" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
   <script src="{{ asset('backend/assets/plugins/bootstrap-5.3.3/js/bootstrap.min.js') }}"></script>
+  <script src="{{ asset('backend/assets/js/custom.js') }}"></script>
   @stack('scripts')
 </body>
 
