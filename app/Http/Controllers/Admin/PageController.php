@@ -58,7 +58,6 @@ class PageController extends Controller {
       ],
     ]);
   }
-
   public function show(Request $request) {
     $ecrypted_id = $request->encrypted_id;
     $id = Crypt::decryptString($ecrypted_id);
@@ -75,10 +74,8 @@ class PageController extends Controller {
   }
   public function store(AddRequest $request) {
     try {
-      $table = Table::create([
-        'name' => $request->name,
-        'content' => $request->content,
-      ]);
+      $data = ['name' => $request->name, 'content' => $request->content, ];
+      $table = Table::create($data);
 
       return redirect()->to(route('admin.' . $this->handle_name_plural . '.index'))->with('success', 'New ' . ucfirst($this->handle_name) . ' has been added.');
     } catch (Exception $e) {
@@ -88,14 +85,11 @@ class PageController extends Controller {
   }
   public function update(UpdateRequest $request) {
     try {
-      $update_data = [
-        'name' => $request->name,
-        'content' => $request->content,
-      ];
+      $data = ['name' => $request->name, 'content' => $request->content, ];
       $where = [
         'id' => $request->id
       ];
-      $updated_model = Table::updateOrCreate($where, $update_data);
+      $updated_model = Table::updateOrCreate($where, $data);
 
       return redirect()->to($updated_model->show_route)->with('success', ucfirst($this->handle_name) . ' has been updated');
     } catch (Exception $e) {

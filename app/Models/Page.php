@@ -7,7 +7,8 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\Crypt;
 
-class Page extends Model {
+class Page extends Model
+{
     use HasFactory, SoftDeletes;
 
     protected $fillable = [

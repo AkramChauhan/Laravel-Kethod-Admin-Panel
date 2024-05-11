@@ -36,18 +36,23 @@
           </div>
           <div class="row">
             <div class="col-md-6">
-              <div class="mb-3">
-                <label for="name">Name</label>
-                <input type="text" value="{{$data->name}}" class="form-control k-input" disabled>
-              </div>
-            </div>
-            <div class="col-md-12">
-              <div class="mb-3">
-                <label for="content">Content</label>
-                <hr />
-                <?php echo ($data->content); ?>
-              </div>
-            </div>
+                  <div class="mb-3">
+                    <label for="name">Name</label>
+                    <input 
+                      type="text"
+                      class="form-control k-input" 
+                      value="{{$data->name}}"
+                      disabled
+                      >
+                  </div>
+                </div>
+							<div class="col-md-12">
+                  <div class="mb-3">
+                    <label for="content">Content</label>
+                    <hr />
+                    <?php echo ($data->content); ?>
+                  </div>
+                </div>
           </div>
           </form>
         </div>

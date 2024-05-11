@@ -35,7 +35,7 @@
             @endif
 
             <div class="row form_sec">
-              <div class="col">
+              <div class="col-12">
                 <h5>Basic Details</h5>
               </div>
               <div class="col text-end">
@@ -47,19 +47,33 @@
             </div>
             <div class="row">
               <div class="col-md-6">
-                <div class="mb-3">
-                  <label for="name">Name</label>
-                  <input type="text" name="name" class="form-control k-input" @if($edit) value="{{$data->name}}" @else value="{{old('name')}}" @endif id="name" aria-describedby="nameHelp">
-                  <small id="nameHelp" class="form-text text-muted"></small>
+                  <div class="mb-3">
+                    <label for="name">Name</label>
+                    <input 
+                      type="text"
+                      name="name" 
+                      class="form-control k-input" 
+                      @if($edit) 
+                        value="{{$data->name}}"
+                      @else 
+                        value="{{old('name')}}" 
+                      @endif 
+                      id="name" 
+                      aria-describedby="nameHelp">
+                    <small id="nameHelp" class="form-text text-muted"></small>
+                  </div>
                 </div>
-              </div>
-              <div class="col-md-12">
-                <div class="mb-3">
-                  <label for="content">Content</label>
-                  <textarea name="content" rows="10" class="form-control tiny-cloud-editor k-input" id="content" aria-describedby="contentHelp">@if($edit){{$data->content}}@else{{old('content')}}@endif</textarea>
-                  <small id="contentHelp" class="form-text text-muted"></small>
+							<div class="col-md-12">
+                  <div class="mb-3">
+                    <label for="content">Content</label>
+                    <textarea 
+                      name="content"
+                      rows="10" class="form-control tiny-cloud-editor k-input" 
+                      id="content" 
+                      aria-describedby="contentHelp">@if($edit){{$data->content}}@else{{old('content')}}@endif</textarea>
+                    <small id="contentHelp" class="form-text text-muted"></small>
+                  </div>
                 </div>
-              </div>
             </div>
             <div class="row">
               <div class="col-md-12">
@@ -80,16 +94,16 @@
     </div>
   </div>
 </div>
-@endsection
+@endsection  
 @push("scripts")
-<script src="https://cdn.tiny.cloud/1/rjcn06xon4v0snhiv3rvotq9163xs47zt4tx0sdp6izhg8o3/tinymce/6/tinymce.min.js" referrerpolicy="origin"></script>
-<script>
-  tinymce.init({
-    selector: '.tiny-cloud-editor',
-    skin: 'bootstrap',
-    plugins: 'lists, link, image, media',
-    toolbar: 'h1 h2 h3 h4 h5 | fontfamily fontsize | bold italic strikethrough blockquote | align lineheight bullist numlist backcolor | link ',
-    menubar: false,
-  });
-</script>
-@endpush
+  <script src="https://cdn.tiny.cloud/1/rjcn06xon4v0snhiv3rvotq9163xs47zt4tx0sdp6izhg8o3/tinymce/6/tinymce.min.js" referrerpolicy="origin"></script>
+  <script>
+    tinymce.init({
+      selector: ".tiny-cloud-editor",
+      skin: "bootstrap",
+      plugins: "lists, link, image, media",
+      toolbar: "h1 h2 h3 h4 h5 | fontfamily fontsize | bold italic strikethrough blockquote | align lineheight bullist numlist backcolor | link ",
+      menubar: false,
+    });
+  </script>
+  @endpush

@@ -1,7 +1,6 @@
 <?php
 
 namespace App\Http\Requests\PageRequests;
-
 use Illuminate\Foundation\Http\FormRequest;
 
 class UpdatePage extends FormRequest
@@ -23,9 +22,10 @@ class UpdatePage extends FormRequest
      */
     public function rules()
     {
-
-        return [
-            'name' => 'required',
-        ];
+        $data = 		array (
+		  'name' => 'required',
+		  'content' => 'required',
+		);
+        return $data;
     }
 }

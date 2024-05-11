@@ -1,13 +1,12 @@
 <?php
 
 namespace App\Http\Requests\PageRequests;
-
 use Illuminate\Foundation\Http\FormRequest;
 
 class AddPage extends FormRequest
 {
     /**
-     * Determine if the Role is authorized to make this request.
+     * Determine if the role is authorized to make this request.
      *
      * @return bool
      */
@@ -23,8 +22,10 @@ class AddPage extends FormRequest
      */
     public function rules()
     {
-        return [
-            'name' => 'required',
-        ];
+        $data = 		array (
+		  'name' => 'required',
+		  'content' => 'required',
+		);
+        return $data;
     }
 }

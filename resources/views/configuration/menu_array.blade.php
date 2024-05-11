@@ -39,28 +39,6 @@ $menu = array (
       ),
     ),
   ),
-  2 => 
-  array (
-    'name' => 'Pages',
-    'icon' => 'fa fa-file',
-    'dropdown' => true,
-    'route' => '',
-    'dropdown_items' => 
-    array (
-      0 => 
-      array (
-        'name' => 'Add Page',
-        'icon' => 'fa fa-circle-o',
-        'route' => 'admin.pages.create',
-      ),
-      1 => 
-      array (
-        'name' => 'Manage Pages',
-        'icon' => 'fa fa-circle-o',
-        'route' => 'admin.pages.index',
-      ),
-    ),
-  ),
   3 => 
   array (
     'name' => 'Settings',
@@ -80,6 +58,28 @@ $menu = array (
         'name' => 'Edit Profile',
         'icon' => 'fa fa-circle-o',
         'route' => 'admin.settings.edit_profile',
+      ),
+    ),
+  ),
+  4 => 
+  array (
+    'name' => 'Pages',
+    'icon' => 'fa fa-file',
+    'dropdown' => true,
+    'route' => '',
+    'dropdown_items' => 
+    array (
+      0 => 
+      array (
+        'name' => 'Add Page',
+        'icon' => 'fa fa-circle-o',
+        'route' => 'admin.pages.create',
+      ),
+      1 => 
+      array (
+        'name' => 'Manage Pages',
+        'icon' => 'fa fa-circle-o',
+        'route' => 'admin.pages.index',
       ),
     ),
   ),
