@@ -77,6 +77,7 @@ class PageController extends Controller {
     try {
       $table = Table::create([
         'name' => $request->name,
+        'content' => $request->content,
       ]);
 
       return redirect()->to(route('admin.' . $this->handle_name_plural . '.index'))->with('success', 'New ' . ucfirst($this->handle_name) . ' has been added.');
@@ -89,6 +90,7 @@ class PageController extends Controller {
     try {
       $update_data = [
         'name' => $request->name,
+        'content' => $request->content,
       ];
       $where = [
         'id' => $request->id

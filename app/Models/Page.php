@@ -12,6 +12,7 @@ class Page extends Model {
 
     protected $fillable = [
         'name',
+        'content',
     ];
 
     public function getEncryptedIdAttribute() {

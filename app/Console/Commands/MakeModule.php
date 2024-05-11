@@ -211,9 +211,8 @@ class MakeModule extends Command {
           $show_body_line = '<div class="col-md-12">
                   <div class="mb-3">
                     <label for="' . $col['name'] . '">' . snakeToNormal($col['name']) . '</label>
-                    <textarea 
-                      rows="10" class="form-control tiny-cloud-editor k-input disabled" 
-                    >{{$data->' . $col['name'] . '}}</textarea>
+                    <hr />
+                    <?php echo ($data->' . $col['name'] . '); ?>
                   </div>
                 </div>';
           $manage_script_lines = <<<EOD
@@ -315,7 +314,6 @@ class MakeModule extends Command {
           implode("\n							", $show_body_lines),
           $stubContent
         );
-        $stubContent .= $manage_script_lines;
       }
       // Copy the modified content to the blade file
       file_put_contents($fullViewPath, $stubContent);

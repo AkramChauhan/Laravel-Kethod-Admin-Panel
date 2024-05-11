@@ -44,7 +44,8 @@
             <div class="col-md-12">
               <div class="mb-3">
                 <label for="content">Content</label>
-                <textarea name="content" rows="10" class="form-control tiny-cloud-editor k-input" disabled>{{$data->content}}</textarea>
+                <hr />
+                <?php echo ($data->content); ?>
               </div>
             </div>
           </div>
