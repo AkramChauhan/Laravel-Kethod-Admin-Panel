@@ -89,6 +89,7 @@ class MakeModule extends Command {
     // MODIFY MODEL FILE based on COLDATA
     $stub = file_get_contents(__DIR__ . '/stubs/module/model.stub');
     $stub = str_replace('{MODEL_NAME}', $model_name, $stub);
+    $stub = str_replace('{MODULE_NAME}', $table_name, $stub);
 
     if (count($col_names) >= 1) {
       $fillableArrayString = "'" . implode("',\n        '", array_values($col_names)) . "',";
@@ -179,6 +180,7 @@ class MakeModule extends Command {
     $ajax_header_lines = [];
     $ajax_body_lines = [];
     $manage_body_lines = [];
+    $show_body_lines = [];
     $manage_script_lines = "";
     if (count($col_names) >= 1) {
       // Define the new lines you want to replace with
@@ -204,6 +206,14 @@ class MakeModule extends Command {
                       id="' . $col['name'] . '" 
                       aria-describedby="' . $col['name'] . 'Help">@if($edit){{$data->' . $col['name'] . '}}@else{{old(' . $col_name_copy . ')}}@endif</textarea>
                     <small id="' . $col['name'] . 'Help" class="form-text text-muted"></small>
+                  </div>
+                </div>';
+          $show_body_line = '<div class="col-md-12">
+                  <div class="mb-3">
+                    <label for="' . $col['name'] . '">' . snakeToNormal($col['name']) . '</label>
+                    <textarea 
+                      rows="10" class="form-control tiny-cloud-editor k-input disabled" 
+                    >{{$data->' . $col['name'] . '}}</textarea>
                   </div>
                 </div>';
           $manage_script_lines = <<<EOD
@@ -238,9 +248,21 @@ class MakeModule extends Command {
                     <small id="' . $col['name'] . 'Help" class="form-text text-muted"></small>
                   </div>
                 </div>';
+          $show_body_line = '<div class="col-md-6">
+                  <div class="mb-3">
+                    <label for="' . $col['name'] . '">' . snakeToNormal($col['name']) . '</label>
+                    <input 
+                      type="text"
+                      class="form-control k-input" 
+                      value="{{$data->' . $col['name'] . '}}"
+                      disabled
+                      >
+                  </div>
+                </div>';
         }
 
         array_push($manage_body_lines, $manage_body_line);
+        array_push($show_body_lines, $show_body_line);
       }
 
       // Construct the new content string
@@ -262,6 +284,7 @@ class MakeModule extends Command {
       'index.stub' => 'index.blade.php',
       'manage.stub' => 'manage.blade.php',
       'ajax.stub' => 'ajax.blade.php',
+      'show.stub' => 'show.blade.php',
     ];
     foreach ($stubFiles as $stubFile => $viewFile) {
       $fullStubPath = "{$stubDirectory}/{$stubFile}";
@@ -286,6 +309,14 @@ class MakeModule extends Command {
         );
         $stubContent .= $manage_script_lines;
       }
+      if ($stubFile === 'show.stub') {
+        $stubContent = str_replace(
+          '<div class="col-md-6"><div class="mb-3"><label for="name">Name</label><input type="text" value="{{$data->name}}" class="form-control k-input" disabled></div></div>',
+          implode("\n							", $show_body_lines),
+          $stubContent
+        );
+        $stubContent .= $manage_script_lines;
+      }
       // Copy the modified content to the blade file
       file_put_contents($fullViewPath, $stubContent);
     }
@@ -300,7 +331,8 @@ class MakeModule extends Command {
       "// For $normal_plural",
       "Route::get('$table_name/', '$fullControllerName@index')->name('admin.$table_name.index');",
       "Route::get('$table_name/add', '$fullControllerName@create')->name('admin.$table_name.create');",
-      "Route::get('$table_name/edit', '$fullControllerName@edit')->name('admin.$table_name.edit');",
+      "Route::get('$table_name/edit/{encrypted_id}', '$fullControllerName@edit')->name('admin.$table_name.edit');",
+      "Route::get('$table_name/show/{encrypted_id}', '$fullControllerName@show')->name('admin.$table_name.show');",
       "Route::post('$table_name/store', '$fullControllerName@store')->name('admin.$table_name.store');",
       "Route::post('$table_name/update', '$fullControllerName@update')->name('admin.$table_name.update');",
       "Route::get('$table_name/ajax', '$fullControllerName@ajax')->name('admin.$table_name.ajax');",
