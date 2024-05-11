@@ -428,9 +428,9 @@ class ModuleController extends Controller {
       // Parse the PHP code to get the array
       eval($arrayContent);
 
-      // Find and remove the array entry with 'Projects' as the 'name' key
+      // Find and remove the array entry with 'normal_plural' as the 'name' key
       foreach ($menu as $index => $item) {
-        if (isset($item['name']) && $item['name'] === 'Projects') {
+        if (isset($item['name']) && $item['name'] === $normal_plural) {
           unset($menu[$index]);
         }
       }
