@@ -72,9 +72,10 @@ class PageController extends Controller {
       ],
     ]);
   }
+
   public function store(AddRequest $request) {
     try {
-      $data = ['name' => $request->name, 'content' => $request->content, ];
+      $data = ['name' => $request->name, 'content' => $request->content,];
       $table = Table::create($data);
 
       return redirect()->to(route('admin.' . $this->handle_name_plural . '.index'))->with('success', 'New ' . ucfirst($this->handle_name) . ' has been added.');
@@ -85,7 +86,7 @@ class PageController extends Controller {
   }
   public function update(UpdateRequest $request) {
     try {
-      $data = ['name' => $request->name, 'content' => $request->content, ];
+      $data = ['name' => $request->name, 'content' => $request->content,];
       $where = [
         'id' => $request->id
       ];
@@ -119,6 +120,7 @@ class PageController extends Controller {
     $total_records = $modalObject->count();
     $modalObject = $modalObject->offset($offset);
     $modalObject = $modalObject->take($limit);
+    $modalObject = $modalObject->orderBy('id', 'desc');
     $data = $modalObject->get();
 
     if (isset($request->page_number) && $request->page_number != 1) {

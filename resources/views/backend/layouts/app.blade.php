@@ -18,7 +18,7 @@
   <!-- Navbar-->
   @if(Auth::check())
   <?php
-  include('../resources/views/configuration/menu_array.blade.php');
+  include(resource_path('views/configuration/menu_array.blade.php'));
   ?>
   @include($theme_name.'.layouts.partial.menu_items')
   @endif

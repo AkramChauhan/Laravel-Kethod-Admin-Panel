@@ -8,10 +8,10 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Artisan;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\File;
-use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Crypt;
 
 use Exception;
+use Illuminate\Support\Facades\Log;
 
 class ModuleController extends Controller {
   protected $handle_name = "module";
@@ -85,6 +85,10 @@ class ModuleController extends Controller {
   public function store(Request $request) {
     $module_name = $request->name;
     $name_singular = $request->name_singular;
+    $run_module = 1;
+    if (isset($request->run_module)) {
+      $run_module = $request->run_module;
+    }
 
     $run_migration = 0;
     if (!$module_name) {
@@ -94,7 +98,7 @@ class ModuleController extends Controller {
       $run_migration = 1;
     }
 
-    if ($request->column_count >= 1) {
+    if (isset($request->column_count) && $request->column_count >= 1) {
       $cols = json_decode($request->column_names, true);
       $schema_columns = [];
       foreach ($cols as $column) {
@@ -141,31 +145,42 @@ class ModuleController extends Controller {
         'run_migration' => $run_migration,
       ]
     );
-    foreach ($schema_columns as $key => $cols) {
+    if (isset($schema_columns)) {
+      foreach ($schema_columns as $key => $cols) {
 
-      $where = [
-        'col_name' => $cols['name'],
-        'module_id' => $module->id,
-      ];
-      $data = [
-        'module_id' => $module->id,
-        'col_name' => $cols['name'],
-        'col_type' => $cols['type'],
-        'col_length' => $cols['length'] ?? 0,
-        'is_nullable' => $cols['nullable'] ? 1 : 0,
-        'is_index' => 0,
-      ];
-      ModuleSchema::updateOrCreate(
-        $where,
-        $data,
-      );
+        $where = [
+          'col_name' => $cols['name'],
+          'module_id' => $module->id,
+        ];
+        $data = [
+          'module_id' => $module->id,
+          'col_name' => $cols['name'],
+          'col_type' => $cols['type'],
+          'col_length' => $cols['length'] ?? 0,
+          'is_nullable' => $cols['nullable'] ? 1 : 0,
+          'is_index' => 0,
+        ];
+        ModuleSchema::updateOrCreate(
+          $where,
+          $data,
+        );
+      }
     }
-    $this->run_module($module);
+    if ($run_module == 1) {
+      $this->run_module($module);
+    }
     return redirect()->to(route('admin.modules.index'))->with('success', 'New module has been created.');
   }
 
   public function update(Request $request) {
     $module_name = $request->module_name;
+    $name_singular = $request->name_singular;
+
+    $run_module = 1;
+    if (isset($request->run_module)) {
+      $run_module = $request->run_module;
+    }
+
     $run_migration = 0;
     if (!$module_name) {
       return redirect()->back()->with('error', "Module name can't be empty");
@@ -174,7 +189,7 @@ class ModuleController extends Controller {
       $run_migration = 1;
     }
 
-    if ($request->column_count >= 1) {
+    if (isset($request->column_count) && $request->column_count >= 1) {
       $cols = json_decode($request->column_names, true);
       $schema_columns = [];
       foreach ($cols as $column) {
@@ -205,7 +220,7 @@ class ModuleController extends Controller {
     }
 
     // STORING MODULE IN DB:
-    $name_singular = singular_module_name($module_name);
+    // $name_singular = singular_module_name($module_name);
     $model_name = snakeCaseToPascalCase($name_singular);
     $controller_name = snakeCaseToPascalCase($name_singular) . "Controller";
 
@@ -221,27 +236,30 @@ class ModuleController extends Controller {
         'run_migration' => $run_migration,
       ]
     );
+    if (isset($schema_columns)) {
+      foreach ($schema_columns as $key => $cols) {
 
-    foreach ($schema_columns as $key => $cols) {
-
-      $where = [
-        'col_name' => $cols['name'],
-        'module_id' => $module->id,
-      ];
-      $data = [
-        'module_id' => $module->id,
-        'col_name' => $cols['name'],
-        'col_type' => $cols['type'],
-        'col_length' => $cols['length'] ?? 0,
-        'is_nullable' => $cols['nullable'] ? 1 : 0,
-        'is_index' => 0,
-      ];
-      ModuleSchema::updateOrCreate(
-        $where,
-        $data,
-      );
+        $where = [
+          'col_name' => $cols['name'],
+          'module_id' => $module->id,
+        ];
+        $data = [
+          'module_id' => $module->id,
+          'col_name' => $cols['name'],
+          'col_type' => $cols['type'],
+          'col_length' => $cols['length'] ?? 0,
+          'is_nullable' => $cols['nullable'] ? 1 : 0,
+          'is_index' => 0,
+        ];
+        ModuleSchema::updateOrCreate(
+          $where,
+          $data,
+        );
+      }
     }
-    $this->run_module($module);
+    if ($run_module == 1) {
+      $this->run_module($module);
+    }
     return redirect()->to($module->show_route)->with('success', ucfirst($this->handle_name) . ' has been updated');
   }
 
@@ -301,6 +319,7 @@ class ModuleController extends Controller {
     $total_records = $modalObject->count();
     $modalObject = $modalObject->offset($offset);
     $modalObject = $modalObject->take($limit);
+    $modalObject = $modalObject->orderBy('id', 'desc');
     $data = $modalObject->get();
 
     if (isset($request->page_number) && $request->page_number != 1) {
@@ -323,31 +342,35 @@ class ModuleController extends Controller {
     if (isset($request->action)) {
       $action = $request->action;
       $data_id = $request->data_id;
-    }
-    $module = Table::findOrFail($data_id);
-    $module_name = $module->name;
-    $model_name = $module->model_name;
-    $controller_name = $module->controller_name;
-    $migration_file_name = 'create_' . str_replace('-', '_', $module_name) . '_table.php';
+      $module = Table::where('id', $data_id)->first();
+      if ($module) {
+        $module_name = $module->name;
+        $model_name = $module->model_name;
+        $controller_name = $module->controller_name;
+        $migration_file_name = 'create_' . str_replace('-', '_', $module_name) . '_table.php';
 
-    // First lets rollback that migration.
-    $this->removeMigrationFile($migration_file_name);
-    $this->removeOtherModuleFiles($module_name, $model_name, $controller_name);
-    $this->updateMenuFileAndRouteFiles($module_name, $module->name_singular, $controller_name);
-    switch ($action) {
-      case 'delete':
-        try {
-          $table = Table::withTrashed()->find($data_id);
-          $table->module_schemas()->forceDelete();
-          $data = $table->forceDelete();
-          return 1;
-        } catch (Exception $e) {
-          dd($e);
+        // First lets rollback that migration.
+        $this->removeMigrationFile($migration_file_name);
+        $this->removeOtherModuleFiles($module_name, $model_name, $controller_name);
+        $this->updateMenuFileAndRouteFiles($module_name, $module->name_singular, $controller_name);
+        switch ($action) {
+          case 'delete':
+            try {
+              $table = Table::withTrashed()->find($data_id);
+              $table->module_schemas()->forceDelete();
+              $data = $table->forceDelete();
+              return 1;
+            } catch (Exception $e) {
+              Log::info('Error while deleting ... ', ['error' => $e->getMessage()]);
+              return 0;
+            }
+            break;
+          default:
+            return 0;
         }
-        break;
-      default:
-        return 0;
+      }
     }
+    return 0;
   }
 
   public function removeMigrationFile($partialFilename) {
